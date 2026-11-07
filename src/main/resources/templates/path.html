@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Lộ trình học')}"></head><body>
+<aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
+<header th:replace="~{fragments/layout :: topbar}"></header><main>
+<span class="eyebrow">LỘ TRÌNH PHÙ HỢP VỚI BẠN</span><h1 th:text="${courseTitle}"></h1>
+<p th:text="${courseJourney}"></p>
+<article class="card"><p>Trình độ hiện tại: <b th:text="${student.level}"></b>. Danh sách dưới đây là chặng bạn cần học tiếp.</p>
+<progress max="100" th:value="${percent}"></progress></article>
+<section th:replace="~{fragments/course :: lessons}"></section>
+<article class="card" th:if="${student.level.ordinal() < 2}"><h2>🔒 Chặng tiếp theo</h2>
+<p th:text="${student.level.name() == 'ZERO' ? 'Hoàn thành N5 và thi đạt N5 để mở N4; thi đạt N4 để vào chuyên ngành.' : 'Hoàn thành N4 và thi đạt N4 để vào chuyên ngành.'}"></p>
+<a href="/journey">Xem kiểm tra đạt cấp →</a></article>
+<a href="/journey">Toàn bộ hành trình và các phần thực hành →</a></main></div></body></html>

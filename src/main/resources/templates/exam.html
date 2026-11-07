@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Học và kiểm tra')}"></head>
+<body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
+<header th:replace="~{fragments/layout :: topbar}"></header>
+<main>
+  <a href="/journey">← Hành trình học tập</a>
+  <h1 class="spaced" th:text="${stage.label}"></h1>
+  <article class="card"><span class="eyebrow">HỌC LIỆU MẪU · V1</span><div class="preline" th:text="${material}"></div></article>
+  <p>Trả lời tất cả câu hỏi. Ngưỡng đạt 80%; đầu vào xét từng nhóm N5 → N4 → N3 → N2–N1 liên tiếp. Kết quả, lựa chọn và giải thích được lưu sau khi nộp.</p>
+  <form th:action="@{/exams/{stage}(stage=${stage})}" method="post">
+    <fieldset class="card question" th:each="q, stat : ${questions}">
+      <legend th:text="${stat.count + '. ' + q.prompt}"></legend>
+      <span class="pill" th:text="${q.skill}"></span>
+      <audio class="spaced" th:if="${q.audioId != null}" controls preload="none" th:src="@{/audio/{id}.wav(id=${q.audioId})}">Trình duyệt không hỗ trợ âm thanh.</audio>
+      <label class="choice" th:each="option, index : ${q.options}">
+        <input type="radio" th:name="${'answer_' + q.id}" th:value="${index.index}" required>
+        <span th:text="${option}"></span>
+      </label>
+    </fieldset>
+    <button class="button">Nộp bài và xem kết quả →</button>
+  </form>
+</main></div></body></html>

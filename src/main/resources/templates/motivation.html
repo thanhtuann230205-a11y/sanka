@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Động lực học tập')}"></head>
+<body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace"><header th:replace="~{fragments/layout :: topbar}"></header><main>
+<span class="eyebrow">MỘT CHÚT MỖI NGÀY</span><h1>Nhìn lại nỗ lực của bạn.</h1>
+<p>Điểm và huy hiệu ghi nhận việc học; đánh giá năng lực vẫn dựa trên bài kiểm tra và phản hồi giảng viên.</p>
+<p class="success" th:if="${message}" th:text="${message}"></p>
+<section th:replace="~{fragments/motivation :: summary}"></section>
+<section class="grid two">
+ <article class="card"><h2>Mục tiêu hôm nay</h2><p><b th:text="${motivation.todayXp + '/' + motivation.targetXp + ' XP'}"></b> <span th:text="${motivation.goalReached ? '✓ Đã đạt mục tiêu' : 'Cùng hoàn thành từng bước nhỏ'}"></span></p><progress max="100" th:value="${motivation.goalPercent}"></progress>
+ <form class="spaced" th:action="@{/motivation/goal}" method="post"><label>Mục tiêu XP mỗi ngày<input name="targetXp" type="number" min="20" max="200" th:value="${motivation.targetXp}" required></label><button class="button">Lưu mục tiêu</button></form><small>20–200 XP. Áp dụng hôm nay và những ngày tới; không sửa mục tiêu đã lưu của ngày trước.</small></article>
+ <article class="card"><h2>Giữ thói quen vừa sức</h2><p>Chuỗi ngày được tính theo giờ Việt Nam. Hôm nay chưa học thì chuỗi của hôm qua vẫn được giữ đến hết ngày.</p><p>Đăng nhập, xem trang, lưu nháp hoặc lưu từ không tự tạo XP. Hoàn thành bài học, kiểm tra hoặc nộp bài hợp lệ mới ghi nhận hoạt động.</p><a class="button secondary" href="/start">Tiếp tục học →</a> <a href="/leaderboard">Bảng xếp hạng tự nguyện →</a></article>
+</section>
+<div class="section-heading"><h2>Lịch hoạt động</h2><span>Giờ Việt Nam · ngày học và XP</span></div>
+<section class="card">
+ <div class="section-heading"><a th:if="${previousMonth != null}" th:href="@{/motivation(month=${previousMonth})} + '#calendar'">← Tháng trước</a><h3 th:text="${month}"></h3><a th:if="${nextMonth != null}" th:href="@{/motivation(month=${nextMonth})} + '#calendar'">Tháng sau →</a></div>
+ <div class="learning-calendar" id="calendar"><b th:each="label : ${ {'T2','T3','T4','T5','T6','T7','CN'} }" th:text="${label}"></b>
+  <a th:each="cell : ${calendar}" class="calendar-cell" th:classappend="${'heat-' + cell.intensity + (cell.inMonth ? '' : ' outside-month') + (cell.today ? ' today' : '') + (cell.date.equals(selectedDay) ? ' selected-day' : '')}"
+     th:href="@{/motivation(month=${month},day=${cell.date})} + '#day-events'"
+     th:title="${cell.date + ': ' + cell.xp + ' XP, ' + cell.activities + ' mốc hoạt động' + (cell.goalReached ? ', đạt mục tiêu' : '')}">
+   <span th:text="${cell.date.dayOfMonth}"></span><small th:text="${cell.activities == 0 ? '—' : cell.xp + ' XP'}"></small><span th:if="${cell.goalReached}" aria-label="Đạt mục tiêu">✓</span>
+  </a>
+ </div>
+ <p class="muted spaced">Màu đậm hơn = nhiều XP hơn. Ngày có hoạt động 0 XP vẫn được tính ngày học. Dấu ✓ cho biết đạt mục tiêu ngày đó.</p>
+ <h3 id="day-events" th:text="${'Hoạt động ngày ' + #temporals.format(selectedDay,'dd/MM/yyyy')}"></h3>
+ <p th:if="${#lists.isEmpty(dailyEvents)}">Chưa có hoạt động được ghi nhận trong ngày này.</p>
+ <div class="lesson-row" th:each="event : ${dailyEvents}"><div><b th:text="${event.kind.label}"></b><small th:text="${#temporals.format(event.occurredAt,'HH:mm')}"></small></div><strong class="row-end" th:text="${'+' + event.points + ' XP'}"></strong></div>
+</section>
+<h2>Huy hiệu thành tích</h2><section class="grid two"><article class="card badge-card" th:each="badge : ${badges}" th:classappend="${badge.earned ? 'badge-earned' : ''}"><span class="badge-icon" th:text="${badge.icon}" aria-hidden="true"></span><div class="grow"><span class="pill" th:text="${badge.earned ? '✓ Đã nhận' : 'Đang hướng tới'}"></span><h3 class="spaced" th:text="${badge.title}"></h3><p th:text="${badge.description}"></p><progress th:max="${badge.target}" th:value="${badge.progress}"></progress><small th:unless="${badge.earned}" th:text="${badge.progress + '/' + badge.target}"></small><small th:if="${badge.earned}" th:text="${'Nhận ngày ' + #temporals.format(badge.earnedAt,'dd/MM/yyyy')}"></small></div></article></section>
+<details class="card"><summary>Cách tính XP và tránh cộng lặp</summary><div class="table-scroll spaced"><table><thead><tr><th>Hoạt động</th><th>XP</th><th>Giới hạn</th></tr></thead><tbody><tr><td>Hoàn thành bài học</td><td>20</td><td>Một lần mỗi bài</td></tr><tr><td>Kiểm tra đầu vào</td><td>20</td><td>Một lần</td></tr><tr><td>Đạt kiểm tra</td><td>40</td><td>Một lần mỗi cấp hoặc học phần/ngành</td></tr><tr><td>Thực hành chuyên ngành được chấm đạt</td><td>50</td><td>Một lần mỗi loại bài/ngành</td></tr><tr><td>Ứng dụng theo cấp được chấm đạt</td><td>40</td><td>Một lần mỗi cấp/ngành</td></tr><tr><td>Ôn tập định kỳ</td><td>15</td><td>Một lần mỗi cấp/tuần, tuần bắt đầu thứ Hai</td></tr><tr><td>Nộp thực hành hoặc làm kiểm tra chưa đạt</td><td>0</td><td>Ghi nhận ngày học tối đa một lần/ngày cho cùng loại/ngành</td></tr></tbody></table></div><p>Bài thực hành nhận XP sau khi được chấm đạt; XP thuộc ngày nộp bài. XP bài học cũ được giữ nguyên. Các hoạt động khác bắt đầu tính từ phiên bản này.</p></details>
+</main></div></body></html>

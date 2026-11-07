@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Học chuyên ngành')}"></head>
+<body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
+<header th:replace="~{fragments/layout :: topbar}"></header><main>
+  <span class="eyebrow">日本語 × ENGINEERING</span><h1>Tiếng Nhật trong công việc.</h1>
+  <p>Chuyên ngành <b th:text="${student.major.label}"></b> · Một hành trình từ hiểu thuật ngữ đến đề xuất cải tiến.</p>
+  <section class="card" th:unless="${entered}">
+    <h2>Chặng này mở khi đạt N4</h2><p>Hoàn thành kiểm tra đầu vào hoặc thi đạt N4 trong lộ trình nền tảng.</p>
+    <a class="button" href="/start">Tiếp tục lộ trình của tôi →</a>
+  </section>
+  <section class="hero-card" th:if="${entered}"><div>
+    <span class="eyebrow">6 BƯỚC · HỌC VÀ ÁP DỤNG</span>
+    <h2 th:text="${nextStep != null ? nextStep.phase.label : 'Đã hoàn thành chu trình chuyên ngành'}"></h2>
+    <p th:text="${nextStep != null ? 'Tiếp tục từ bước này. Bài chờ chấm và phản hồi nằm ngay trong học phần.' : 'Tiếp tục ôn tập và sử dụng phản hồi để cải thiện.'}"></p>
+    <a class="button white" th:if="${nextStep != null and nextStep.status == 'OPEN'}" th:href="${nextStep.url}">Tiếp tục học →</a>
+    <a class="button white" th:if="${nextStep == null}" href="/competency">Xem năng lực và minh chứng →</a>
+  </div><div class="progress-orb"><strong th:text="${completedCount + '/6'}"></strong><span>bước đã hoàn thành</span><progress max="100" th:value="${percent}"></progress></div></section>
+  <div class="specialized-timeline">
+    <article class="card phase-card" th:each="step, index : ${steps}" th:classappend="${step.status == 'LOCKED' ? 'phase-locked' : ''}">
+      <span class="phase-number" th:text="${index.count}"></span><div class="grow">
+        <span class="pill" th:text="${step.status == 'COMPLETED' ? '✓ Hoàn thành' : (step.status == 'OPEN' ? 'Đã mở' : '🔒 Chưa mở')}"></span>
+        <h2 class="spaced" th:text="${step.phase.label}"></h2><p th:text="${step.description}"></p>
+        <a th:unless="${step.status == 'LOCKED'}" th:href="${step.url}" th:text="${step.status == 'COMPLETED' ? 'Ôn tập và xem kết quả →' : 'Mở học phần →'}"></a>
+        <small th:if="${step.status == 'LOCKED'}">Hoàn thành bước trước để mở học phần này.</small>
+      </div>
+    </article>
+  </div>
+  <p class="muted">Học liệu mẫu theo ngành. Bài thực hành được giảng viên chấm theo rubric; điểm kiến thức và XP không thay thế đánh giá thực hành.</p>
+</main></div></body></html>

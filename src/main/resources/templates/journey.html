@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Hành trình học tập')}"></head>
+<body>
+<aside th:replace="~{fragments/layout :: sidebar}"></aside>
+<div class="workspace">
+  <header th:replace="~{fragments/layout :: topbar}"></header>
+  <main>
+    <span class="eyebrow">TỪ NỀN TẢNG ĐẾN CÔNG VIỆC</span>
+    <h1>Lộ trình có minh chứng.</h1>
+    <p>Ngành <b th:text="${student.major.label}"></b> · Trình độ đã phân luồng:
+      <b th:text="${student.placementCompleted ? student.level : 'Chưa kiểm tra đầu vào'}"></b></p>
+    <p class="notice">Ngân hàng câu hỏi và học liệu mẫu dùng cho phân luồng nội bộ. Đạt N5/N4 ở đây không tương đương chứng chỉ JLPT. Điểm kiến thức và rubric thực hành được theo dõi riêng với XP.</p>
+    <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Học chuyên ngành theo 6 bước</h2><p>Thuật ngữ → đọc tài liệu → tình huống → email/báo cáo → đánh giá → nâng cao.</p><a class="button" href="/specialized">Mở khu vực học chuyên ngành →</a></section>
+    <section class="success" th:if="${allDone}">
+      <h2>Đã hoàn thành chu trình học hiện tại</h2>
+      <p>Bạn đã hoàn thành đánh giá ứng dụng và đề xuất cải tiến được giảng viên chấm đạt. Xem lại phản hồi để tiếp tục ôn luyện.</p>
+    </section>
+    <section class="card"><h2>Nhánh tiếng Nhật nâng cao và ôn định kỳ</h2><p>Từ N4 có thể học N3 song song với chuyên ngành, sau đó học nhóm N2–N1. Mỗi cấp có nghe/đọc và lịch ôn riêng.</p><a href="/language">Mở các cấp tiếng Nhật →</a></section><div class="journey-grid">
+      <section>
+        <h2>01 / Kiến thức và đánh giá</h2>
+        <article class="card" th:each="step : ${steps}">
+          <span class="pill" th:text="${step.passed ? '✓ Đã đạt' : (step.allowed ? 'Có thể bắt đầu' : '🔒 Chưa mở')}"></span>
+          <h3 class="spaced" th:text="${step.stage.label}"></h3>
+          <p th:text="${step.prerequisite}"></p>
+          <a class="button" th:if="${step.allowed}" th:href="@{/exams/{stage}(stage=${step.stage})}"
+             th:text="${step.passed ? 'Ôn tập / kiểm tra lại' : 'Học và kiểm tra →'}"></a>
+        </article>
+      </section>
+      <section>
+        <h2>02 / Thực hành có phản hồi</h2>
+        <article class="card" th:each="kind : ${kinds}">
+          <span class="pill" th:text="${practiceDone.get(kind) ? '✓ Giảng viên chấm đạt' : (practiceAllowed.get(kind) ? 'Đã mở' : '🔒 Chưa mở')}"></span>
+          <h3 class="spaced" th:text="${kind.label}"></h3>
+          <p th:switch="${kind.name()}">
+            <span th:case="'SITUATION'">Mở sau bài kiểm tra tình huống. Viết hội thoại để giảng viên nhận xét.</span>
+            <span th:case="'EMAIL'">Mở khi hội thoại được chấm đạt.</span>
+            <span th:case="'REPORT'">Mở khi email được chấm đạt.</span>
+            <span th:case="'ADVANCED'">Mở sau bài kiểm tra nâng cao. Đề xuất cải tiến theo chuyên ngành.</span>
+          </p>
+          <a class="button" th:if="${practiceAllowed.get(kind)}" th:href="@{/practice/{kind}(kind=${kind})}">Viết và nộp bài →</a>
+        </article>
+        <article class="card">
+          <h3>Tiếp tục học nền tảng</h3>
+          <p>Hoàn thành bài Zero/N5 để thi N5. Đạt N5 để học và thi N4. Đạt N4 để vào chuyên ngành.</p>
+          <a href="/path">Mở danh sách bài học →</a>
+        </article>
+        <article class="card">
+          <h3>Minh chứng và bước tiếp theo</h3>
+          <p>Xem điểm từng lần thi, đáp án, giải thích và phản hồi rubric của giảng viên.</p>
+          <a href="/competency">Hồ sơ năng lực →</a>
+        </article>
+      </section>
+    </div>
+  </main>
+</div>
+</body></html>

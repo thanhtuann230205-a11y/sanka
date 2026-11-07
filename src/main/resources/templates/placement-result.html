@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Trình độ của bạn · Sanka</title><link rel="stylesheet" th:href="@{/css/placement-quiz.css}"><link rel="stylesheet" th:href="@{/css/placement-results.css}"><script th:src="@{/js/placement-quiz.js}" defer></script></head>
+<body><header class="quiz-header"><a class="quiz-brand" href="/">三 <span>SANKA<span class="brand-dot">.</span></span></a><span class="header-caption">ĐIỂM BẮT ĐẦU ĐÃ SẴN SÀNG</span><a class="exit-link" href="/competency">Hồ sơ học tập ↗</a></header>
+<main class="result-page">
+ <section class="result-card" aria-labelledby="result-title"><span class="result-check" aria-hidden="true">✓</span><span class="eyebrow">ĐÃ HOÀN THÀNH KIỂM TRA ĐẦU VÀO</span>
+ <h1 id="result-title">Điểm bắt đầu của bạn là</h1><strong class="assigned-level" th:text="${summary.level == null ? 'Chưa xác định' : summary.level.label}"></strong>
+ <p class="result-description" th:text="${summary.nextStep}"></p>
+ <div class="result-metrics"><div><strong th:text="${summary.correctCount + '/' + summary.totalQuestions}"></strong><small>Câu trả lời đúng</small></div><div><strong th:text="${attempt.score + '/100'}"></strong><small>Điểm tổng</small></div><div><strong th:text="${attempt.major.label}"></strong><small>Chuyên ngành của bạn</small></div></div>
+ <div class="result-actions"><a class="primary-button" id="continue-learning" th:href="${nextUrl}">Học tiếp <span aria-hidden="true">→</span></a><a class="secondary-button" id="review-result" th:href="@{/results/{id}/review(id=${attempt.id})}">Xem lại kết quả</a></div>
+ <p class="helper">Trình độ được xếp theo kết quả bài này, dựa trên các nhóm đạt liên tiếp. Đây là phân luồng nội bộ, không thay thế chứng chỉ JLPT.</p>
+ </section>
+ <p class="result-date" th:text="${'Hoàn thành lúc ' + #temporals.format(attempt.createdAt,'HH:mm · dd/MM/yyyy')}"></p>
+ <span hidden data-placement-complete th:attr="data-storage-key=${'sanka.placement.v2.' + student.id + '.' + attempt.major}"></span>
+</main></body></html>

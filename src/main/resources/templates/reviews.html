@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Chấm bài thực hành')}"></head>
+<body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
+<header th:replace="~{fragments/layout :: topbar}"></header><main>
+  <span class="eyebrow">KHÔNG GIAN GIẢNG VIÊN</span><h1>Chấm bài và hướng dẫn.</h1>
+  <p class="success" th:if="${message}" th:text="${message}"></p>
+  <details th:replace="~{fragments/rubric :: rubric}"></details>
+  <article class="card" th:if="${#lists.isEmpty(submissions)}">Hiện không có bài chờ chấm.</article>
+  <article class="card" th:each="s : ${submissions}">
+    <h2 th:text="${s.kind.label + ' · ' + s.major.label}"></h2>
+    <small th:text="${'Bài #' + s.id + ' · Học viên #' + s.studentId + ' · ' + #temporals.format(s.createdAt,'dd/MM/yyyy HH:mm')}"></small>
+    <details class="spaced"><summary>Đề bài</summary><div class="preline" th:text="${@learningCatalog.prompt(s.kind,s.major)}"></div></details>
+    <div class="preline submitted-work" th:text="${s.response}"></div>
+    <form th:action="@{/instructor/reviews/{id}(id=${s.id})}" method="post">
+      <div class="grid two">
+        <label>Ngôn ngữ (0–5)<input type="number" name="language" min="0" max="5" required></label>
+        <label>Chính xác kỹ thuật (0–5)<input type="number" name="technical" min="0" max="5" required></label>
+        <label>Giao tiếp (0–5)<input type="number" name="communication" min="0" max="5" required></label>
+        <label>Hoàn thành nhiệm vụ (0–5)<input type="number" name="task" min="0" max="5" required></label>
+      </div>
+      <label>Nhận xét có minh chứng và bước luyện tiếp<textarea name="feedback" rows="5" minlength="10" maxlength="4000" required></textarea></label>
+      <button class="button">Lưu điểm và gửi phản hồi cho học viên</button>
+    </form>
+  </article>
+</main></div></body></html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Thực hành công việc')}"></head>
+<body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
+<header th:replace="~{fragments/layout :: topbar}"></header><main>
+  <a href="/specialized">← Học chuyên ngành</a>
+  <h1 class="spaced" th:text="${kind.label}"></h1>
+  <article class="card preline" th:text="${prompt}"></article>
+  <p class="success" th:if="${message}" th:text="${message}"></p>
+  <p class="alert" th:if="${error}" th:text="${error}" role="alert"></p>
+  <article class="card" th:if="${lastSubmission != null and lastSubmission.feedback != null}"><h2>Phản hồi lần nộp trước</h2><p class="preline" th:text="${lastSubmission.feedback}"></p></article>
+  <details class="card"><summary>Bố cục tham khảo · thay dấu … bằng nội dung của bạn</summary><pre id="writing-outline" class="preline" lang="ja" th:text="${outline}"></pre></details>
+  <article class="card"><h2>Kiểm tra trước khi nộp</h2><ul><li th:each="item : ${checklist}" th:text="${item}"></li></ul></article>
+  <details class="card" open th:replace="~{fragments/rubric :: rubric}"></details>
+  <article class="card" th:if="${lastSubmission != null and lastSubmission.status == 'PENDING'}">
+    <h2>Bài đang chờ giảng viên chấm</h2><p>Bạn đã nộp bài này. Khi có nhận xét, bạn có thể sửa và nộp lại nếu cần.</p>
+    <details><summary>Xem bài đã nộp</summary><div class="preline" th:text="${lastSubmission.response}"></div></details><a href="/competency">Xem trạng thái và minh chứng →</a>
+  </article>
+  <form class="card" th:unless="${lastSubmission != null and lastSubmission.status == 'PENDING'}" th:action="@{/practice/{kind}(kind=${kind})}" method="post">
+    <p class="muted" th:if="${draft != null}" th:text="${'Bản nháp lưu lúc ' + #temporals.format(draft.updatedAt,'dd/MM/yyyy HH:mm')}"></p>
+    <button type="button" class="button secondary" id="insert-outline">Dùng bố cục cho bài trống</button>
+    <p id="outline-status" role="status"></p>
+    <label for="response">Bài làm tiếng Nhật (80–10.000 ký tự)</label>
+    <textarea id="response" name="response" rows="16" minlength="80" maxlength="10000" required lang="ja" th:text="${responseText}" placeholder="件名：…"></textarea>
+    <output id="character-count" for="response"></output>
+    <p class="muted">Giảng viên chấm bài và gửi nhận xét. Nếu chưa đạt, sửa bài theo phản hồi rồi nộp lại. Mỗi loại bài chỉ có một bài chờ chấm tại một thời điểm.</p>
+    <button class="button secondary" th:formaction="@{/practice/{kind}/draft(kind=${kind})}" formnovalidate>Lưu bản nháp</button>
+    <button class="button">Nộp cho giảng viên →</button>
+  </form>
+</main></div><script th:src="@{/js/writing.js}" defer></script></body></html>

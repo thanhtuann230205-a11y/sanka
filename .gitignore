@@ -1,0 +1,8 @@
+/target/
+/.tools/
+/.m2/
+/.env
+/application-local.yml
+/.idea/
+*.iml
+/blueprint.txt

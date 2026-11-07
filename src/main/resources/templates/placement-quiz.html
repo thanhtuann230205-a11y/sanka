@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Khám phá trình độ của bạn · Sanka</title>
+  <link rel="stylesheet" th:href="@{/css/placement-quiz.css}">
+  <script th:src="@{/js/placement-quiz.js}" defer></script>
+</head>
+<body>
+  <header class="quiz-header">
+    <a class="quiz-brand" href="/">三 <span>SANKA<span class="brand-dot">.</span></span></a>
+    <span class="header-caption">ĐIỂM BẮT ĐẦU CỦA BẠN</span>
+    <a class="exit-link" href="/journey">Thoát &amp; quay lại <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="placement-root" th:attr="data-storage-key=${'sanka.placement.v2.' + student.id + '.' + student.major}">
+    <section class="quiz-intro" id="quiz-intro" hidden aria-labelledby="intro-title">
+      <div class="intro-copy">
+        <span class="eyebrow"><span class="status-dot"></span> MỘT KHỞI ĐẦU ĐÚNG, MỘT LỘ TRÌNH RIÊNG</span>
+        <h1 id="intro-title">Bạn đang ở đâu<br>trên hành trình<br><span>tiếng Nhật?</span></h1>
+        <p class="intro-description">Cùng tìm điểm bắt đầu phù hợp với bạn.<br>Không cần đoán, không cần áp lực.</p>
+        <div class="intro-facts"><span><b th:text="${#lists.size(questions)}">20</b> câu hỏi</span><span><b>5</b> kỹ năng</span><span>Không giới hạn thời gian</span></div>
+        <button class="primary-button start-button" type="button" id="start-quiz">Khám phá trình độ của tôi <span aria-hidden="true">→</span></button>
+        <p id="resume-note" class="helper" hidden>Bài đang làm trong tab này đã được lưu. Bạn có thể tiếp tục.</p>
+        <small class="major-note">Dành cho <b th:text="${student.major.label}"></b> · <span th:text="${student.name}"></span></small>
+      </div>
+      <div class="intro-visual" aria-label="Lộ trình từ Pre-N5 đến N2–N1">
+        <span class="visual-label">YOUR NEXT CHAPTER</span><span class="japanese-mark" lang="ja" aria-hidden="true">学</span>
+        <div class="journey-card"><span class="journey-dot"></span><div><small>ĐIỂM BẮT ĐẦU</small><b>Pre-N5 / Zero</b></div><span class="level-symbol" aria-hidden="true">あ</span></div>
+        <div class="journey-card"><span class="journey-dot"></span><div><small>NỀN TẢNG</small><b>N5 → N4</b></div><span class="level-symbol" aria-hidden="true">文</span></div>
+        <div class="journey-card featured"><span class="journey-dot"></span><div><small>TỰ TIN TIẾN XA</small><b>N3 → N2–N1</b></div><span class="level-symbol" aria-hidden="true">↗</span></div>
+        <p>Học đúng trình độ.<br>Tiến bộ theo cách của bạn.</p>
+      </div>
+    </section>
+
+    <section id="quiz-workspace" class="quiz-workspace" aria-label="Bài kiểm tra đầu vào">
+      <div class="quiz-main">
+        <div class="workspace-heading"><div><span class="eyebrow">PLACEMENT QUIZ</span><h1>Khám phá trình độ của bạn.</h1></div><span class="quiet-tag">日本語</span></div>
+        <p class="form-error" id="quiz-error" role="alert" th:text="${quizError}" th:hidden="${quizError == null}"></p>
+        <form th:action="@{/exams/PLACEMENT}" method="post" id="placement-form">
+          <div class="question-progress" id="question-progress" hidden>
+            <div><b id="question-counter">Câu 1 / 20</b><span id="answered-counter">0 câu đã trả lời</span></div>
+            <progress id="quiz-progress" th:max="${#lists.size(questions)}" value="0" aria-label="Số câu đã trả lời"></progress>
+          </div>
+          <div id="question-panels">
+            <fieldset class="quiz-question" th:each="q, stat : ${questions}" th:attr="data-question-id=${q.id}">
+              <legend class="sr-only" th:text="${'Câu ' + stat.count + ': ' + q.prompt}"></legend>
+              <div class="question-meta"><span class="skill-tag" th:text="${q.skill}"></span><span class="question-number" th:text="${'CÂU ' + stat.count}"></span></div>
+              <h2 tabindex="-1" class="question-title" th:text="${q.prompt}"></h2>
+              <div class="listening-box" th:if="${q.audioId != null}"><span class="listen-icon" aria-hidden="true">♫</span><div><b>Lắng nghe trước khi lựa chọn</b><small>Bạn có thể nghe lại nếu cần.</small><audio controls preload="none" th:src="@{/audio/{id}.wav(id=${q.audioId})}">Trình duyệt không hỗ trợ âm thanh.</audio></div></div>
+              <div class="answer-options">
+                <label class="answer-card" th:each="option, index : ${q.options}">
+                  <input type="radio" th:name="${'answer_' + q.id}" th:value="${index.index}" required
+                    th:checked="${submittedAnswers != null and #strings.equals(submittedAnswers.get('answer_' + q.id), '' + index.index)}">
+                  <span class="answer-letter" th:text="${#strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ',index.index,index.index + 1)}"></span>
+                  <span class="answer-copy" lang="ja" th:text="${option}"></span><span class="answer-check" aria-hidden="true">✓</span>
+                </label>
+              </div>
+              <p class="question-hint">Chọn đáp án phù hợp nhất. Bạn có thể quay lại thay đổi trước khi nộp.</p>
+            </fieldset>
+          </div>
+          <section class="quiz-review" id="quiz-review" hidden aria-labelledby="review-title">
+            <span class="skill-tag">BƯỚC CUỐI CÙNG</span><h2 id="review-title" tabindex="-1">Nhìn lại trước khi nộp.</h2>
+            <p id="review-summary"></p><div id="review-list" class="review-list"></div>
+          </section>
+          <div class="quiz-controls" id="quiz-controls" hidden>
+            <button type="button" class="secondary-button" id="previous-question">← Câu trước</button>
+            <button type="button" class="text-button" id="flag-question" aria-pressed="false">⚑ Xem lại sau</button>
+            <button type="button" class="primary-button" id="next-question">Câu tiếp theo →</button>
+          </div>
+          <div class="review-controls" id="review-controls" hidden><button type="button" class="secondary-button" id="return-questions">← Quay lại làm bài</button></div>
+          <button type="submit" class="primary-button submit-button" id="submit-quiz">Nộp bài &amp; xem lộ trình →</button>
+          <p id="quiz-announcement" class="helper" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <aside class="quiz-rail" id="quiz-rail" hidden aria-label="Tiến độ làm bài">
+        <div class="rail-heading"><span class="rail-symbol" aria-hidden="true">◎</span><div><b>Từng câu, từng bước.</b><small>Cứ làm theo nhịp của bạn.</small></div></div>
+        <div class="rail-progress"><strong id="rail-answered">0</strong><span th:text="${'/ ' + #lists.size(questions) + ' câu đã trả lời'}"></span></div>
+        <nav class="question-map" id="question-map" aria-label="Đi đến câu hỏi"></nav>
+        <div class="map-legend"><span><i class="legend-filled"></i>Đã trả lời</span><span><i class="legend-flag"></i>Cần xem lại</span></div>
+        <button class="secondary-button rail-review" type="button" id="open-review">Rà soát bài làm →</button>
+        <p class="helper" id="draft-note">Lựa chọn được giữ trong tab này khi tải lại trang.</p>
+        <details class="quiz-rules"><summary>Bài kiểm tra này giúp gì?</summary><p>20 câu thuộc 5 kỹ năng. Mỗi nhóm N5, N4, N3 và N2–N1 có 5 câu; đạt ít nhất 4/5 ở các nhóm liên tiếp để xác định điểm bắt đầu.</p><p>Đề mẫu dùng cho phân luồng nội bộ, không thay thế JLPT. N2–N1 là nhóm học chung.</p></details>
+      </aside>
+    </section>
+    <noscript><p class="helper">JavaScript đang tắt. Bạn vẫn có thể trả lời các câu hỏi và nộp bài bằng biểu mẫu trên.</p></noscript>
+    <footer class="quiz-footer"><span>SANKA · Học đúng lộ trình, tiến gần mục tiêu.</span><span>日本語 × ENGINEERING</span></footer>
+  </main>
+</body></html>

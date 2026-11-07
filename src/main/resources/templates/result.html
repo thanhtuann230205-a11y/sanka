@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Kết quả kiểm tra')}"></head>
+<body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
+<header th:replace="~{fragments/layout :: topbar}"></header><main>
+  <span class="eyebrow">KẾT QUẢ VÀ MINH CHỨNG</span>
+  <h1 th:text="${attempt.stage.label}"></h1>
+  <article class="card">
+    <h2 th:text="${attempt.score + '/100'}"></h2>
+    <p th:text="${attempt.stage.name() == 'PLACEMENT' ? 'Đã xác định lộ trình đầu vào; xem chi tiết ở cuối minh chứng.' : (attempt.passed ? 'Đạt. Học phần tiếp theo được mở theo lộ trình.' : 'Chưa đạt. Ôn lại các câu sai và làm lại khi sẵn sàng.')}"></p>
+    <p th:text="${attempt.major.label + ' · ' + #temporals.format(attempt.createdAt, 'dd/MM/yyyy HH:mm')}"></p>
+    <a class="button" th:href="${nextUrl}">Vào học phần tiếp theo →</a>
+    <a class="button secondary" href="/competency">Xem lịch sử</a>
+  </article>
+  <details class="card" open><summary>Đáp án, lựa chọn và giải thích</summary><div class="preline spaced" th:text="${attempt.evidence}"></div></details>
+  <span hidden th:if="${attempt.stage.name() == 'PLACEMENT'}" data-placement-complete th:attr="data-storage-key=${'sanka.placement.v2.' + student.id + '.' + attempt.major}"></span>
+</main></div><script th:if="${attempt.stage.name() == 'PLACEMENT'}" th:src="@{/js/placement-quiz.js}" defer></script></body></html>

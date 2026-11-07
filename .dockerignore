@@ -1,0 +1,11 @@
+.git
+.tools
+.m2
+.idea
+.vscode
+target
+.env
+.env.*
+application-local.yml
+blueprint.txt
+*.pdf

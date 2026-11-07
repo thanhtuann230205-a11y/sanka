@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Chọn chuyên ngành')}"></head>
+<body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
+<header th:replace="~{fragments/layout :: topbar}"></header><main>
+<span class="eyebrow">BƯỚC ĐẦU TIÊN</span><h1>Bạn đang học ngành nào?</h1>
+<p>Chọn ngành trước, sau đó làm bài kiểm tra đầu vào để xác định lộ trình.</p>
+<form class="card onboarding" th:action="@{/onboarding}" method="post">
+<label>Chuyên ngành<select name="major" required><option value="">Chọn ngành học</option>
+<option th:each="m : ${majors}" th:value="${m}" th:text="${m.label}" th:selected="${student.major == m}"></option></select></label>
+<p th:if="${student.placementCompleted}">Trình độ đã phân luồng: <b th:text="${student.level}"></b>. Đổi ngành giữ trình độ nền tảng; minh chứng chuyên ngành được xét riêng theo từng ngành.</p>
+<p class="muted">Đầu vào xác định Pre-N5, N5, N4, N3 hoặc nhóm N2–N1; các kỳ kiểm tra đạt cấp quyết định bước học tiếp theo.</p>
+<button class="button">Lưu và mở hành trình →</button></form></main></div></body></html>

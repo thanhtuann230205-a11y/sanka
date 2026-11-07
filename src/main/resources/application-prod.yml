@@ -1,0 +1,10 @@
+spring:
+  thymeleaf:
+    cache: true
+server:
+  address: 0.0.0.0
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        secure: true
