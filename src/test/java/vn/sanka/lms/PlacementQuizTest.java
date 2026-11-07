@@ -28,7 +28,7 @@ class PlacementQuizTest {
 
     @Test void placementHasItsOwnQuizAndServerPreservesInvalidSubmission() throws Exception {
         var s=students.save(new Student("Quiz learner","quiz_view@example.com","unused-password"));
-        learning.onboard(s.getEmail(),Major.IT,Level.ZERO);
+        
         mvc.perform(get("/exams/PLACEMENT").with(user(s.getEmail())))
             .andExpect(status().isOk()).andExpect(view().name("placement-quiz"))
             .andExpect(model().attribute("questions",hasSize(20)))
@@ -70,7 +70,7 @@ class PlacementQuizTest {
         assertThat(gamification.overview(s.getId()).totalXp()).isEqualTo(xpBefore);
         var other=students.save(new Student("Other quiz","quiz_other@example.com","unused-password"));
         mvc.perform(get("/results/"+id+"/review").with(user(other.getEmail()))).andExpect(status().isNotFound());
-        learning.complete(s.getEmail(),9L);
+        learning.onboard(s.getEmail(),Major.IT,Level.ZERO);learning.complete(s.getEmail(),9L);
         mvc.perform(get("/exams/TECHNICAL").with(user(s.getEmail()))).andExpect(status().isOk()).andExpect(view().name("exam"));
     }
     @Test void oldAttemptsCanBeReviewedWithoutInventingMissingOptions() throws Exception {

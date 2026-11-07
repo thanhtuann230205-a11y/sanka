@@ -27,22 +27,22 @@ class LearningFlowTest {
   mvc.perform(post("/login").with(csrf()).param("username","an@example.com").param("password","password123")).andExpect(redirectedUrl("/start"));
   mvc.perform(post("/register").with(csrf()).param("name","An").param("email","an@example.com").param("password","password123")).andExpect(status().isOk()).andExpect(model().attributeHasFieldErrors("registration","email"));
   mvc.perform(post("/register").with(csrf()).param("name","An").param("email","unicode@example.com").param("password","あ".repeat(30))).andExpect(status().isOk()).andExpect(model().attributeHasFieldErrors("registration","password"));
-  mvc.perform(get("/dashboard").with(user(student.getEmail()))).andExpect(redirectedUrl("/onboarding"));
-  mvc.perform(get("/onboarding").with(user(student.getEmail()))).andExpect(status().isOk());
-  mvc.perform(post("/onboarding").with(user(student.getEmail())).with(csrf()).param("major","IT").param("level","N4")).andExpect(redirectedUrl("/start"));
+  mvc.perform(get("/dashboard").with(user(student.getEmail()))).andExpect(redirectedUrl("/exams/PLACEMENT"));
+  mvc.perform(get("/onboarding").with(user(student.getEmail()))).andExpect(redirectedUrl("/exams/PLACEMENT"));
+  mvc.perform(post("/onboarding").with(user(student.getEmail())).with(csrf()).param("major","IT").param("level","N4")).andExpect(status().isForbidden());
   mvc.perform(get("/start").with(user(student.getEmail()))).andExpect(redirectedUrl("/exams/PLACEMENT"));
-  assertThat(learning.student(student.getEmail()).getLevel()).isEqualTo(Level.ZERO);
+  assertThat(learning.student(student.getEmail()).getLevel()).isNull();
   var answers=new java.util.HashMap<String,String>();
   catalog.questions(Stage.PLACEMENT,Major.IT).forEach(q->answers.put("answer_"+q.id(),String.valueOf(q.id().startsWith("n3")||q.id().startsWith("n2")?(q.correct()+1)%q.options().size():q.correct())));
   workflow.submitExam(student.getEmail(),Stage.PLACEMENT,answers);
-  student=learning.student(student.getEmail());
+  learning.onboard(student.getEmail(),Major.IT,Level.ZERO);student=learning.student(student.getEmail());
   for(String page:new String[]{"/dashboard","/path","/lessons/9","/dictionary?q=不具合"})mvc.perform(get(page).with(user(student.getEmail()))).andExpect(status().isOk());
   mvc.perform(get("/lessons/5").with(user(student.getEmail()))).andExpect(status().isNotFound());
   for(int i=0;i<2;i++)mvc.perform(post("/lessons/9/complete").with(user(student.getEmail())).with(csrf())).andExpect(redirectedUrl("/dashboard"));
   assertThat(learning.completed(student)).containsExactly(9L);
   mvc.perform(post("/register").with(csrf()).param("name","Binh").param("email","binh@example.com").param("password","password123")).andExpect(status().is3xxRedirection());
   var other=students.findByEmail("binh@example.com").orElseThrow(); assertThat(learning.completed(other)).isEmpty();
-  learning.onboard(other.getEmail(),Major.IT,Level.N5);
-  mvc.perform(get("/lessons/9").with(user(other.getEmail()))).andExpect(status().isNotFound());
+  
+  mvc.perform(get("/lessons/9").with(user(other.getEmail()))).andExpect(redirectedUrl("/exams/PLACEMENT"));
  }
 }

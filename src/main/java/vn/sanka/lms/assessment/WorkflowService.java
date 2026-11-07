@@ -32,25 +32,19 @@ public class WorkflowService {
     public boolean reviewed(Student s, PracticeKind kind) {
         return s.getMajor()!=null && submissions.existsByStudentIdAndMajorAndKindAndStatus(s.getId(),s.getMajor(),kind,"PASSED");
     }
-    private boolean completedLevel(Student s, Level level) {
-        var lessons=learning.available(s).stream().filter(l->l.getLevel()==level && l.getMajor()==null).toList();
-        var done=learning.completed(s);
-        return !lessons.isEmpty() && lessons.stream().allMatch(l->done.contains(l.getId()));
-    }
     private boolean specializedLessonDone(Student s) {
         var lessons=learning.available(s).stream().filter(l->l.getMajor()==s.getMajor()).toList();
         var done=learning.completed(s);
         return !lessons.isEmpty() && lessons.stream().allMatch(l->done.contains(l.getId()));
     }
     public boolean allowed(Student s, Stage stage) {
-        if(s.getMajor()==null)return false;
         if(stage==Stage.PLACEMENT)return !s.isPlacementCompleted();
         if(!s.isPlacementCompleted())return false;
+        if(stage==Stage.N5)return learning.needsFoundation(s) && !learning.s4Foundation(s) && learning.foundationCompleted(s);
+        if(stage==Stage.N4)return learning.s4Foundation(s) && learning.foundationCompleted(s);
+        if(List.of(Stage.N3,Stage.N2).contains(stage))return false;
+        if(s.getMajor()==null || !learning.canChooseMajor(s))return false;
         return switch(stage) {
-            case N5 -> completedLevel(s,Level.ZERO) && completedLevel(s,Level.N5);
-            case N4 -> s.getLevel().ordinal()>=Level.N5.ordinal() && completedLevel(s,Level.N4);
-            case N3 -> s.getLevel().ordinal()>=Level.N4.ordinal() && completedLevel(s,Level.N3);
-            case N2 -> s.getLevel().ordinal()>=Level.N3.ordinal() && completedLevel(s,Level.N2);
             case TECHNICAL -> s.getLevel().ordinal()>=Level.N4.ordinal() && specializedLessonDone(s);
             case READING -> passed(s,Stage.TECHNICAL);
             case SITUATION -> passed(s,Stage.READING);
@@ -70,12 +64,11 @@ public class WorkflowService {
     }
     public String prerequisite(Stage stage) {
         return switch(stage) {
-            case PLACEMENT -> "Chọn chuyên ngành. Bài đầu vào được làm một lần; sau đó tiến cấp bằng bài thi N5/N4.";
-            case N5 -> "Hoàn thành bài Zero và N5.";
-            case N4 -> "Đạt N5 và hoàn thành bài N4.";
-            case N3 -> "Đạt N4 và hoàn thành bài N3; học song song với chuyên ngành.";
-            case N2 -> "Đạt N3 và hoàn thành bài nhóm N2–N1.";
-            case TECHNICAL -> "Đạt N4 và hoàn thành bài chuyên ngành hiện tại.";
+            case PLACEMENT -> "Kiểm tra trước khi chọn ngành. Đạt S4 trở lên được chọn chuyên ngành; S5 hoặc thấp hơn học cơ bản S5 rồi S4.";
+            case N5 -> "Hoàn thành phần nhập môn và cơ bản S5 để kiểm tra đạt S5.";
+            case N4 -> "Qua kiểm tra cơ bản S5 và hoàn thành cơ bản S4 để kiểm tra đạt S4, sau đó chọn chuyên ngành.";
+            case N3,N2 -> "Khóa tiếng Nhật theo cấp đã ngừng sử dụng.";
+            case TECHNICAL -> "Đạt S4, chọn ngành và hoàn thành bài chuyên ngành hiện tại.";
             case READING -> "Đạt kiểm tra thuật ngữ chuyên ngành.";
             case SITUATION -> "Đạt kiểm tra đọc hiểu tài liệu.";
             case APPLICATION -> "Đạt kiểm tra tình huống; hội thoại, email và báo cáo được giảng viên chấm đạt.";
@@ -84,10 +77,10 @@ public class WorkflowService {
     }
     public record Step(Stage stage, boolean allowed, boolean passed, String prerequisite) {}
     public List<Step> steps(Student s) {
-        return Arrays.stream(Stage.values()).map(stage->new Step(stage,allowed(s,stage),
+        return Arrays.stream(Stage.values()).filter(stage->!List.of(Stage.N3,Stage.N2).contains(stage)).map(stage->new Step(stage,allowed(s,stage),
             switch(stage) {
                 case PLACEMENT -> s.isPlacementCompleted();
-                case N5 -> s.isPlacementCompleted() && s.getLevel().ordinal()>=Level.N5.ordinal();
+                case N5 -> learning.canChooseMajor(s) || learning.s4Foundation(s);
                 case N4 -> s.isPlacementCompleted() && s.getLevel().ordinal()>=Level.N4.ordinal();
                 case N3 -> s.isPlacementCompleted() && s.getLevel().ordinal()>=Level.N3.ordinal();
                 case N2 -> s.isPlacementCompleted() && s.getLevel().ordinal()>=Level.N2.ordinal();

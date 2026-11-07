@@ -31,7 +31,7 @@ class AssessmentWorkflowTest {
 
     Student student(String name,Major major) {
         var s=students.save(new Student(name,name+"@test.example",encoder.encode("password123")));
-        learning.onboard(s.getEmail(),major,Level.N4);
+        s.onboard(major,Level.ZERO);students.save(s);
         return learning.student(s.getEmail());
     }
     Map<String,String> answers(Stage stage, Major major, boolean right) {
@@ -50,7 +50,7 @@ class AssessmentWorkflowTest {
     @ParameterizedTest @EnumSource(Major.class)
     void completeAllStagesForEachMajor(Major major) throws Exception {
         var s=student("full_"+major,major);
-        mvc.perform(get("/journey").with(user(s.getEmail()))).andExpect(status().isOk());
+        mvc.perform(get("/journey").with(user(s.getEmail()))).andExpect(redirectedUrl("/exams/PLACEMENT"));
         mvc.perform(get("/specialized").with(user(s.getEmail()))).andExpect(status().isOk()).andExpect(model().attribute("entered",false));
         mvc.perform(get("/specialized/TERMS").with(user(s.getEmail()))).andExpect(status().isForbidden());
         mvc.perform(post("/exams/TECHNICAL").with(user(s.getEmail())).with(csrf())).andExpect(status().isForbidden());
@@ -173,13 +173,14 @@ class AssessmentWorkflowTest {
     @SuppressWarnings("unchecked")
     void loginRoutesToTheCorrectCurrentCourse(Level level) throws Exception {
         var s=students.save(new Student("branch_"+level,"branch_"+level+"@test.example",encoder.encode("password123")));
-        mvc.perform(get("/start").with(user(s.getEmail()))).andExpect(redirectedUrl("/onboarding"));
+        mvc.perform(get("/start").with(user(s.getEmail()))).andExpect(redirectedUrl("/exams/PLACEMENT"));
         mvc.perform(post("/onboarding").with(user(s.getEmail())).with(csrf()).param("major","IT"))
-            .andExpect(redirectedUrl("/start"));
+            .andExpect(status().isForbidden());
         mvc.perform(get("/start").with(user(s.getEmail()))).andExpect(redirectedUrl("/exams/PLACEMENT"));
         var placement=answers(Stage.PLACEMENT,Major.IT,level==Level.N4);
         if(level==Level.N5)answers(Stage.N5,Major.IT,true).forEach(placement::put);
         workflow.submitExam(s.getEmail(),Stage.PLACEMENT,placement);
+        if(level==Level.N4)learning.onboard(s.getEmail(),Major.IT,Level.ZERO);
         mvc.perform(get("/start").with(user(s.getEmail()))).andExpect(redirectedUrl("/dashboard"));
         for(String page:List.of("/dashboard","/path")) {
             var result=mvc.perform(get(page).with(user(s.getEmail()))).andExpect(status().isOk()).andReturn();
@@ -187,7 +188,7 @@ class AssessmentWorkflowTest {
             var lessons=(List<Lesson>)model.get("lessons");
             assertThat(lessons).isNotEmpty();
             if(level==Level.ZERO)assertThat(lessons).allMatch(l->l.getMajor()==null && (l.getLevel()==Level.ZERO||l.getLevel()==Level.N5));
-            else if(level==Level.N5)assertThat(lessons).allMatch(l->l.getMajor()==null && l.getLevel()==Level.N4);
+            else if(level==Level.N5)assertThat(lessons).allMatch(l->l.getMajor()==null && (l.getLevel()==Level.ZERO||l.getLevel()==Level.N5));
             else assertThat(lessons).allMatch(l->l.getMajor()==Major.IT);
             assertThat((Lesson)model.get("nextLesson")).isEqualTo(lessons.getFirst());
         }

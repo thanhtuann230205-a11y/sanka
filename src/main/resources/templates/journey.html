@@ -8,15 +8,15 @@
   <main>
     <span class="eyebrow">TỪ NỀN TẢNG ĐẾN CÔNG VIỆC</span>
     <h1>Lộ trình có minh chứng.</h1>
-    <p>Ngành <b th:text="${student.major.label}"></b> · Trình độ đã phân luồng:
-      <b th:text="${student.placementCompleted ? student.level : 'Chưa kiểm tra đầu vào'}"></b></p>
-    <p class="notice">Ngân hàng câu hỏi và học liệu mẫu dùng cho phân luồng nội bộ. Đạt N5/N4 ở đây không tương đương chứng chỉ JLPT. Điểm kiến thức và rubric thực hành được theo dõi riêng với XP.</p>
+    <p>Ngành <b th:text="${student.major == null ? 'Chưa chọn (cần đạt S4)' : student.major.label}"></b> · Trình độ đã phân luồng:
+      <b th:text="${student.placementCompleted ? student.level.label : 'Chưa kiểm tra đầu vào'}"></b></p>
+    <p class="notice">Ngân hàng câu hỏi và học liệu mẫu dùng cho phân luồng nội bộ. Đạt S5/S4 ở đây không tương đương chứng chỉ JLPT. Điểm kiến thức và rubric thực hành được theo dõi riêng với XP.</p>
     <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Học chuyên ngành theo 6 bước</h2><p>Thuật ngữ → đọc tài liệu → tình huống → email/báo cáo → đánh giá → nâng cao.</p><a class="button" href="/specialized">Mở khu vực học chuyên ngành →</a></section>
     <section class="success" th:if="${allDone}">
       <h2>Đã hoàn thành chu trình học hiện tại</h2>
       <p>Bạn đã hoàn thành đánh giá ứng dụng và đề xuất cải tiến được giảng viên chấm đạt. Xem lại phản hồi để tiếp tục ôn luyện.</p>
     </section>
-    <section class="card"><h2>Nhánh tiếng Nhật nâng cao và ôn định kỳ</h2><p>Từ N4 có thể học N3 song song với chuyên ngành, sau đó học nhóm N2–N1. Mỗi cấp có nghe/đọc và lịch ôn riêng.</p><a href="/language">Mở các cấp tiếng Nhật →</a></section><div class="journey-grid">
+    <div class="journey-grid">
       <section>
         <h2>01 / Kiến thức và đánh giá</h2>
         <article class="card" th:each="step : ${steps}">
@@ -42,7 +42,7 @@
         </article>
         <article class="card">
           <h3>Tiếp tục học nền tảng</h3>
-          <p>Hoàn thành bài Zero/N5 để thi N5. Đạt N5 để học và thi N4. Đạt N4 để vào chuyên ngành.</p>
+          <p>Hoàn thành cơ bản S5 rồi cơ bản S4; kiểm tra đạt S4 để chọn chuyên ngành.</p>
           <a href="/path">Mở danh sách bài học →</a>
         </article>
         <article class="card">

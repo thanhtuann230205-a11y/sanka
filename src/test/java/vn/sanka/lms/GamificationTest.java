@@ -102,7 +102,7 @@ class GamificationTest {
     }
     @Test void leaderboardRequiresConsentUsesAliasesAndSupportsWithdrawal() throws Exception {
         var a=student("ranking_a");var b=student("ranking_b");var hidden=student("ranking_hidden");
-        learning.onboard(a.getEmail(),Major.IT,Level.ZERO);learning.onboard(b.getEmail(),Major.IT,Level.ZERO);
+        a.onboard(Major.IT,Level.ZERO);b.onboard(Major.IT,Level.ZERO);students.save(a);students.save(b);
         gamification.lesson(a.getId(),1L);gamification.lesson(b.getId(),1L);
         gamification.lesson(hidden.getId(),1L);gamification.lesson(hidden.getId(),2L);
         assertThat(gamification.leaderboard(a.getId(),"all",null,null)).isEmpty();
@@ -154,8 +154,8 @@ class GamificationTest {
         assertThat(gamification.history(concurrent.getId())).hasSize(1);assertThat(gamification.overview(concurrent.getId()).totalXp()).isEqualTo(20);
     }
     @Test void actualLearningServicesGenerateTheLedger() throws Exception {
-        var s=student("actual_rewards");learning.onboard(s.getEmail(),Major.IT,Level.ZERO);
-        workflow.submitExam(s.getEmail(),Stage.PLACEMENT,answers(Stage.PLACEMENT,true));
+        var s=student("actual_rewards");
+        workflow.submitExam(s.getEmail(),Stage.PLACEMENT,answers(Stage.PLACEMENT,true));learning.onboard(s.getEmail(),Major.IT,Level.ZERO);
         learning.complete(s.getEmail(),9L);learning.complete(s.getEmail(),9L);
         workflow.submitExam(s.getEmail(),Stage.TECHNICAL,answers(Stage.TECHNICAL,true));workflow.submitExam(s.getEmail(),Stage.TECHNICAL,answers(Stage.TECHNICAL,true));
         assertThat(gamification.overview(s.getId()).totalXp()).isEqualTo(80);
@@ -164,13 +164,10 @@ class GamificationTest {
         var work=workflow.submitPractice(s.getEmail(),PracticeKind.SITUATION,text);
         var teacher=student("reward_teacher");teacher.setRole("INSTRUCTOR");students.save(teacher);
         workflow.review(teacher.getEmail(),work.getId(),4,4,4,4,"状況を正確に説明できています。次は確認の表現を練習してください。");
-        language.enroll(s.getEmail(),Level.N4);language.review(s.getEmail(),Level.N4,answers(Stage.N4,true));
-        language.submit(s.getEmail(),Level.N4,text);var application=language.work(s).getFirst();
-        language.grade(teacher.getEmail(),application.getId(),4,4,4,4,"Thông tin rõ ràng, tiếp tục luyện cách yêu cầu xác nhận lịch sự.");
-        assertThat(gamification.overview(s.getId()).totalXp()).isEqualTo(265);
+        assertThat(gamification.overview(s.getId()).totalXp()).isEqualTo(210);
         mvc.perform(get("/motivation").with(user(s.getEmail()))).andExpect(status().isOk());
         mvc.perform(get("/leaderboard").with(user(s.getEmail()))).andExpect(status().isOk());
-        mvc.perform(get("/dashboard").with(user(s.getEmail()))).andExpect(status().isOk()).andExpect(model().attribute("xp",265L));
+        mvc.perform(get("/dashboard").with(user(s.getEmail()))).andExpect(status().isOk()).andExpect(model().attribute("xp",210L));
         mvc.perform(get("/motivation")).andExpect(status().is3xxRedirection());
         mvc.perform(post("/leaderboard/preferences").with(user(teacher.getEmail()).roles("INSTRUCTOR")).with(csrf()).param("enabled","true").param("nickname","Teacher"))
             .andExpect(status().isForbidden());

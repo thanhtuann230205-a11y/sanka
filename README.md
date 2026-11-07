@@ -30,9 +30,9 @@ $env:DB_URL = 'jdbc:mysql://localhost:3306/sanka_lms?serverTimezone=Asia/Ho_Chi_
 ## Phạm vi hiện có
 
 - Đăng ký, đăng nhập, BCrypt, CSRF, kiểm tra dữ liệu phía server.
-- Chọn một trong 5 ngành; Placement Test xác định Pre-N5/Zero, N5, N4, N3 hoặc nhóm N2–N1.
+- Kiểm tra đầu vào trước khi chọn ngành; kết quả hiển thị S5, S4, S3, S2–S1 (tương đương các nhóm N). Đạt S4 trở lên mới chọn một trong 5 ngành.
 - Dashboard, lộ trình, bài học mẫu, lưu hoàn thành xuyên phiên, 20 XP/bài và tránh cộng lặp.
-- Phân luồng Zero → học Zero/N5 → kiểm tra N5 → học N4 → kiểm tra N4 → chuyên ngành. Đầu vào đạt N5/N4 được vào nhánh phù hợp.
+- Zero/S5 → cơ bản S5 → kiểm tra S5 → cơ bản S4 → kiểm tra S4 → chọn chuyên ngành. Đầu vào đạt S4 trở lên chọn chuyên ngành ngay.
 - Khóa/mở bài và kiểm tra ở server; không thể tự khai trình độ hoặc gửi điểm từ trình duyệt để mở khóa.
 - Thuật ngữ chuyên ngành → đọc hiểu tài liệu → xử lý tình huống → viết hội thoại → email → báo cáo → đánh giá ứng dụng → nâng cao và đề xuất cải tiến.
 - Trắc nghiệm chấm tự động; lưu điểm, lựa chọn, đáp án và giải thích cho từng lần thi. Ngưỡng đạt 80%; thi lại không làm mất kết quả đạt trước đó.
@@ -40,8 +40,6 @@ $env:DB_URL = 'jdbc:mysql://localhost:3306/sanka_lms?serverTimezone=Asia/Ho_Chi_
 - Hồ sơ năng lực: lịch sử bài thi, nội dung đã nộp, điểm rubric, nhận xét và bước tiếp theo. Minh chứng chuyên ngành được xét riêng theo ngành.
 - Vai trò giảng viên, hàng đợi chấm bài, phân quyền và kiểm tra dữ liệu phía server.
 - Từ điển mẫu Nhật–Việt, tìm theo Kanji/cách đọc/nghĩa và lọc ngành.
-- Khóa theo 5 nhóm trình độ: bài chủ đề, ngân hàng từ vựng, ngữ pháp, nghe có file WAV, đọc Nhật–Việt, lịch ôn 7 ngày và bài ứng dụng kỹ thuật có giảng viên chấm.
-- Nhánh N3 và N2–N1 có thể học song song với chuyên ngành sau N4; tiến cấp qua kiểm tra N3 và nhóm N2–N1.
 - Gamification: chuỗi ngày học, XP theo hoạt động, 10 huy hiệu, mục tiêu XP ngày, lịch hoạt động và bảng xếp hạng tự nguyện theo tuần/toàn thời gian, lọc ngành/trình độ.
 - Flyway migration và Docker Compose cho MySQL.
 
@@ -49,9 +47,7 @@ $env:DB_URL = 'jdbc:mysql://localhost:3306/sanka_lms?serverTimezone=Asia/Ho_Chi_
 
 ### Quy tắc đầu vào và tiến cấp
 
-Placement Test có 20 câu: 4 nhóm N5, N4, N3, N2–N1, mỗi nhóm 5 phần chữ viết, ngữ pháp, từ vựng, nghe, đọc. Cần đạt ít nhất 4/5 ở từng nhóm liên tiếp để được xếp cấp tương ứng; trượt N5 vào Pre-N5/Zero. Đúng nhóm cao nhưng trượt nhóm thấp không được nhảy cấp. Đầu vào làm một lần; sau đó tiến cấp bằng kiểm tra N5/N4/N3/N2–N1 sau khi hoàn thành bài tương ứng. Kết quả đạt đã lưu không bị hạ khi thi lại. Tài khoản đã kiểm tra theo ngân hàng cũ giữ nguyên kết quả, không bị đặt lại. Các tài khoản cũ chỉ tự khai trình độ trước V3 cần làm đầu vào; tiến độ bài học vẫn được giữ.
-
-Sau đăng nhập, `/start` dẫn sinh viên chưa chọn ngành đến onboarding, chưa kiểm tra đến Placement Test, đã kiểm tra đến dashboard. Dashboard và danh sách bài học chỉ ưu tiên chặng cần học: Zero học nền tảng N5 (gồm bảng chữ cái), đạt N5 học N4, đạt N4 học chuyên ngành. Học xong chặng hiện tại sẽ có nút kiểm tra đạt cấp hoặc chuyển học phần chuyên ngành. Bài nền tảng đã mở vẫn có thể truy cập lại qua đường dẫn để ôn tập. Giảng viên đăng nhập được chuyển thẳng đến hàng đợi chấm bài.
+Luồng hiện tại và cách deploy V9 được mô tả tại [docs/LEARNING_FLOW.md](docs/LEARNING_FLOW.md). Kiểm tra đầu vào trước khi chọn ngành. S4 trở lên chọn ngành; Zero/S5 học cơ bản S5 rồi S4. Không còn các khóa N3/N2–N1 song song.
 
 ### Trang quiz kiểm tra đầu vào
 
@@ -59,25 +55,17 @@ Sau đăng nhập, `/start` dẫn sinh viên chưa chọn ngành đến onboardi
 
 Lựa chọn và câu đang làm được lưu bằng `sessionStorage` trong tab hiện tại, tách theo tài khoản/chuyên ngành và phiên bản nội dung. Không phải bản nháp đồng bộ giữa thiết bị. Bản lưu được xóa khi server trả trang kết quả thành công. Khi không có JavaScript, trang hiện toàn bộ câu hỏi và vẫn gửi biểu mẫu bình thường. Server giữ nguyên kiểm tra CSRF, cách chấm/phân luồng và điều kiện làm đầu vào một lần; lỗi thiếu đáp án hiển thị lại trang quiz và giữ các lựa chọn hợp lệ.
 
-Sau khi nộp, `/results/{id}` hiển thị trình độ được xếp rõ ràng (Pre-N5/Zero, N5, N4, N3 hoặc N2–N1), hướng học tiếp, số câu đúng và điểm. Người học chọn **Học tiếp** để về lộ trình hoặc **Xem lại kết quả** để mở `/results/{id}/review`. Màn hình xem lại hiện từng câu, đầy đủ lựa chọn ban đầu, đáp án đã chọn, đáp án đúng/sai, giải thích và audio nếu có; có nút trước/sau và bản đồ câu tô màu theo kết quả. Khi tắt JavaScript, toàn bộ các câu vẫn hiển thị được.
+Sau khi nộp, `/results/{id}` hiển thị trình độ được xếp rõ ràng (chưa đạt S5, S5, S4, S3 hoặc S2–S1), hướng học tiếp, số câu đúng và điểm. Người học chọn **Học tiếp** để về lộ trình hoặc **Xem lại kết quả** để mở `/results/{id}/review`. Màn hình xem lại hiện từng câu, đầy đủ lựa chọn ban đầu, đáp án đã chọn, đáp án đúng/sai, giải thích và audio nếu có; có nút trước/sau và bản đồ câu tô màu theo kết quả. Khi tắt JavaScript, toàn bộ các câu vẫn hiển thị được.
 
 Migration V8 lưu trình độ được xếp theo từng lần thi và tạo bảng snapshot câu trả lời. Các câu hỏi, lựa chọn, chỉ số đáp án, giải thích và mã audio được lưu khi chấm, không lấy lại đáp án từ đề hiện tại để chấm lịch sử. Lên cấp sau đó không làm thay đổi trình độ trong kết quả đầu vào cũ. Với bài trước V8, hệ thống đọc câu hỏi/lựa chọn/đáp án/giải thích từ minh chứng văn bản đã lưu; không tự tạo các lựa chọn khác vốn chưa được lưu. Trang kết quả và xem lại chỉ dành cho chủ bài, không cộng thêm XP khi mở lại.
 
-### Tiếng Nhật theo cấp, nghe và kiểm tra định kỳ
+### Module theo cấp đã ngừng sử dụng
 
-Mở `/language` hoặc menu **Tiếng Nhật theo cấp**. Từng khóa Pre-N5, N5, N4, N3, N2–N1 có bài chủ đề, bảng từ vựng Nhật–Việt/cách đọc/ví dụ, ngữ pháp, bài nghe, đọc hiểu và bài ứng dụng theo ngành đang chọn. Có thể ôn cấp cũ và học cấp kế tiếp; N3 mở từ N4, N2–N1 mở từ N3. Chuyên ngành vẫn mở từ N4.
-
-Chọn **Bắt đầu khóa và bật lịch ôn** để lưu ngày bắt đầu và lịch ôn sau 7 ngày, theo múi giờ Việt Nam. Mỗi lần ôn lưu điểm, lựa chọn, đáp án, giải thích theo kỹ năng; cập nhật hạn kế tiếp sau 7 ngày. Có thể làm sớm. Lịch và trạng thái đến hạn hiển thị trong khóa và `/language/history`, không gửi email hay thông báo ngoài ứng dụng. Điểm định kỳ không nâng/hạ trình độ; thi đạt cấp là luồng riêng.
-
-Bài ứng dụng kỹ thuật có độ dài tối thiểu theo cấp (20/40/80/100/150 ký tự), giới hạn 10.000 ký tự. Giảng viên chấm tại `/instructor/language-reviews` bằng 4 tiêu chí như rubric thực hành. Lịch sử, điểm và phản hồi tách theo người học/cấp/ngành; bài cần sửa được điền lại để chỉnh sửa. Mỗi cấp/ngành chỉ có một bài đang chờ chấm.
-
-Các file `src/main/resources/static/audio/n0.wav` đến `n5.wav` (gồm n0, n2, n3, n4, n5) đã được tạo bằng giọng Windows tiếng Nhật Haruka; đây là giọng tổng hợp. File WAV được đóng gói trong JAR, phát trên trình duyệt bằng HTML audio, không cần TTS hay mạng khi chạy. Có thể tạo lại trên Windows đã có giọng ja-JP bằng `./scripts/generate-audio.ps1`; lúc tạo lại cần cài giọng tiếng Nhật, nhưng máy chạy ứng dụng chỉ cần các file đã đóng gói. Bản chép có trong trang luyện nghe; trang kiểm tra chỉ có âm thanh, đáp án và giải thích xuất hiện sau khi nộp.
-
-Migration V6 tạo lịch học, lịch sử ôn, bài ứng dụng theo cấp và thêm bài N3/N2–N1. Không xóa kết quả, bài nộp hoặc tiến độ trước đó.
+Menu và các thao tác học theo cấp cũ đã được gỡ/chặn; dữ liệu lịch sử và XP giữ nguyên. Bài nghe của bài kiểm tra vẫn được đóng gói trong JAR. Xem [lộ trình mới](docs/LEARNING_FLOW.md).
 
 ### Khu vực học chuyên ngành
 
-Chọn **Học chuyên ngành** trong menu hoặc mở `/specialized`. Khu vực này có một luồng 6 bước, tiến độ riêng và nút tiếp tục bước chưa hoàn thành. Sinh viên dưới N4 thấy điều kiện cần đạt và liên kết quay lại nền tảng. Mỗi ngành có thuật ngữ, tài liệu và tình huống tương ứng.
+Chọn **Học chuyên ngành** trong menu hoặc mở `/specialized`. Khu vực này có một luồng 6 bước, tiến độ riêng và nút tiếp tục bước chưa hoàn thành. Sinh viên dưới S4 thấy điều kiện cần đạt và liên kết quay lại nền tảng. Mỗi ngành có thuật ngữ, tài liệu và tình huống tương ứng.
 
 | Học phần | Đường dẫn | Nội dung và điều kiện hoàn thành |
 | --- | --- | --- |

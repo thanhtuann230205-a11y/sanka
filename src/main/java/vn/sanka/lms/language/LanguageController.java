@@ -17,7 +17,7 @@ public class LanguageController {
  private final WorkflowService workflow;
  public LanguageController(LanguageService language,LanguageCatalog content,LearningService learning,WorkflowService workflow){this.language=language;this.content=content;this.learning=learning;this.workflow=workflow;}
  @ModelAttribute void common(Principal p,Model m){if(p!=null)m.addAttribute("student",learning.student(p.getName()));}
- @GetMapping("/language") String courses(Principal p,Model m){var s=learning.student(p.getName());m.addAttribute("courses",language.courses(s));return "language";}
+ @GetMapping("/language") String courses(Principal p,Model m){return "redirect:/start";}
  @GetMapping("/language/{level}") String course(Principal p,@PathVariable Level level,Model m){
   var s=learning.student(p.getName());language.require(s,level);
   m.addAttribute("course",content.course(level));m.addAttribute("lessons",language.lessons(s,level));m.addAttribute("completed",learning.completed(s));

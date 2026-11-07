@@ -30,7 +30,8 @@ public class LanguageService {
   this.enrollments=enrollments;this.reviews=reviews;this.submissions=submissions;this.clock=clock;
   this.gamification=gamification;
  }
- public boolean open(Student s,Level level){return s.getMajor()!=null && s.isPlacementCompleted() && level.ordinal()<=Math.min(Level.N2.ordinal(),Math.max(1,s.getLevel().ordinal()+1));}
+ // The former level-course module is retired. Preserve records, deny new activity.
+ public boolean open(Student s,Level level){return false;}
  public void require(Student s,Level level){workflow.require(open(s,level));}
  public List<Lesson> lessons(Student s,Level level){require(s,level);return learning.available(s).stream().filter(l->l.getMajor()==null && l.getLevel()==level).toList();}
  public LanguageEnrollment enrollment(Student s,Level level){return enrollments.findByStudentIdAndLevel(s.getId(),level).orElse(null);}

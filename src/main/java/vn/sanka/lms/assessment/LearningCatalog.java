@@ -109,7 +109,7 @@ public class LearningCatalog {
     }
 
     public String lesson(Stage stage, Major major) {
-        if(stage==Stage.PLACEMENT)return "20 câu theo bốn nhóm N5, N4, N3, N2–N1; mỗi nhóm có chữ viết, ngữ pháp, từ vựng, nghe và đọc. Cần đạt 4/5 câu ở mỗi nhóm liên tiếp để được xếp lên nhóm tiếp theo. Nếu chưa đạt N5, vào Pre-N5/Zero. Đây là phân luồng nội bộ, không thay thế chứng chỉ JLPT; N2–N1 là một nhóm học chung.";
+        if(stage==Stage.PLACEMENT)return "20 câu theo các nhóm S5, S4, S3, S2–S1 (tương đương N5, N4, N3, N2–N1). Đạt 4/5 câu ở mỗi nhóm liên tiếp để xác định trình độ. Đạt S4 trở lên được chọn chuyên ngành; S5 hoặc thấp hơn học cơ bản S5 rồi S4. Kết quả nội bộ không thay thế chứng chỉ JLPT.";
         if(List.of(Stage.N5,Stage.N4,Stage.N3,Stage.N2).contains(stage))return "Hoàn thành bài học tương ứng trước khi thi. Ngưỡng đạt 80%. Có thể ôn tập và thi lại; mỗi lần thi đều được lưu. Nghe file âm thanh ở câu nghe trước khi chọn đáp án.";
         Topic t=topic(major);
         return switch(stage) {

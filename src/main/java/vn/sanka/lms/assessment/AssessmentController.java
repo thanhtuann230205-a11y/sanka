@@ -24,7 +24,8 @@ public class AssessmentController {
     }
     @ModelAttribute void common(Principal p,Model m){if(p!=null)m.addAttribute("student",learning.student(p.getName()));}
     @GetMapping("/journey") String journey(Principal p,Model m) {
-        var s=learning.student(p.getName());if(s.getMajor()==null)return "redirect:/onboarding";
+        var s=learning.student(p.getName());if(!s.isPlacementCompleted())return "redirect:/exams/PLACEMENT";
+        if(learning.canChooseMajor(s) && s.getMajor()==null)return "redirect:/onboarding";
         m.addAttribute("steps",workflow.steps(s));m.addAttribute("kinds",PracticeKind.values());
         var available=new EnumMap<PracticeKind,Boolean>(PracticeKind.class);
         var done=new EnumMap<PracticeKind,Boolean>(PracticeKind.class);

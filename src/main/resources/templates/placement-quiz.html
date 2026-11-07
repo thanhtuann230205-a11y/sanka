@@ -21,13 +21,13 @@
         <div class="intro-facts"><span><b th:text="${#lists.size(questions)}">20</b> câu hỏi</span><span><b>5</b> kỹ năng</span><span>Không giới hạn thời gian</span></div>
         <button class="primary-button start-button" type="button" id="start-quiz">Khám phá trình độ của tôi <span aria-hidden="true">→</span></button>
         <p id="resume-note" class="helper" hidden>Bài đang làm trong tab này đã được lưu. Bạn có thể tiếp tục.</p>
-        <small class="major-note">Dành cho <b th:text="${student.major.label}"></b> · <span th:text="${student.name}"></span></small>
+        <small class="major-note">Dành cho <b th:text="${student.major == null ? 'Chưa chọn chuyên ngành' : student.major.label}"></b> · <span th:text="${student.name}"></span></small>
       </div>
-      <div class="intro-visual" aria-label="Lộ trình từ Pre-N5 đến N2–N1">
+      <div class="intro-visual" aria-label="Kiểm tra trình độ để phân luồng học tập">
         <span class="visual-label">YOUR NEXT CHAPTER</span><span class="japanese-mark" lang="ja" aria-hidden="true">学</span>
-        <div class="journey-card"><span class="journey-dot"></span><div><small>ĐIỂM BẮT ĐẦU</small><b>Pre-N5 / Zero</b></div><span class="level-symbol" aria-hidden="true">あ</span></div>
-        <div class="journey-card"><span class="journey-dot"></span><div><small>NỀN TẢNG</small><b>N5 → N4</b></div><span class="level-symbol" aria-hidden="true">文</span></div>
-        <div class="journey-card featured"><span class="journey-dot"></span><div><small>TỰ TIN TIẾN XA</small><b>N3 → N2–N1</b></div><span class="level-symbol" aria-hidden="true">↗</span></div>
+        <div class="journey-card"><span class="journey-dot"></span><div><small>ĐIỂM BẮT ĐẦU</small><b>Chưa đạt S5</b></div><span class="level-symbol" aria-hidden="true">あ</span></div>
+        <div class="journey-card"><span class="journey-dot"></span><div><small>NỀN TẢNG</small><b>S5 → S4</b></div><span class="level-symbol" aria-hidden="true">文</span></div>
+        <div class="journey-card featured"><span class="journey-dot"></span><div><small>TỰ TIN TIẾN XA</small><b>Đạt S4 → Chuyên ngành</b></div><span class="level-symbol" aria-hidden="true">↗</span></div>
         <p>Học đúng trình độ.<br>Tiến bộ theo cách của bạn.</p>
       </div>
     </section>
@@ -80,7 +80,7 @@
         <div class="map-legend"><span><i class="legend-filled"></i>Đã trả lời</span><span><i class="legend-flag"></i>Cần xem lại</span></div>
         <button class="secondary-button rail-review" type="button" id="open-review">Rà soát bài làm →</button>
         <p class="helper" id="draft-note">Lựa chọn được giữ trong tab này khi tải lại trang.</p>
-        <details class="quiz-rules"><summary>Bài kiểm tra này giúp gì?</summary><p>20 câu thuộc 5 kỹ năng. Mỗi nhóm N5, N4, N3 và N2–N1 có 5 câu; đạt ít nhất 4/5 ở các nhóm liên tiếp để xác định điểm bắt đầu.</p><p>Đề mẫu dùng cho phân luồng nội bộ, không thay thế JLPT. N2–N1 là nhóm học chung.</p></details>
+        <details class="quiz-rules"><summary>Bài kiểm tra này giúp gì?</summary><p>20 câu thuộc 5 kỹ năng. Mỗi nhóm S5, S4, S3 và S2–S1 có 5 câu; đạt ít nhất 4/5 ở các nhóm liên tiếp để xác định điểm bắt đầu.</p><p>Đạt S4 trở lên được chọn chuyên ngành. S5 hoặc thấp hơn học cơ bản S5 rồi S4. Đề mẫu dùng cho phân luồng nội bộ, không thay thế JLPT.</p></details>
       </aside>
     </section>
     <noscript><p class="helper">JavaScript đang tắt. Bạn vẫn có thể trả lời các câu hỏi và nộp bài bằng biểu mẫu trên.</p></noscript>

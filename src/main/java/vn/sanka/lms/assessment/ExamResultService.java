@@ -38,11 +38,8 @@ public class ExamResultService {
             if(match.find())level=Level.valueOf(match.group(1));
         }
         String nextStep=level==null?"Tiếp tục theo lộ trình học của bạn.":switch(level){
-            case ZERO -> "Bắt đầu với bảng chữ cái và tiếng Nhật N5, sau đó tiến tới N4 và chuyên ngành.";
-            case N5 -> "Bạn đã có nền tảng N5. Tiếp tục học N4 trước khi vào chuyên ngành.";
-            case N4 -> "Bạn đã có nền tảng N4. Bắt đầu học tiếng Nhật chuyên ngành phù hợp với bạn.";
-            case N3 -> "Bạn có thể học chuyên ngành và tiếp tục nâng cao với nhóm N2–N1.";
-            case N2 -> "Bạn có thể học chuyên ngành, thực hành ứng dụng và tiếp tục củng cố tiếng Nhật nâng cao.";
+            case ZERO,N5 -> "Học cơ bản S5 (tương đương N5), qua kiểm tra S5 rồi học cơ bản S4. Đạt S4 mới được chọn chuyên ngành.";
+            case N4,N3,N2 -> "Bạn đạt S4 trở lên. Chọn chuyên ngành để bắt đầu học tiếng Nhật chuyên ngành phù hợp với bạn.";
         };
         return new Summary(level,nextStep,(int)questions.stream().filter(Question::correct).count(),questions.size(),List.copyOf(questions),stored.isEmpty());
     }

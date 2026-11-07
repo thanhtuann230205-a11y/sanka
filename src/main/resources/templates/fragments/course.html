@@ -3,7 +3,7 @@
   <div class="lesson-list">
     <a class="lesson-row" th:each="l : ${lessons}" th:href="@{/lessons/{id}(id=${l.id})}">
       <span class="lesson-icon" th:text="${completed.contains(l.id) ? '✓' : '文'}"></span>
-      <div><b th:text="${l.title}"></b><small th:text="${l.level + ' · ' + l.minutes + ' phút'}"></small></div>
+      <div><b th:text="${l.title}"></b><small th:text="${l.level.label + ' · ' + l.minutes + ' phút'}"></small></div>
       <span class="row-end" th:text="${completed.contains(l.id) ? 'Hoàn thành' : 'Bắt đầu →'}"></span>
     </a>
   </div>

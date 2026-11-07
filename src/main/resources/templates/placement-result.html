@@ -5,7 +5,7 @@
  <section class="result-card" aria-labelledby="result-title"><span class="result-check" aria-hidden="true">✓</span><span class="eyebrow">ĐÃ HOÀN THÀNH KIỂM TRA ĐẦU VÀO</span>
  <h1 id="result-title">Điểm bắt đầu của bạn là</h1><strong class="assigned-level" th:text="${summary.level == null ? 'Chưa xác định' : summary.level.label}"></strong>
  <p class="result-description" th:text="${summary.nextStep}"></p>
- <div class="result-metrics"><div><strong th:text="${summary.correctCount + '/' + summary.totalQuestions}"></strong><small>Câu trả lời đúng</small></div><div><strong th:text="${attempt.score + '/100'}"></strong><small>Điểm tổng</small></div><div><strong th:text="${attempt.major.label}"></strong><small>Chuyên ngành của bạn</small></div></div>
+ <div class="result-metrics"><div><strong th:text="${summary.correctCount + '/' + summary.totalQuestions}"></strong><small>Câu trả lời đúng</small></div><div><strong th:text="${attempt.score + '/100'}"></strong><small>Điểm tổng</small></div><div><strong th:text="${attempt.major == null ? 'Chọn sau khi đạt S4' : attempt.major.label}"></strong><small>Chuyên ngành của bạn</small></div></div>
  <div class="result-actions"><a class="primary-button" id="continue-learning" th:href="${nextUrl}">Học tiếp <span aria-hidden="true">→</span></a><a class="secondary-button" id="review-result" th:href="@{/results/{id}/review(id=${attempt.id})}">Xem lại kết quả</a></div>
  <p class="helper">Trình độ được xếp theo kết quả bài này, dựa trên các nhóm đạt liên tiếp. Đây là phân luồng nội bộ, không thay thế chứng chỉ JLPT.</p>
  </section>
