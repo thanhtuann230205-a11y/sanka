@@ -37,8 +37,6 @@ public class LearningController {
   m.addAttribute("nextLesson",lessons.stream().filter(l->!done.contains(l.getId())).findFirst().orElse(null));
   return request.getRequestURI().equals("/path")?"path":"dashboard";
  }
- @GetMapping("/lessons/{id}") String lesson(Principal p,@PathVariable Long id,Model m){var s=learning.student(p.getName());if(!s.isPlacementCompleted())return "redirect:/exams/PLACEMENT";m.addAttribute("lesson",learning.lesson(s,id));m.addAttribute("done",learning.completed(s).contains(id));return "lesson";}
- @PostMapping("/lessons/{id}/complete") String complete(Principal p,@PathVariable Long id){learning.complete(p.getName(),id);return "redirect:/dashboard";}
  @GetMapping("/dictionary") String dictionary(@RequestParam(defaultValue="") String q,@RequestParam(required=false) Major major,Model m){
   String query=q.strip().toLowerCase(java.util.Locale.ROOT);
   m.addAttribute("terms",terms.findAll().stream().filter(t->major==null||t.getMajor()==major).filter(t->(t.getJapanese()+t.getReading()+t.getVietnamese()).toLowerCase(java.util.Locale.ROOT).contains(query)).toList());

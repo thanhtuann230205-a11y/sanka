@@ -39,7 +39,22 @@ class LearningFlowTest {
   learning.onboard(student.getEmail(),Major.IT,Level.ZERO);student=learning.student(student.getEmail());
   for(String page:new String[]{"/dashboard","/path","/lessons/9","/dictionary?q=不具合"})mvc.perform(get(page).with(user(student.getEmail()))).andExpect(status().isOk());
   mvc.perform(get("/lessons/5").with(user(student.getEmail()))).andExpect(status().isNotFound());
-  for(int i=0;i<2;i++)mvc.perform(post("/lessons/9/complete").with(user(student.getEmail())).with(csrf())).andExpect(redirectedUrl("/dashboard"));
+  var session=new org.springframework.mock.web.MockHttpSession();
+  mvc.perform(post("/lessons/9/complete").session(session).with(user(student.getEmail())).with(csrf())).andExpect(status().isConflict());
+  mvc.perform(post("/lessons/9/cards/3/seen").session(session).with(user(student.getEmail())).with(csrf())).andExpect(status().isConflict());
+  mvc.perform(post("/lessons/5/cards/0/seen").session(session).with(user(student.getEmail())).with(csrf())).andExpect(status().isNotFound());
+  jakarta.servlet.http.Cookie[] sessionCookies=new jakarta.servlet.http.Cookie[]{new jakarta.servlet.http.Cookie("unused","none")};
+  for(int i=0;i<3;i++){
+   var response=mvc.perform(post("/lessons/9/cards/"+i+"/seen").cookie(sessionCookies).with(user(student.getEmail())).with(csrf()))
+    .andExpect(status().isOk()).andExpect(jsonPath("$.complete").value(false)).andReturn().getResponse();
+   var cookie=response.getCookie("SANKA_SESSION");if(cookie!=null)sessionCookies=new jakarta.servlet.http.Cookie[]{cookie};
+   assertThat(learning.completed(student)).isEmpty();
+  }
+  mvc.perform(get("/lessons/9").cookie(sessionCookies).with(user(student.getEmail())))
+   .andExpect(status().isOk()).andExpect(model().attribute("studied",3));
+  mvc.perform(post("/lessons/9/cards/3/seen").cookie(sessionCookies).with(user(student.getEmail())).with(csrf()))
+   .andExpect(status().isOk()).andExpect(jsonPath("$.complete").value(true));
+  for(int i=0;i<2;i++)mvc.perform(post("/lessons/9/complete").cookie(sessionCookies).with(user(student.getEmail())).with(csrf())).andExpect(redirectedUrl("/dashboard"));
   assertThat(learning.completed(student)).containsExactly(9L);
   mvc.perform(post("/register").with(csrf()).param("name","Binh").param("email","binh@example.com").param("password","password123")).andExpect(status().is3xxRedirection());
   var other=students.findByEmail("binh@example.com").orElseThrow(); assertThat(learning.completed(other)).isEmpty();

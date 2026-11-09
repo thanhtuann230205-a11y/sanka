@@ -1,5 +1,9 @@
 // UI copy only. Learning material and user-authored content remain unchanged.
 window.SankaUiTranslations = [
+ ['Thẻ trước','Previous card','前のカード'],['Thẻ tiếp','Next card','次のカード'],
+ ['Xem nghĩa','Show meaning','意味を見る'],['Ôn lại','Review','復習する'],
+ ['Đã hoàn thành bài học','Lesson completed','レッスン完了'],
+ ['Bật JavaScript để học flashcard.','Enable JavaScript to study flashcards.','カード学習にはJavaScriptを有効にしてください。'],
  ['Tiếng Nhật kỹ thuật','Technical Japanese','技術日本語'],
  ['Đăng nhập','Log in','ログイン'],['Bắt đầu học','Start learning','学習を始める'],['Lộ trình','Learning path','学習の流れ'],
  ['Kiểm tra đầu vào','Placement test','レベルチェック'],['Xác định trình độ của bạn.','Find your current level.','現在の日本語レベルを確認。'],

@@ -1,1 +1,20 @@
-<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/layout :: head('Bài học')}"></head><body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace"><header th:replace="~{fragments/layout :: topbar}"></header><main><a class="back" href="/path"> Lộ trình của tôi</a><article class="card lesson-player"><span class="eyebrow" th:text="${lesson.level.label + ' / ' + lesson.minutes + ' PHÚT'}"></span><h1 data-i18n-ignore th:text="${lesson.title}"></h1><span class="pill">HỌC LIỆU MẪU</span><div data-i18n-ignore class="lesson-content" th:text="${lesson.content}"></div><form th:action="@{/lessons/{id}/complete(id=${lesson.id})}" method="post"><button class="button" th:disabled="${done}" th:text="${done ? '✓ Đã hoàn thành' : 'Đánh dấu hoàn thành · +20 XP'}"></button></form><p th:if="${lesson.major != null}"><a href="/specialized/TERMS">Từ vựng và thuật ngữ chuyên ngành </a></p><p class="muted">Đọc nội dung và thực hành trước khi xác nhận hoàn thành.</p></article></main></div></body></html>
+﻿<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Flashcard')}"></head>
+<body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
+<header th:replace="~{fragments/layout :: topbar}"></header><main>
+<link rel="stylesheet" th:href="@{/css/flashcards.css}">
+<a class="back" href="/path">Lộ trình học</a>
+<article class="card flashcard-player" id="flashcard-player" th:attr="data-lesson-id=${lesson.id},data-studied=${studied},data-done=${done}">
+ <span class="eyebrow" th:text="${lesson.level.label}"></span><h1 data-i18n-ignore th:text="${lesson.title}"></h1>
+ <div class="flashcard-progress"><span id="flashcard-count" aria-live="polite"></span><span id="flashcard-studied"></span></div>
+ <progress id="flashcard-progress" th:max="${#lists.size(cards)}" th:value="${studied}" aria-label="Tiến độ bài học"></progress>
+ <section class="word-card" th:each="card,stat : ${cards}" th:hidden="${stat.index != 0}" th:attr="data-index=${stat.index}">
+  <span class="pill">日本語</span><h2 data-i18n-ignore lang="ja" th:text="${card.word}"></h2>
+  <div class="word-answer" hidden><p data-i18n-ignore class="word-reading" lang="ja" th:text="${card.reading}"></p><h3 data-i18n-ignore th:text="${card.meaning}"></h3><p data-i18n-ignore class="word-example" lang="ja" th:text="${card.example}"></p></div>
+ </section>
+ <div class="flashcard-actions"><button class="button secondary" id="flashcard-previous" type="button">Thẻ trước</button><button class="button" id="flashcard-flip" type="button" aria-expanded="false">Xem nghĩa</button><button class="button" id="flashcard-next" type="button" disabled>Thẻ tiếp</button></div>
+ <p id="flashcard-status" role="status" aria-live="polite"></p>
+ <section id="flashcard-finished" hidden><h2>Đã hoàn thành bài học</h2><a class="button" href="/dashboard">Học tiếp</a><button class="button secondary" type="button" id="flashcard-restart">Ôn lại</button></section>
+ <form id="flashcard-token" th:action="@{/lessons/{id}/complete(id=${lesson.id})}" method="post" hidden></form>
+ <noscript><p>Bật JavaScript để học flashcard.</p></noscript>
+</article></main></div><script th:src="@{/js/flashcards.js}" defer></script></body></html>
