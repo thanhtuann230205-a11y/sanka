@@ -38,6 +38,8 @@ public class MotivationController {
         @RequestParam(required=false) Major major,@RequestParam(required=false) Level level,Model m){
         var s=gamification.student(p.getName());
         m.addAttribute("ranking",gamification.leaderboard(s.getId(),period,major,level));
+        var weekStart=gamification.today().with(java.time.temporal.TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        m.addAttribute("weekStart",weekStart);m.addAttribute("weekEnd",weekStart.plusDays(6));
         m.addAttribute("period",period);m.addAttribute("selectedMajor",major);m.addAttribute("selectedLevel",level);
         m.addAttribute("majors",Major.values());m.addAttribute("levels",Level.values());m.addAttribute("profile",gamification.profile(s.getId()));
         return "leaderboard";
