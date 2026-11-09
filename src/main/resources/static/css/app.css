@@ -10,7 +10,11 @@
 .journey-aligned{grid-template-rows:auto repeat(var(--journey-rows,8),minmax(190px,1fr));gap:20px 24px}
 .journey-aligned>section{display:grid;grid-template-rows:subgrid;grid-row:1/-1;min-width:0}
 .journey-aligned>section>h2{margin:0;align-self:start}
-.journey-aligned .card{margin:0;min-width:0;height:100%;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start}
+.journey-aligned .card{margin:0;min-width:0;height:100%;box-sizing:border-box;display:grid;grid-template-rows:28px auto 1fr auto;justify-items:start;align-items:start}
+.journey-aligned .card>.pill{grid-row:1}
+.journey-aligned .card>h3{grid-row:2;margin:22px 0 0}
+.journey-aligned .card>p{grid-row:3}
+.journey-aligned .card>a{grid-row:4}
 .journey-aligned .card .button,.journey-aligned .card>a{margin-top:auto}
 .journey-aligned .card p{margin-bottom:16px}
 @media(max-width:850px){.journey-aligned{display:block}.journey-aligned>section{display:block}.journey-aligned>section>h2{margin:24px 0 16px}.journey-aligned .card{min-height:190px;height:auto;margin-bottom:20px}}
