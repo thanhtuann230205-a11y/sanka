@@ -8,7 +8,7 @@
   <main>
 
     <h1>Lộ trình học</h1>
-    <p>Ngành <b th:text="${student.major == null ? 'Chưa chọn (cần đạt S4)' : student.major.label}"></b> · Trình độ đã phân luồng:
+    <p>Ngành: <b th:text="${student.major == null ? 'Chưa chọn (cần đạt S4)' : student.major.label}"></b>, Trình độ:
       <b th:text="${student.placementCompleted ? student.level.label : 'Chưa kiểm tra đầu vào'}"></b></p>
 
     <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Học chuyên ngành theo 6 bước</h2><a class="button" href="/specialized">Mở khu vực học chuyên ngành </a></section>
@@ -16,13 +16,13 @@
       <h2>Đã hoàn thành chu trình học hiện tại</h2>
 
     </section>
-    <div class="journey-grid">
+    <div class="journey-grid journey-aligned" th:style="${'--journey-rows: ' + #lists.size(steps)}">
       <section>
         <h2>Bài kiểm tra</h2>
         <article class="card" th:each="step : ${steps}">
           <span class="pill" th:text="${step.passed ? '✓ Đã đạt' : (step.allowed ? 'Có thể bắt đầu' : '🔒 Chưa mở')}"></span>
           <h3 class="spaced" th:text="${step.stage.label}"></h3>
-          <p th:if="${!step.allowed and !step.passed}" th:text="${step.prerequisite}"></p>
+          <p th:if="${!step.allowed and !step.passed}" th:text="${#strings.replace(step.prerequisite, ';', ',')}"></p>
           <a class="button" th:if="${step.allowed}" th:href="@{/exams/{stage}(stage=${step.stage})}"
              th:text="${step.passed ? 'Ôn tập / kiểm tra lại' : 'Học và kiểm tra '}"></a>
         </article>
@@ -42,7 +42,7 @@
         </article>
         <article class="card" th:if="${student.level.ordinal() < 2}">
           <h3>Tiếp tục học nền tảng</h3>
-          <p>Hoàn thành cơ bản S5 rồi cơ bản S4; kiểm tra đạt S4 để chọn chuyên ngành.</p>
+          <p>Hoàn thành cơ bản S5 rồi cơ bản S4, kiểm tra đạt S4 để chọn chuyên ngành.</p>
           <a href="/path">Mở danh sách bài học </a>
         </article>
         <article class="card">
