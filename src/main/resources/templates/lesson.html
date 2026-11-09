@@ -5,7 +5,7 @@
 <link rel="stylesheet" th:href="@{/css/flashcards.css}">
 <a class="back" href="/path">Lộ trình học</a>
 <article class="card flashcard-player" id="flashcard-player" th:attr="data-lesson-id=${lesson.id},data-studied=${studied},data-done=${done}">
- <span class="eyebrow" th:if="${lesson.level.name() != 'ZERO'}" th:text="${lesson.level.label}"></span><h1 data-i18n-ignore th:text="${lesson.title}"></h1>
+ <h1 data-i18n-ignore th:text="${#strings.replace(#strings.replace(lesson.title, 'S4 · ', ''), 'S5 · ', '')}"></h1>
  <div class="flashcard-progress"><span id="flashcard-count" aria-live="polite"></span><span id="flashcard-studied"></span></div>
  <progress id="flashcard-progress" th:max="${#lists.size(cards)}" value="1" aria-label="Vị trí thẻ đang xem"></progress>
  <section class="word-card" th:each="card,stat : ${cards}" th:hidden="${stat.index != 0}" th:attr="data-index=${stat.index}">
