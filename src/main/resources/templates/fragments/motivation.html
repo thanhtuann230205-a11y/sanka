@@ -1,13 +1,17 @@
 <!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><body>
-<section class="grid three stats" th:fragment="summary">
+<section class="grid three stats compact-motivation" th:fragment="summary">
  <article class="card"><span>Chuỗi ngày học</span><strong th:text="${motivation.currentStreak + ' ngày'}"></strong></article>
  <article class="card"><span>XP</span><strong th:text="${motivation.totalXp}"></strong></article>
- <article class="card"><span>Mục tiêu ngày</span><strong th:text="${motivation.todayXp + '/' + motivation.targetXp + ' XP'}"></strong><progress max="100" th:value="${motivation.goalPercent}"></progress>
-  <form class="daily-goal-editor" th:if="${editDailyGoal == true}" th:action="@{/motivation/goal}" method="post">
+ <div class="goal-summary-cell">
+ <article class="card"><span>Mục tiêu ngày</span><strong th:text="${motivation.todayXp + '/' + motivation.targetXp + ' XP'}"></strong><progress max="100" th:value="${motivation.goalPercent}"></progress></article>
+ <details class="daily-goal-toggle" th:if="${editDailyGoal == true}">
+  <summary>Thay đổi mục tiêu</summary>
+  <form class="daily-goal-editor" th:action="@{/motivation/goal}" method="post">
    <label for="daily-goal-target">Mục tiêu XP mỗi ngày</label>
    <div class="daily-goal-controls"><input id="daily-goal-target" name="targetXp" type="number" min="20" max="200" th:value="${motivation.targetXp}" aria-describedby="daily-goal-range" required><button class="button" type="submit">Lưu mục tiêu</button></div>
    <small id="daily-goal-range">20–200 XP/ngày.</small>
   </form>
- </article>
+ </details>
+ </div>
 </section>
 </body></html>
