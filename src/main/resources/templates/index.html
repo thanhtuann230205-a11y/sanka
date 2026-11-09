@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Tiếng Nhật kỹ thuật')}"></head>
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tiếng Nhật kỹ thuật · Sanka</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <link rel="stylesheet" th:href="@{/css/home-language.css}">
+  <script th:src="@{/js/home-language.js}" defer></script>
+</head>
 <body><main class="public-main">
-  <header class="landing-nav"><a class="brand" href="/">三 SANKA.</a><a href="/login">Đăng nhập ↗</a></header>
+  <header class="landing-nav">
+    <a class="brand" href="/">三 SANKA</a>
+    <div class="landing-actions">
+      <div class="language-switch" role="group" aria-label="Ngôn ngữ" data-language-switch>
+        <button type="button" data-language="ja" lang="ja" aria-label="日本語" aria-pressed="false"><span aria-hidden="true">🇯🇵</span> 日本語</button>
+        <button type="button" data-language="en" lang="en" aria-label="English" aria-pressed="false"><span aria-hidden="true">🇬🇧</span> EN</button>
+        <button type="button" data-language="vi" lang="vi" aria-label="Tiếng Việt" aria-pressed="true"><span aria-hidden="true">🇻🇳</span> VI</button>
+      </div>
+      <a href="/login" data-i18n="login">Đăng nhập</a>
+    </div>
+  </header>
   <section class="landing-hero">
-    <h1>Tiếng Nhật kỹ thuật</h1>
-    <a class="button" href="/register">Bắt đầu học &nbsp; →</a>
-    <a class="button secondary" href="#journey">Lộ trình</a>
+    <h1 data-i18n="title">Tiếng Nhật kỹ thuật</h1>
+    <a class="button" href="/register" data-i18n="start">Bắt đầu học</a>
+    <a class="button secondary" href="#journey" data-i18n="journey">Lộ trình</a>
   </section>
   <section class="grid three" id="journey">
-    <article class="card"><span class="eyebrow">01</span><h2>Kiểm tra đầu vào</h2><p>Xác định trình độ của bạn.</p></article>
-    <article class="card"><span class="eyebrow">02</span><h2>Chọn chuyên ngành</h2><p>Mở khi đạt S4 trở lên.</p></article>
-    <article class="card"><span class="eyebrow">03</span><h2>Thực hành</h2><p>Tiếng Nhật trong công việc.</p></article>
+    <article class="card"><span class="eyebrow">01</span><h2 data-i18n="placement">Kiểm tra đầu vào</h2><p data-i18n="placementDescription">Xác định trình độ của bạn.</p></article>
+    <article class="card"><span class="eyebrow">02</span><h2 data-i18n="major">Chọn chuyên ngành</h2><p data-i18n="majorDescription">Mở khi đạt S4 trở lên.</p></article>
+    <article class="card"><span class="eyebrow">03</span><h2 data-i18n="practice">Thực hành</h2><p data-i18n="practiceDescription">Tiếng Nhật trong công việc.</p></article>
   </section>
-  <footer>SANKA.</footer>
+  <footer>SANKA</footer>
 </main></body></html>

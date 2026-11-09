@@ -1,0 +1,6 @@
+.landing-actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.language-switch{display:flex;gap:4px;padding:4px;background:#eef2ff;border-radius:12px}
+.language-switch button{border:0;border-radius:8px;background:transparent;color:var(--muted);padding:7px 9px;font-size:12px;cursor:pointer;white-space:nowrap}
+.language-switch button[aria-pressed="true"]{background:white;color:var(--blue);box-shadow:0 1px 4px #14233c12}
+.language-switch button:hover{color:var(--blue)}
+@media(max-width:600px){.landing-nav{flex-wrap:wrap;gap:18px}.landing-actions{gap:14px}.language-switch button{padding:6px 8px}}
