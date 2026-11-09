@@ -18,6 +18,7 @@ class LearningFlowTest {
  @Autowired WorkflowService workflow; @Autowired LearningCatalog catalog;
  @Test void publicPagesAndSecurity() throws Exception {
   for(String page:new String[]{"/","/login","/register"})mvc.perform(get(page)).andExpect(status().isOk());
+  mvc.perform(get("/images/japan-hero-v2.jpg")).andExpect(status().isOk()).andExpect(content().contentType("image/jpeg"));
   mvc.perform(get("/dashboard")).andExpect(status().is3xxRedirection());
   mvc.perform(post("/register")).andExpect(status().isForbidden());
  }

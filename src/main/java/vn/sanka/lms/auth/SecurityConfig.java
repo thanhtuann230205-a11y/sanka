@@ -10,7 +10,7 @@ public class SecurityConfig {
  @Bean PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();}
  @Bean UserDetailsService users(StudentRepository students){return email -> students.findByEmail(email.toLowerCase(java.util.Locale.ROOT)).map(s -> User.withUsername(s.getEmail()).password(s.getPassword()).roles(s.getRole()).build()).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy tài khoản"));}
  @Bean SecurityFilterChain security(HttpSecurity http) throws Exception {
-  return http.authorizeHttpRequests(a -> a.requestMatchers("/","/login","/register","/css/**","/js/**","/error").permitAll().requestMatchers("/instructor/**").hasRole("INSTRUCTOR").anyRequest().authenticated())
+  return http.authorizeHttpRequests(a -> a.requestMatchers("/","/login","/register","/css/**","/js/**","/images/**","/error").permitAll().requestMatchers("/instructor/**").hasRole("INSTRUCTOR").anyRequest().authenticated())
    .formLogin(f -> f.loginPage("/login").defaultSuccessUrl("/start",true).permitAll())
    .logout(l -> l.logoutSuccessUrl("/?logout")).build();
  }
