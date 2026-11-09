@@ -16,8 +16,6 @@
 .auth-page .auth form>.button{width:100%}
 .auth-page .auth>p:last-child{margin-top:24px;margin-bottom:0}
 @media(max-width:720px){.auth-page .public-main{gap:24px}.auth-page .auth{margin:auto}}
-.home-brand-mark{color:#16366c}
-.home-brand-name{display:inline-block;line-height:1.15;background:linear-gradient(180deg,#102d65 0%,#234e91 38%,#d2a847 72%,#f0c142 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 .home-page .landing-hero{position:relative;padding-top:115px;padding-bottom:100px}
 .home-page .landing-hero h1{max-width:690px;text-wrap:balance}
 .home-page #journey .card{background:#fffffff0;border-color:#ffffff;box-shadow:0 12px 36px #1b366410;backdrop-filter:blur(10px)}
@@ -28,4 +26,4 @@
 .home-page #journey .card:nth-child(2) .home-step-icon{background:#f0f1ff;border-color:#e0e1f8;color:#5b5d9e}
 .home-page #journey .card:nth-child(3) .home-step-icon{background:#eef4ff;border-color:#dbe6fa;color:#305ba5}
 @media(max-width:720px){.japan-background{height:680px;opacity:.8}.japan-background img{object-position:70% center}.japan-background:after{background:linear-gradient(90deg,#f7f9fdd9,#f7f9fd66),linear-gradient(180deg,#f7f9fd10 30%,#f7f9fd 100%)}.home-page .landing-hero{padding-top:72px;padding-bottom:65px}.home-page .landing-hero h1{font-size:42px;max-width:100%}.home-card-top{margin-bottom:12px}}
-@media(forced-colors:active){.home-brand-name{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText}.japan-background{display:none}}
+@media(forced-colors:active){.japan-background{display:none}}

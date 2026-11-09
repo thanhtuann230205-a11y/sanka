@@ -1,4 +1,15 @@
 .landing-actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.home-brand-mark{color:#16366c}
+.home-brand-name{display:inline-block;line-height:1.15;background:linear-gradient(180deg,#102d65 0%,#234e91 38%,#d2a847 72%,#f0c142 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.sidebar .brand{gap:10px}
+.sidebar nav a{display:flex;align-items:center;gap:10px;font-size:14px;line-height:1.4}
+.nav-icon{flex:none;width:21px;height:21px;fill:none;stroke:#305ba5;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.sidebar nav a:hover .nav-icon{stroke:#204d88}
+.sidebar>form{margin-top:auto;padding-top:24px}
+.workspace{min-height:100vh;background-image:linear-gradient(90deg,#f7f9fdf7,#f7f9fdec),url('/images/japan-hero-v2.jpg');background-position:right top;background-size:cover;background-attachment:fixed}
+.workspace>.topbar{background:#ffffffed}
+@media(max-width:720px){.sidebar nav a{display:inline-flex}.sidebar>form{margin:0;padding:0}.workspace{background-attachment:scroll}}
+@media(forced-colors:active){.home-brand-name{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText}.nav-icon{stroke:LinkText}.workspace{background-image:none}}
 .language-control{display:flex;align-items:center;flex:none}
 .quiz-intro{grid-template-columns:minmax(0,760px);justify-content:center;min-height:360px}
 .quiz-intro .intro-copy h1{font-size:40px;letter-spacing:-1px}
