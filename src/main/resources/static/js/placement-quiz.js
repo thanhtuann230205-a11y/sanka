@@ -137,11 +137,11 @@
       announcement.textContent = `Câu ${missing + 1} chưa có đáp án. Hãy hoàn thành tất cả câu hỏi trước khi nộp.`;
       return;
     }
-    submitting = true; submit.disabled = true; submit.textContent = 'Đang xác định lộ trình…';
+    submitting = true; submit.disabled = true; submit.textContent = 'Đang chấm bài…';
     persist(); // Keep a copy until the server confirms success on the result page.
   });
   window.addEventListener('pageshow', () => {
-    submitting = false; submit.disabled = false; submit.textContent = 'Nộp bài & xem lộ trình';
+    submitting = false; submit.disabled = false; submit.textContent = 'Nộp bài';
   });
   if (!error.hidden) {
     started = true; index = Math.max(0, panels.findIndex(panel => !chosen(panel)));

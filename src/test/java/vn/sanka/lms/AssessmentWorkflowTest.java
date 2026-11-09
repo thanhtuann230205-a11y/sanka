@@ -125,7 +125,19 @@ class AssessmentWorkflowTest {
         mvc.perform(get("/exams/N4").with(user(s.getEmail()))).andExpect(status().isForbidden());
         assertThat(learning.available(s)).noneMatch(l->l.getLevel()==Level.N4);
         for(var l:learning.available(s))learning.complete(s.getEmail(),l.getId());
+        mvc.perform(get("/exams/N5").with(user(s.getEmail())))
+            .andExpect(status().isOk()).andExpect(view().name("placement-quiz"))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("action=\"/exams/N5\"")));
+        mvc.perform(post("/exams/N5").with(user(s.getEmail())).with(csrf()).param("answer_n5a","0"))
+            .andExpect(status().isBadRequest()).andExpect(view().name("placement-quiz"))
+            .andExpect(model().attributeExists("submittedAnswers","quizError"));
         var fail=workflow.submitExam(s.getEmail(),Stage.N5,answers(Stage.N5,Major.IT,false));
+        mvc.perform(get("/results/"+fail.getId()).with(user(s.getEmail())))
+            .andExpect(status().isOk()).andExpect(view().name("foundation-result"))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("Chưa đạt S5")));
+        mvc.perform(get("/results/"+fail.getId()+"/review").with(user(s.getEmail())))
+            .andExpect(status().isOk()).andExpect(view().name("placement-review"))
+            .andExpect(model().attributeExists("summary"));
         assertThat(fail.isPassed()).isFalse();assertThat(learning.student(s.getEmail()).getLevel()).isEqualTo(Level.ZERO);
         pass(s.getEmail(),Stage.N5);
         s=learning.student(s.getEmail());assertThat(s.getLevel()).isEqualTo(Level.N5);
