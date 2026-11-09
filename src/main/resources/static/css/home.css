@@ -13,6 +13,6 @@
 .home-step-icon{display:grid;place-items:center;width:48px;height:48px;border:1px solid #dbe6fa;border-radius:14px;background:#eef4ff;color:#305ba5}
 .home-step-icon svg{width:27px;height:27px}
 .home-page #journey .card:nth-child(2) .home-step-icon{background:#f0f1ff;border-color:#e0e1f8;color:#5b5d9e}
-.home-page #journey .card:nth-child(3) .home-step-icon{background:#fff7e7;border-color:#f2e4c4;color:#9e772b}
+.home-page #journey .card:nth-child(3) .home-step-icon{background:#eef4ff;border-color:#dbe6fa;color:#305ba5}
 @media(max-width:720px){.japan-background{top:100px;opacity:.48}.japan-background svg{width:650px;max-width:none;transform:translateX(125px)}.home-page .landing-hero{padding-top:72px;padding-bottom:65px}.home-page .landing-hero h1{font-size:42px;max-width:100%}.home-card-top{margin-bottom:12px}}
 @media(forced-colors:active){.home-brand-name{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText}.japan-background{display:none}}
