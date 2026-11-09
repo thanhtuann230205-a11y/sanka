@@ -5,6 +5,7 @@
 .word-card{text-align:center;min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;border:1px solid #dfe5ff;border-radius:24px;background:linear-gradient(145deg,#f1f4ff,#fff);overflow-wrap:anywhere}
 .word-card h2{font-size:clamp(36px,7vw,62px);margin:24px 0;color:#263d91;line-height:1.5}
 .word-card h3{font-size:24px;margin:10px 0}.word-reading{color:#4960e8}.word-example{color:#64748b;line-height:1.8}
+.word-detail{margin:18px 0}.word-label{display:block;font-size:12px;font-weight:600;color:#64748b;letter-spacing:.03em}.word-detail p{margin:8px 0}
 .word-answer{animation:card-reveal .2s ease-out}.flashcard-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:24px}.flashcard-actions button:disabled{opacity:.45;cursor:not-allowed}
 #flashcard-finished{text-align:center;padding:24px 0}#flashcard-status{min-height:24px;text-align:center;color:#64748b}
 .flashcard-finish-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;margin-top:20px}

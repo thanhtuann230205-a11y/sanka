@@ -1,5 +1,6 @@
 // UI copy only. Learning material and user-authored content remain unchanged.
 window.SankaUiTranslations = [
+ ['Cách đọc','Reading','読み方'],['Nghĩa tiếng Việt','Vietnamese meaning','ベトナム語の意味'],['Ví dụ','Example','例文'],['Vị trí thẻ đang xem','Current card position','現在のカード位置'],
  ['Thẻ trước','Previous card','前のカード'],['Thẻ tiếp','Next card','次のカード'],
  ['Xem nghĩa','Show meaning','意味を見る'],['Ôn lại','Review','復習する'],
  ['Đã hoàn thành bài học','Lesson completed','レッスン完了'],

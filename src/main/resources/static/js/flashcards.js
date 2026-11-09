@@ -10,8 +10,8 @@
   cards.forEach((card,i)=>{card.hidden=i!==index;card.querySelector('.word-answer').hidden=true;});
   flip.hidden=false;flip.setAttribute('aria-expanded','false');next.disabled=true;previous.disabled=index===0;
   document.getElementById('flashcard-count').textContent=`Thẻ ${index+1} / ${cards.length}`;
-  document.getElementById('flashcard-studied').textContent=`Đã học ${studied}/${cards.length}`;
-  document.getElementById('flashcard-progress').value=studied;
+  document.getElementById('flashcard-studied').textContent=`${Math.round((index+1)*100/cards.length)}%`;
+  document.getElementById('flashcard-progress').value=index+1;
   next.textContent=index===cards.length-1?'Hoàn thành':'Thẻ tiếp';
   status.textContent='';finished.hidden=true;root.querySelector('.flashcard-actions').hidden=false;
  }
@@ -29,7 +29,7 @@
    if(!response.ok)throw new Error('Chưa lưu được. Hãy thử lại hoặc tải lại trang.');
    const result=await response.json();studied=result.studied;
    if(index===cards.length-1&&result.complete){
-    document.getElementById('flashcard-progress').value=studied;document.getElementById('flashcard-studied').textContent=`Đã học ${studied}/${cards.length}`;
+    document.getElementById('flashcard-progress').value=cards.length;document.getElementById('flashcard-studied').textContent='100%';
     finished.hidden=false;root.querySelector('.flashcard-actions').hidden=true;status.textContent='';
    }else{index++;show();}
   }catch(error){status.textContent=error.message;next.disabled=false;previous.disabled=index===0;}
