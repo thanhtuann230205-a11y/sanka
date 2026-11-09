@@ -5,12 +5,27 @@
   <title>Tiếng Nhật kỹ thuật · Sanka</title>
   <link rel="stylesheet" th:href="@{/css/app.css}">
   <link rel="stylesheet" th:href="@{/css/home-language.css}">
+  <link rel="stylesheet" th:href="@{/css/home.css}">
   <script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script>
 </head>
-<body><main class="public-main">
+<body class="home-page">
+<div class="japan-background" aria-hidden="true">
+  <svg viewBox="0 0 900 600" fill="none" focusable="false">
+    <defs><linearGradient id="fuji-wash" x1="450" y1="240" x2="450" y2="530" gradientUnits="userSpaceOnUse"><stop stop-color="#c8d8ee"/><stop offset="1" stop-color="#edf3fa"/></linearGradient></defs>
+    <circle cx="640" cy="180" r="106" fill="#e8a6a0" opacity=".3"/>
+    <circle cx="640" cy="180" r="125" stroke="#e6b5ae" opacity=".22"/>
+    <path d="M120 485 450 215 785 485Z" fill="url(#fuji-wash)"/>
+    <path d="m450 215-95 78 50-9 25 19 23-32 28 18 29-13 37 17Z" fill="#fff" opacity=".9"/>
+    <path d="M45 495c120-38 185 25 310 0s205-36 335-8 160 14 205-1M0 523c145-38 210 24 345 0s215-28 335-4 165 13 220 0M20 551c110-23 215 18 325 0s215-23 330-3 175 12 225-2" stroke="#afc6e2" stroke-width="2" opacity=".45"/>
+    <path d="M900 45c-65 10-101 36-140 81m45-48-14-42m-17 75-51-8" stroke="#c9a5a0" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+    <g fill="#ecc6cf" opacity=".7"><circle cx="791" cy="36" r="12"/><circle cx="806" cy="29" r="10"/><circle cx="807" cy="45" r="11"/><circle cx="725" cy="102" r="11"/><circle cx="712" cy="95" r="9"/><circle cx="712" cy="111" r="10"/></g>
+    <g fill="#e6bcc7" opacity=".55"><ellipse cx="679" cy="61" rx="5" ry="9" transform="rotate(-30 679 61)"/><ellipse cx="749" cy="177" rx="5" ry="9" transform="rotate(35 749 177)"/><ellipse cx="841" cy="211" rx="4" ry="8" transform="rotate(-25 841 211)"/></g>
+  </svg>
+</div>
+<main class="public-main">
 
   <header class="landing-nav">
-    <a class="brand" href="/">三 SANKA</a>
+    <a class="brand" href="/" aria-label="SANKA"><span class="home-brand-mark" aria-hidden="true">三</span><span class="home-brand-name">SANKA</span></a>
     <div class="landing-actions">
 <div th:replace="~{fragments/language :: switcher}"></div>
       <a href="/login" data-i18n="login">Đăng nhập</a>
@@ -22,9 +37,9 @@
     <a class="button secondary" href="#journey" data-i18n="journey">Lộ trình</a>
   </section>
   <section class="grid three" id="journey">
-    <article class="card"><span class="eyebrow">01</span><h2 data-i18n="placement">Kiểm tra đầu vào</h2><p data-i18n="placementDescription">Xác định trình độ của bạn.</p></article>
-    <article class="card"><span class="eyebrow">02</span><h2 data-i18n="major">Chọn chuyên ngành</h2><p data-i18n="majorDescription">Mở khi đạt S4 trở lên.</p></article>
-    <article class="card"><span class="eyebrow">03</span><h2 data-i18n="practice">Thực hành</h2><p data-i18n="practiceDescription">Tiếng Nhật trong công việc.</p></article>
+    <article class="card"><div class="home-card-top"><span class="eyebrow">01</span><span class="home-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m8 14 3 3 5-6"/></svg></span></div><h2 data-i18n="placement">Kiểm tra đầu vào</h2><p data-i18n="placementDescription">Xác định trình độ của bạn.</p></article>
+    <article class="card"><div class="home-card-top"><span class="eyebrow">02</span><span class="home-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m2 9 10-5 10 5-10 5-10-5Z"/><path d="M6 11v6c4 3 8 3 12 0v-6M22 9v7"/></svg></span></div><h2 data-i18n="major">Chọn chuyên ngành</h2><p data-i18n="majorDescription">Mở khi đạt S4 trở lên.</p></article>
+    <article class="card"><div class="home-card-top"><span class="eyebrow">03</span><span class="home-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11a8 8 0 0 1-8 8H8l-5 3 1-6a8 8 0 1 1 17-5Z"/><path d="M8 9h8M8 13h5"/></svg></span></div><h2 data-i18n="practice">Thực hành</h2><p data-i18n="practiceDescription">Tiếng Nhật trong công việc.</p></article>
   </section>
   <footer>SANKA</footer>
 </main></body></html>
