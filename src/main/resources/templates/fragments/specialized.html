@@ -8,7 +8,7 @@
   <article class="card" th:each="work : ${evidence}"><h3 th:text="${work.kind.label}"></h3>
     <p th:text="${'Ngôn ngữ ' + work.languageScore + '/5 · Kỹ thuật ' + work.technicalScore + '/5 · Giao tiếp ' + work.communicationScore + '/5 · Nhiệm vụ ' + work.taskScore + '/5'}"></p>
     <span class="pill" th:text="${work.status == 'PASSED' ? 'Đạt' : 'Cần sửa'}"></span>
-    <p class="preline spaced" th:text="${work.feedback}"></p><details><summary>Xem bài làm</summary><div class="preline" th:text="${work.response}"></div></details>
+    <p data-i18n-ignore class="preline spaced" th:text="${work.feedback}"></p><details><summary>Xem bài làm</summary><div data-i18n-ignore class="preline" th:text="${work.response}"></div></details>
   </article>
   <article class="card"><h3>Kết quả kiểm tra kiến thức</h3><div class="lesson-row" th:each="attempt : ${attempts}"><span th:text="${attempt.stage.label}"></span><a class="row-end" th:href="@{/results/{id}(id=${attempt.id})}" th:text="${attempt.score + '/100 · Xem minh chứng'}"></a></div><a href="/competency">Xem toàn bộ lịch sử →</a></article>
 </section>

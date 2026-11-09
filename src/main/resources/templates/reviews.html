@@ -10,8 +10,8 @@
   <article class="card" th:each="s : ${submissions}">
     <h2 th:text="${s.kind.label + ' · ' + s.major.label}"></h2>
     <small th:text="${'Bài #' + s.id + ' · Học viên #' + s.studentId + ' · ' + #temporals.format(s.createdAt,'dd/MM/yyyy HH:mm')}"></small>
-    <details class="spaced"><summary>Đề bài</summary><div class="preline" th:text="${@learningCatalog.prompt(s.kind,s.major)}"></div></details>
-    <div class="preline submitted-work" th:text="${s.response}"></div>
+    <details class="spaced"><summary>Đề bài</summary><div data-i18n-ignore class="preline" th:text="${@learningCatalog.prompt(s.kind,s.major)}"></div></details>
+    <div data-i18n-ignore class="preline submitted-work" th:text="${s.response}"></div>
     <form th:action="@{/instructor/reviews/{id}(id=${s.id})}" method="post">
       <div class="grid two">
         <label>Ngôn ngữ (0–5)<input type="number" name="language" min="0" max="5" required></label>

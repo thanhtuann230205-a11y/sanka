@@ -8,15 +8,15 @@
     <section th:case="'TERMS'">
       <p>Đọc Kanji và cách đọc, tự nhớ nghĩa rồi mở thẻ để kiểm tra. Lưu những từ cần luyện thêm.</p>
       <article class="card"><h2>Bài mở đầu chuyên ngành</h2>
-        <a class="lesson-row" th:each="lesson : ${introductions}" th:href="@{/lessons/{id}(id=${lesson.id})}"><b th:text="${lesson.title}"></b><span class="row-end" th:text="${completed.contains(lesson.id) ? '✓ Đã hoàn thành' : 'Đọc và hoàn thành →'}"></span></a>
+        <a class="lesson-row" th:each="lesson : ${introductions}" th:href="@{/lessons/{id}(id=${lesson.id})}"><b data-i18n-ignore th:text="${lesson.title}"></b><span class="row-end" th:text="${completed.contains(lesson.id) ? '✓ Đã hoàn thành' : 'Đọc và hoàn thành →'}"></span></a>
       </article>
       <div class="section-heading"><h2>Thẻ thuật ngữ</h2><a th:href="${savedOnly ? '/specialized/TERMS' : '/specialized/TERMS?savedOnly=true'}" th:text="${savedOnly ? 'Xem tất cả từ' : 'Chỉ xem từ đã lưu'}"></a></div>
       <div class="grid two">
         <article class="card term" th:each="term : ${terms}">
-          <h2 lang="ja" th:text="${term.japanese}"></h2><small lang="ja" th:text="${term.reading}"></small>
-          <details class="spaced"><summary>Hiện nghĩa và ví dụ</summary><h3 class="spaced" th:text="${term.vietnamese}"></h3>
-            <p lang="ja" th:text="${@specializationContent.explanation(term.japanese)}"></p>
-            <p lang="ja" th:text="${term.example}"></p>
+          <h2 data-i18n-ignore lang="ja" th:text="${term.japanese}"></h2><small data-i18n-ignore lang="ja" th:text="${term.reading}"></small>
+          <details class="spaced"><summary>Hiện nghĩa và ví dụ</summary><h3 data-i18n-ignore class="spaced" th:text="${term.vietnamese}"></h3>
+            <p data-i18n-ignore lang="ja" th:text="${@specializationContent.explanation(term.japanese)}"></p>
+            <p data-i18n-ignore lang="ja" th:text="${term.example}"></p>
           </details>
           <form class="spaced" th:action="@{/specialized/terms/{id}/bookmark(id=${term.id})}" method="post">
             <input type="hidden" name="saved" th:value="${!saved.contains(term.id)}"><input type="hidden" name="savedOnly" th:value="${savedOnly}">
@@ -28,8 +28,8 @@
     </section>
     <section th:case="'READING'">
       <p>Đọc văn bản trước, xác định thông tin chính rồi đối chiếu phần giải nghĩa.</p>
-      <article class="card"><span class="eyebrow">BIÊN BẢN KỸ THUẬT · HỌC LIỆU MẪU</span><div class="document-japanese" lang="ja" th:text="${topic.document}"></div>
-        <details class="spaced"><summary>Đối chiếu nghĩa tiếng Việt</summary><p class="spaced" th:text="${translation}"></p></details>
+      <article class="card"><span class="eyebrow">BIÊN BẢN KỸ THUẬT · HỌC LIỆU MẪU</span><div data-i18n-ignore class="document-japanese" lang="ja" th:text="${topic.document}"></div>
+        <details class="spaced"><summary>Đối chiếu nghĩa tiếng Việt</summary><p data-i18n-ignore class="spaced" th:text="${translation}"></p></details>
       </article>
       <section class="grid two">
         <article class="card"><h2>Tìm 4 thông tin</h2><ol><li>Hiện tượng nào được ghi nhận?</li><li>Cần thực hiện hành động nào?</li><li>Cần báo cho ai?</li><li>Điều gì chưa được phép hoặc chưa xác nhận?</li></ol></article>
@@ -38,9 +38,9 @@
       <p class="muted">Tài liệu dùng để luyện đọc tiếng Nhật; quy trình thao tác thực tế cần theo hướng dẫn của đơn vị.</p>
     </section>
     <section th:case="'SITUATION'">
-      <article class="card"><h2>Bối cảnh và vai trò</h2><p>Vai của bạn: kỹ thuật viên. Người trao đổi: trưởng nhóm. Mục tiêu: báo đúng hiện tượng, hỏi lại thông tin và thống nhất bước tiếp theo.</p><div class="document-japanese" lang="ja" th:text="${topic.incident}"></div></article>
+      <article class="card"><h2>Bối cảnh và vai trò</h2><p>Vai của bạn: kỹ thuật viên. Người trao đổi: trưởng nhóm. Mục tiêu: báo đúng hiện tượng, hỏi lại thông tin và thống nhất bước tiếp theo.</p><div data-i18n-ignore class="document-japanese" lang="ja" th:text="${topic.incident}"></div></article>
       <article class="card"><h2>Hội thoại tham khảo</h2>
-        <div class="dialogue-line" th:each="line : ${dialogue}"><b th:text="${line.role}"></b><div><p lang="ja" th:text="${line.japanese}"></p><details><summary>Nghĩa tiếng Việt</summary><p th:text="${line.vietnamese}"></p></details></div></div>
+        <div class="dialogue-line" th:each="line : ${dialogue}"><b th:text="${line.role}"></b><div><p data-i18n-ignore lang="ja" th:text="${line.japanese}"></p><details><summary>Nghĩa tiếng Việt</summary><p data-i18n-ignore th:text="${line.vietnamese}"></p></details></div></div>
       </article>
       <article class="card"><h2>Thực hành hai bước</h2><p>1. Làm bài kiểm tra lựa chọn cách xử lý phù hợp.</p><p>2. Sau khi đạt, viết hội thoại của bạn và nộp cho giảng viên. Hội thoại được chấm đạt sẽ mở phần email và báo cáo.</p></article>
     </section>
@@ -56,7 +56,7 @@
 未確認事項：…
 次の行動・担当・期限：…</div></article>
       </section>
-      <article class="card"><h2>Cùng một bối cảnh, hai cách trình bày</h2><div class="document-japanese" lang="ja" th:text="${topic.document}"></div><p class="spaced">Email được chấm đạt trước khi mở bài báo cáo. Bản nháp có thể lưu để viết tiếp ở lần đăng nhập sau.</p></article>
+      <article class="card"><h2>Cùng một bối cảnh, hai cách trình bày</h2><div data-i18n-ignore class="document-japanese" lang="ja" th:text="${topic.document}"></div><p class="spaced">Email được chấm đạt trước khi mở bài báo cáo. Bản nháp có thể lưu để viết tiếp ở lần đăng nhập sau.</p></article>
     </section>
     <section th:case="'APPLICATION'">
       <article class="card"><h2>Tổng hợp kiến thức và thực hành</h2><p>Bài kiểm tra ứng dụng được mở khi hội thoại, email và báo cáo đã được giảng viên chấm đạt. Dùng các minh chứng dưới đây để nhìn lại điểm mạnh và phần cần cải thiện.</p></article>
@@ -64,7 +64,7 @@
       <section th:replace="~{fragments/specialized :: evidence}"></section>
     </section>
     <section th:case="'ADVANCED'">
-      <article class="card"><span class="eyebrow">CẢI TIẾN VÀ KIỂM CHỨNG</span><div class="preline" th:text="${material}"></div></article>
+      <article class="card"><span class="eyebrow">CẢI TIẾN VÀ KIỂM CHỨNG</span><div data-i18n-ignore class="preline" th:text="${material}"></div></article>
       <section class="grid two"><article class="card"><h2>Từ vấn đề đến đề xuất</h2><ol><li>Ghi hiện trạng bằng dữ liệu.</li><li>Nêu nguyên nhân cần kiểm chứng.</li><li>Đề xuất hành động phù hợp ngành.</li><li>Giao người phụ trách và thời hạn.</li><li>Đo trước/sau, kiểm tra tác động.</li></ol></article>
       <article class="card"><h2>Mẫu diễn đạt</h2><p lang="ja">記録を分析した結果、…</p><p lang="ja">原因を検証するために、…</p><p lang="ja">改善前と改善後を比較します。</p><p lang="ja">この方法を提案いたします。</p><small>Học kiến thức nâng cao, làm kiểm tra, sau đó nộp đề xuất cho giảng viên đánh giá.</small></article></section>
       <section th:replace="~{fragments/specialized :: skills}"></section>
@@ -83,7 +83,7 @@
   <section th:if="${!#lists.isEmpty(tasks)}"><h2>Thực hành và nhận phản hồi</h2>
     <article class="card" th:each="task : ${tasks}">
       <span class="pill" th:text="${task.passed ? '✓ Đã đạt' : (task.status == 'PENDING' ? 'Đang chờ giảng viên chấm' : (task.status == 'REVISION' ? 'Cần sửa bài' : (task.available ? 'Có thể bắt đầu' : '🔒 Chưa mở')))}"></span>
-      <h3 class="spaced" th:text="${task.kind.label}"></h3><p class="preline" th:if="${task.feedback}" th:text="${task.feedback}"></p>
+      <h3 class="spaced" th:text="${task.kind.label}"></h3><p data-i18n-ignore class="preline" th:if="${task.feedback}" th:text="${task.feedback}"></p>
       <a class="button" th:if="${task.available and task.status != 'PENDING'}" th:href="@{/practice/{kind}(kind=${task.kind})}" th:text="${task.status == 'REVISION' ? 'Sửa và nộp lại →' : 'Mở bài viết →'}"></a>
       <a th:if="${task.status == 'PENDING' or task.passed}" href="/competency">Xem bài đã nộp và điểm rubric →</a>
       <small th:unless="${task.available}">Hoàn thành kiểm tra và bài thực hành trước đó để mở.</small>

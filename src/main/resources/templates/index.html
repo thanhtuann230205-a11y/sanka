@@ -5,31 +5,14 @@
   <title>Tiếng Nhật kỹ thuật · Sanka</title>
   <link rel="stylesheet" th:href="@{/css/app.css}">
   <link rel="stylesheet" th:href="@{/css/home-language.css}">
-  <script th:src="@{/js/home-language.js}" defer></script>
+  <script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script>
 </head>
 <body><main class="public-main">
-  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" class="flag-definitions" aria-hidden="true">
-    <defs>
-      <symbol id="flag-ja" viewBox="0 0 60 40"><path fill="#fff" d="M0 0h60v40H0z"/><circle cx="30" cy="20" r="12" fill="#bc002d"/></symbol>
-      <symbol id="flag-vi" viewBox="0 0 60 40"><path fill="#da251d" d="M0 0h60v40H0z"/><path fill="#ff0" d="m30 7 3.1 9.5h10l-8.1 5.9 3.1 9.5-8.1-5.9-8.1 5.9 3.1-9.5-8.1-5.9h10z"/></symbol>
-      <symbol id="flag-en" viewBox="0 0 60 40"><path fill="#012169" d="M0 0h60v40H0z"/><path stroke="#fff" stroke-width="8" d="m0 0 60 40m0-40L0 40"/><path stroke="#c8102e" stroke-width="3" d="m0 0 60 40m0-40L0 40"/><path stroke="#fff" stroke-width="13" d="M30 0v40M0 20h60"/><path stroke="#c8102e" stroke-width="8" d="M30 0v40M0 20h60"/></symbol>
-    </defs>
-  </svg>
+
   <header class="landing-nav">
     <a class="brand" href="/">三 SANKA</a>
     <div class="landing-actions">
-      <details class="language-switch" data-language-switch>
-        <summary aria-label="Ngôn ngữ: Tiếng Việt" data-language-trigger>
-          <svg class="language-flag" viewBox="0 0 60 40" aria-hidden="true"><use href="#flag-vi" data-selected-flag/></svg>
-          <span data-selected-language lang="vi">Tiếng Việt</span>
-          <svg class="language-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </summary>
-        <div class="language-options" role="group" aria-label="Ngôn ngữ" data-language-options>
-          <button type="button" data-language="ja" lang="ja" aria-pressed="false"><svg class="language-flag" viewBox="0 0 60 40" aria-hidden="true"><use href="#flag-ja"/></svg>日本語</button>
-          <button type="button" data-language="en" lang="en" aria-pressed="false"><svg class="language-flag" viewBox="0 0 60 40" aria-hidden="true"><use href="#flag-en"/></svg>English</button>
-          <button type="button" data-language="vi" lang="vi" aria-pressed="true"><svg class="language-flag" viewBox="0 0 60 40" aria-hidden="true"><use href="#flag-vi"/></svg>Tiếng Việt</button>
-        </div>
-      </details>
+<div th:replace="~{fragments/language :: switcher}"></div>
       <a href="/login" data-i18n="login">Đăng nhập</a>
     </div>
   </header>

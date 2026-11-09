@@ -1,4 +1,11 @@
 .landing-actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.language-control{display:flex;align-items:center;flex:none}
+.topbar-actions{display:flex;align-items:center;gap:16px;min-width:0}
+.topbar{min-height:80px;height:auto;padding-top:14px;padding-bottom:14px;gap:16px}
+.quiz-header{min-height:82px;height:auto;gap:16px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+.quiz-header .language-control{margin-left:auto}
+html[lang="ja"] .eyebrow,html[lang="ja"] .header-caption{letter-spacing:.08em}
+@media(max-width:720px){.topbar{min-height:58px;flex-wrap:wrap}.topbar-actions{gap:10px;margin-left:auto}.topbar-actions .user{max-width:110px}.quiz-header .header-caption{display:none}}
 .flag-definitions{position:absolute;pointer-events:none}
 .language-switch{position:relative;font-size:13px}
 .language-switch summary{display:flex;align-items:center;gap:9px;min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink);cursor:pointer;list-style:none;user-select:none}

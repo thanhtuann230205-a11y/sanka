@@ -12,6 +12,6 @@
     <a class="button" th:href="${nextUrl}">Vào học phần tiếp theo →</a>
     <a class="button secondary" href="/competency">Xem lịch sử</a>
   </article>
-  <details class="card" open><summary>Đáp án, lựa chọn và giải thích</summary><div class="preline spaced" th:text="${attempt.evidence}"></div></details>
+  <details class="card" open><summary>Đáp án, lựa chọn và giải thích</summary><div data-i18n-ignore class="preline spaced" th:text="${attempt.evidence}"></div></details>
   <span hidden th:if="${attempt.stage.name() == 'PLACEMENT'}" data-placement-complete th:attr="data-storage-key=${'sanka.placement.v2.' + student.id + '.' + attempt.major}"></span>
 </main></div><script th:if="${attempt.stage.name() == 'PLACEMENT'}" th:src="@{/js/placement-quiz.js}" defer></script></body></html>

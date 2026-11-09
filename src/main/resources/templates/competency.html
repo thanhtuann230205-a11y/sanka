@@ -24,10 +24,10 @@
     <span class="pill" th:text="${s.status == 'PENDING' ? 'Đang chờ chấm' : (s.status == 'PASSED' ? '✓ Đạt' : 'Cần sửa và nộp lại')}"></span>
     <h3 class="spaced" th:text="${s.kind.label + ' · ' + s.major.label}"></h3>
     <small th:text="${#temporals.format(s.createdAt,'dd/MM/yyyy HH:mm')}"></small>
-    <details class="spaced"><summary>Xem bài đã nộp</summary><div class="preline" th:text="${s.response}"></div></details>
+    <details class="spaced"><summary>Xem bài đã nộp</summary><div data-i18n-ignore class="preline" th:text="${s.response}"></div></details>
     <section th:if="${s.reviewedAt != null}">
       <p class="spaced" th:text="${'Ngôn ngữ: ' + s.languageScore + '/5 · Kỹ thuật: ' + s.technicalScore + '/5 · Giao tiếp: ' + s.communicationScore + '/5 · Nhiệm vụ: ' + s.taskScore + '/5'}"></p>
-      <h4>Nhận xét và khuyến nghị</h4><div class="preline" th:text="${s.feedback}"></div>
+      <h4>Nhận xét và khuyến nghị</h4><div data-i18n-ignore class="preline" th:text="${s.feedback}"></div>
       <small th:text="${'Chấm ngày ' + #temporals.format(s.reviewedAt,'dd/MM/yyyy HH:mm')}"></small>
       <a th:if="${s.status == 'REVISION' and s.major == student.major}" th:href="@{/practice/{kind}(kind=${s.kind})}">Sửa và nộp lại →</a>
     </section>

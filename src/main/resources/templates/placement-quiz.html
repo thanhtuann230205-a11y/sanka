@@ -5,13 +5,13 @@
   <title>Khám phá trình độ của bạn · Sanka</title>
   <link rel="stylesheet" th:href="@{/css/placement-quiz.css}">
   <script th:src="@{/js/placement-quiz.js}" defer></script>
-</head>
+<link rel="stylesheet" th:href="@{/css/home-language.css}"><script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script></head>
 <body>
   <header class="quiz-header">
     <a class="quiz-brand" href="/">三 <span>SANKA</span></a>
     <span class="header-caption">ĐIỂM BẮT ĐẦU CỦA BẠN</span>
     <a class="exit-link" href="/journey">Thoát &amp; quay lại <span aria-hidden="true">↗</span></a>
-  </header>
+  <div th:replace="~{fragments/language :: switcher}"></div></header>
   <main id="placement-root" th:attr="data-storage-key=${'sanka.placement.v2.' + student.id + '.' + student.major}">
     <section class="quiz-intro" id="quiz-intro" hidden aria-labelledby="intro-title">
       <div class="intro-copy">
@@ -21,7 +21,7 @@
         <div class="intro-facts"><span><b th:text="${#lists.size(questions)}">20</b> câu hỏi</span><span><b>5</b> kỹ năng</span><span>Không giới hạn thời gian</span></div>
         <button class="primary-button start-button" type="button" id="start-quiz">Khám phá trình độ của tôi <span aria-hidden="true">→</span></button>
         <p id="resume-note" class="helper" hidden>Bài đang làm trong tab này đã được lưu. Bạn có thể tiếp tục.</p>
-        <small class="major-note">Dành cho <b th:text="${student.major == null ? 'Chưa chọn chuyên ngành' : student.major.label}"></b> · <span th:text="${student.name}"></span></small>
+        <small class="major-note">Dành cho <b th:text="${student.major == null ? 'Chưa chọn chuyên ngành' : student.major.label}"></b> · <span data-i18n-ignore th:text="${student.name}"></span></small>
       </div>
       <div class="intro-visual" aria-label="Kiểm tra trình độ để phân luồng học tập">
         <span class="visual-label">YOUR NEXT CHAPTER</span><span class="japanese-mark" lang="ja" aria-hidden="true">学</span>
@@ -43,16 +43,16 @@
           </div>
           <div id="question-panels">
             <fieldset class="quiz-question" th:each="q, stat : ${questions}" th:attr="data-question-id=${q.id}">
-              <legend class="sr-only" th:text="${'Câu ' + stat.count + ': ' + q.prompt}"></legend>
-              <div class="question-meta"><span class="skill-tag" th:text="${q.skill}"></span><span class="question-number" th:text="${'CÂU ' + stat.count}"></span></div>
-              <h2 tabindex="-1" class="question-title" th:text="${q.prompt}"></h2>
+              <legend data-i18n-ignore class="sr-only" th:text="${'Câu ' + stat.count + ': ' + q.prompt}"></legend>
+              <div class="question-meta"><span data-i18n-ignore class="skill-tag" th:text="${q.skill}"></span><span class="question-number" th:text="${'CÂU ' + stat.count}"></span></div>
+              <h2 data-i18n-ignore tabindex="-1" class="question-title" th:text="${q.prompt}"></h2>
               <div class="listening-box" th:if="${q.audioId != null}"><span class="listen-icon" aria-hidden="true">♫</span><div><b>Lắng nghe trước khi lựa chọn</b><small>Bạn có thể nghe lại nếu cần.</small><audio controls preload="none" th:src="@{/audio/{id}.wav(id=${q.audioId})}">Trình duyệt không hỗ trợ âm thanh.</audio></div></div>
               <div class="answer-options">
                 <label class="answer-card" th:each="option, index : ${q.options}">
                   <input type="radio" th:name="${'answer_' + q.id}" th:value="${index.index}" required
                     th:checked="${submittedAnswers != null and #strings.equals(submittedAnswers.get('answer_' + q.id), '' + index.index)}">
                   <span class="answer-letter" th:text="${#strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ',index.index,index.index + 1)}"></span>
-                  <span class="answer-copy" lang="ja" th:text="${option}"></span><span class="answer-check" aria-hidden="true">✓</span>
+                  <span data-i18n-ignore class="answer-copy" lang="ja" th:text="${option}"></span><span class="answer-check" aria-hidden="true">✓</span>
                 </label>
               </div>
               <p class="question-hint">Chọn đáp án phù hợp nhất. Bạn có thể quay lại thay đổi trước khi nộp.</p>

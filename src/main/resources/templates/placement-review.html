@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Xem lại từng câu · Sanka</title><link rel="stylesheet" th:href="@{/css/placement-quiz.css}"><link rel="stylesheet" th:href="@{/css/placement-results.css}"><script th:src="@{/js/placement-review.js}" defer></script></head>
-<body><header class="quiz-header"><a class="quiz-brand" href="/">三 <span>SANKA</span></a><span class="header-caption">HIỂU LẠI TỪNG LỰA CHỌN</span><a class="exit-link" th:href="@{/results/{id}(id=${attempt.id})}">← Kết quả tổng quan</a></header>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Xem lại từng câu · Sanka</title><link rel="stylesheet" th:href="@{/css/placement-quiz.css}"><link rel="stylesheet" th:href="@{/css/placement-results.css}"><script th:src="@{/js/placement-review.js}" defer></script><link rel="stylesheet" th:href="@{/css/home-language.css}"><script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script></head>
+<body><header class="quiz-header"><a class="quiz-brand" href="/">三 <span>SANKA</span></a><span class="header-caption">HIỂU LẠI TỪNG LỰA CHỌN</span><a class="exit-link" th:href="@{/results/{id}(id=${attempt.id})}">← Kết quả tổng quan</a><div th:replace="~{fragments/language :: switcher}"></div></header>
 <main id="result-review-root"><div class="workspace-heading"><div><span class="eyebrow">XEM LẠI KẾT QUẢ</span><h1 th:text="${attempt.stage.label}"></h1></div><span class="skill-tag" th:if="${summary.level != null}" th:text="${summary.level.label}"></span></div>
  <section class="review-overview"><span><b th:text="${summary.correctCount}"></b> câu đúng</span><span><b th:text="${summary.totalQuestions - summary.correctCount}"></b> câu cần ôn</span><span>Kết quả đã lưu · không chấm lại</span></section>
  <p class="helper" th:if="${summary.legacy}">Bài kiểm tra cũ lưu câu hỏi, lựa chọn của bạn và đáp án đúng. Các lựa chọn khác không được lưu trong lần kiểm tra này.</p>
@@ -9,18 +9,18 @@
    <p class="review-counter" id="review-question-counter" hidden></p>
    <div id="result-question-panels">
     <article class="quiz-question result-question" th:each="q : ${summary.questions}" th:attr="data-number=${q.number},data-correct=${q.correct}">
-     <div class="question-meta"><span class="skill-tag" th:text="${q.skill}"></span><span class="result-state" th:classappend="${q.correct ? 'state-correct' : 'state-wrong'}" th:text="${q.correct ? '✓ Bạn đã trả lời đúng' : '✗ Câu này chưa đúng'}"></span></div>
-     <h2 class="question-title" tabindex="-1" th:text="${q.prompt}"></h2>
+     <div class="question-meta"><span data-i18n-ignore class="skill-tag" th:text="${q.skill}"></span><span class="result-state" th:classappend="${q.correct ? 'state-correct' : 'state-wrong'}" th:text="${q.correct ? '✓ Bạn đã trả lời đúng' : '✗ Câu này chưa đúng'}"></span></div>
+     <h2 data-i18n-ignore class="question-title" tabindex="-1" th:text="${q.prompt}"></h2>
      <div class="listening-box" th:if="${q.audioId != null}"><span class="listen-icon" aria-hidden="true">♫</span><div><b>Nghe lại câu hỏi</b><audio controls preload="none" th:src="@{/audio/{id}.wav(id=${q.audioId})}"></audio></div></div>
      <div class="answer-options"><div class="answer-card reviewed-option" th:each="option,index : ${q.options}" th:classappend="${option.correct ? 'option-correct' : (option.selected ? 'option-wrong' : '')}">
-      <span class="answer-letter" th:text="${summary.legacy ? '•' : #strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ',index.index,index.index + 1)}"></span><span class="answer-copy" th:text="${option.text}"></span>
-      <span class="option-label" th:if="${option.selected or option.correct}" th:text="${option.selected ? (option.correct ? 'Bạn chọn · Đúng' : 'Bạn đã chọn') : 'Đáp án đúng'}"></span>
+      <span class="answer-letter" th:text="${summary.legacy ? '•' : #strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ',index.index,index.index + 1)}"></span><span data-i18n-ignore class="answer-copy" th:text="${option.text}"></span>
+      <span data-i18n-ignore class="option-label" th:if="${option.selected or option.correct}" th:text="${option.selected ? (option.correct ? 'Bạn chọn · Đúng' : 'Bạn đã chọn') : 'Đáp án đúng'}"></span>
      </div></div>
-     <div class="answer-explanation"><b>Vì sao đáp án này đúng?</b><p th:text="${q.explanation}"></p></div>
+     <div class="answer-explanation"><b>Vì sao đáp án này đúng?</b><p data-i18n-ignore th:text="${q.explanation}"></p></div>
     </article>
    </div>
    <div class="quiz-controls" id="result-review-controls" hidden><button class="secondary-button" type="button" id="review-previous">← Câu trước</button><button class="primary-button" type="button" id="review-next">Câu tiếp theo →</button></div>
-   <details class="quiz-question" th:if="${#lists.isEmpty(summary.questions)}"><summary>Xem minh chứng đã lưu</summary><p class="legacy-evidence" th:text="${attempt.evidence}"></p></details>
+   <details class="quiz-question" th:if="${#lists.isEmpty(summary.questions)}"><summary>Xem minh chứng đã lưu</summary><p data-i18n-ignore class="legacy-evidence" th:text="${attempt.evidence}"></p></details>
   </div>
   <aside class="quiz-rail" id="result-review-rail" hidden><div class="rail-heading"><span class="rail-symbol" aria-hidden="true">✓</span><div><b>Hiểu để tiến bộ.</b><small>Chọn một câu để xem lại.</small></div></div><nav class="question-map review-question-map" id="result-question-map" aria-label="Chọn câu hỏi để xem kết quả"></nav><div class="map-legend"><span><i class="legend-correct"></i>Đúng</span><span><i class="legend-wrong"></i>Cần ôn</span></div><a class="secondary-button rail-review" th:href="@{/results/{id}(id=${attempt.id})}">Kết quả tổng quan →</a><a class="primary-button rail-review spaced" href="/start">Học tiếp →</a></aside>
  </div>
