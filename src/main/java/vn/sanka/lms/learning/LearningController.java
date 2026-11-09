@@ -19,16 +19,17 @@ public class LearningController {
  }
  @PostMapping("/onboarding") String onboard(Principal p,@RequestParam Major major){learning.onboard(p.getName(),major,Level.ZERO);return "redirect:/start";}
  @GetMapping({"/dashboard","/path"}) String dashboard(Principal p,Model m,jakarta.servlet.http.HttpServletRequest request){
-  var s=learning.student(p.getName());
+  var s=(vn.sanka.lms.auth.Student)m.getAttribute("student");
   if(!s.isPlacementCompleted())return "redirect:/exams/PLACEMENT";
   if(learning.canChooseMajor(s) && s.getMajor()==null)return "redirect:/onboarding";
-  var lessons=learning.currentCourse(s);var done=learning.completed(s);
-  m.addAttribute("courseTitle",learning.courseTitle(s));
-  m.addAttribute("courseJourney",learning.courseJourney(s));
-  m.addAttribute("foundation",learning.needsFoundation(s));
-  m.addAttribute("foundationCompleted",learning.foundationCompleted(s));
-  m.addAttribute("courseNextUrl",learning.needsFoundation(s)?(learning.s4Foundation(s)?"/exams/N4":"/exams/N5"):"/specialized");
-  m.addAttribute("courseNextLabel",learning.needsFoundation(s)?(learning.s4Foundation(s)?"Kiểm tra S4":"Kiểm tra S5"):"Học chuyên ngành");
+  boolean foundation=learning.needsFoundation(s),s4=learning.s4Foundation(s);
+  var lessons=learning.available(s,s4);var done=learning.completed(s);
+  m.addAttribute("courseTitle",learning.courseTitle(s,s4));
+  m.addAttribute("courseJourney",learning.courseJourney(s,s4));
+  m.addAttribute("foundation",foundation);
+  m.addAttribute("foundationCompleted",foundation && !lessons.isEmpty() && lessons.stream().allMatch(l->done.contains(l.getId())));
+  m.addAttribute("courseNextUrl",foundation?(s4?"/exams/N4":"/exams/N5"):"/specialized");
+  m.addAttribute("courseNextLabel",foundation?(s4?"Kiểm tra S4":"Kiểm tra S5"):"Học chuyên ngành");
   long count=lessons.stream().filter(l->done.contains(l.getId())).count();
   m.addAttribute("lessons",lessons);m.addAttribute("completed",done);m.addAttribute("completedCount",count);
   var motivation=gamification.overview(s.getId());m.addAttribute("motivation",motivation);

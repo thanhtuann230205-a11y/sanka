@@ -13,11 +13,14 @@ public class LearningService {
  public LearningService(StudentRepository students,LessonRepository lessons,ProgressRepository progress,vn.sanka.lms.gamification.GamificationService gamification,vn.sanka.lms.assessment.AttemptRepository attempts){this.students=students;this.lessons=lessons;this.progress=progress;this.gamification=gamification;this.attempts=attempts;}
  public Student student(String email){return students.findByEmail(email).orElseThrow(()->new ResponseStatusException(HttpStatus.UNAUTHORIZED));}
  public List<Lesson> available(Student s){
+  return available(s,s4Foundation(s));
+ }
+ public List<Lesson> available(Student s,boolean s4){
   if(!s.isPlacementCompleted())return List.of();
-  boolean foundation=needsFoundation(s),s4=foundation && s4Foundation(s);
-  return lessons.findAll().stream().filter(l -> foundation
-   ? l.getMajor()==null && (s4?l.getLevel()==Level.N4:(l.getLevel()==Level.ZERO || l.getLevel()==Level.N5))
-   : l.getMajor()!=null && l.getMajor()==s.getMajor())
+  var selected=needsFoundation(s)
+   ? lessons.findByMajorIsNullAndLevelIn(s4?List.of(Level.N4):List.of(Level.ZERO,Level.N5))
+   : s.getMajor()==null?List.<Lesson>of():lessons.findByMajor(s.getMajor());
+  return selected.stream()
    .sorted(Comparator.comparing(Lesson::getLevel).thenComparing(l->l.getMajor()!=null).thenComparing(Lesson::getId)).toList();
  }
  public Set<Long> completed(Student s){return new HashSet<>(progress.findByStudentId(s.getId()).stream().map(LessonProgress::getLessonId).toList());}
@@ -31,15 +34,17 @@ public class LearningService {
   var course=currentCourse(s);var done=completed(s);
   return needsFoundation(s) && !course.isEmpty() && course.stream().allMatch(l->done.contains(l.getId()));
  }
- public String courseTitle(Student s){
+ public String courseTitle(Student s){return courseTitle(s,s4Foundation(s));}
+ public String courseTitle(Student s,boolean s4){
   return switch(s.getLevel()){
-   case ZERO,N5 -> s4Foundation(s)?"Tiếng Nhật cơ bản S4":"Tiếng Nhật cơ bản S5";
+   case ZERO,N5 -> s4?"Tiếng Nhật cơ bản S4":"Tiếng Nhật cơ bản S5";
    default -> s.getMajor()==null?"Chọn chuyên ngành":"Tiếng Nhật chuyên ngành · " + s.getMajor().getLabel();
   };
  }
- public String courseJourney(Student s){
+ public String courseJourney(Student s){return courseJourney(s,s4Foundation(s));}
+ public String courseJourney(Student s,boolean s4){
   return switch(s.getLevel()){
-   case ZERO,N5 -> s4Foundation(s)?"Hoàn thành S4 để chọn chuyên ngành.":"Hoàn thành S5 rồi S4 để chọn chuyên ngành.";
+   case ZERO,N5 -> s4?"Hoàn thành S4 để chọn chuyên ngành.":"Hoàn thành S5 rồi S4 để chọn chuyên ngành.";
    default -> "Học và thực hành theo chuyên ngành.";
   };
  }

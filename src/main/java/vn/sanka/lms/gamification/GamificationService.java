@@ -70,7 +70,7 @@ public class GamificationService {
     private Overview overview(Long studentId,List<XpEvent> all){
         long total=all.stream().mapToLong(XpEvent::getPoints).sum();
         long daily=all.stream().filter(e->e.getActivityDate().equals(today())).mapToLong(XpEvent::getPoints).sum();
-        int target=goals.findByStudentIdAndActivityDate(studentId,today()).map(DailyGoal::getTargetXp).orElse(profile(studentId).getTargetXp());
+        int target=goals.findByStudentIdAndActivityDate(studentId,today()).map(DailyGoal::getTargetXp).orElseGet(()->profile(studentId).getTargetXp());
         var dates=all.stream().map(XpEvent::getActivityDate).filter(d->!d.isAfter(today())).collect(Collectors.toCollection(TreeSet::new));
         int current=0,best=0,run=0;LocalDate previous=null;
         for(var date:dates){run=previous!=null && previous.plusDays(1).equals(date)?run+1:1;best=Math.max(best,run);previous=date;}
