@@ -8,7 +8,7 @@
   <main>
 
     <h1>Lộ trình học</h1>
-    <p>Ngành: <b th:text="${student.major == null ? 'Chưa chọn (cần đạt S4)' : student.major.label}"></b>, Trình độ:
+    <p>Ngành: <b th:text="${student.major == null ? 'Chưa chọn (cần đạt S4)' : student.major.label}"></b>. Trình độ:
       <b th:text="${student.placementCompleted ? student.level.label : 'Chưa kiểm tra đầu vào'}"></b></p>
 
     <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Học chuyên ngành theo 6 bước</h2><a class="button" href="/specialized">Mở khu vực học chuyên ngành </a></section>
