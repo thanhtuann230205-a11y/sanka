@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/layout :: head('Chấm bài thực hành')}"></head>
 <body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
 <header th:replace="~{fragments/layout :: topbar}"></header><main>
-  <span class="eyebrow">KHÔNG GIAN GIẢNG VIÊN</span><h1>Chấm bài và hướng dẫn.</h1>
+  <h1>Chấm bài thực hành</h1>
   <p class="success" th:if="${message}" th:text="${message}"></p>
   <details th:replace="~{fragments/rubric :: rubric}"></details>
   <article class="card" th:if="${#lists.isEmpty(submissions)}">Hiện không có bài chờ chấm.</article>
@@ -20,7 +20,7 @@
         <label>Hoàn thành nhiệm vụ (0–5)<input type="number" name="task" min="0" max="5" required></label>
       </div>
       <label>Nhận xét có minh chứng và bước luyện tiếp<textarea name="feedback" rows="5" minlength="10" maxlength="4000" required></textarea></label>
-      <button class="button">Lưu điểm và gửi phản hồi cho học viên</button>
+      <button class="button">Lưu điểm và phản hồi</button>
     </form>
   </article>
 </main></div></body></html>

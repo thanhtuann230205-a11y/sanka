@@ -6,7 +6,7 @@
 <main>
   <a href="/journey">← Hành trình học tập</a>
   <h1 class="spaced" th:text="${stage.label}"></h1>
-  <article class="card"><span class="eyebrow">HỌC LIỆU MẪU · V1</span><div data-i18n-ignore class="preline" th:text="${material}"></div></article>
+  <article class="card"><div data-i18n-ignore class="preline" th:text="${material}"></div></article>
   <p>Trả lời tất cả câu hỏi. Ngưỡng đạt 80%; đầu vào xét từng nhóm N5 → N4 → N3 → N2–N1 liên tiếp. Kết quả, lựa chọn và giải thích được lưu sau khi nộp.</p>
   <form th:action="@{/exams/{stage}(stage=${stage})}" method="post">
     <fieldset class="card question" th:each="q, stat : ${questions}">

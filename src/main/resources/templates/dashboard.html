@@ -2,11 +2,11 @@
 <head th:replace="~{fragments/layout :: head('Tổng quan')}"></head><body>
 <aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
 <header th:replace="~{fragments/layout :: topbar}"></header><main>
-<div class="page-heading"><div><span class="eyebrow">MỖI NGÀY, MỘT BƯỚC TIẾN</span><h1>Chào <span data-i18n-ignore th:text="${student.name}"></span></h1><p>Tiếp tục lộ trình phù hợp với kết quả đầu vào.</p></div><span class="pill" th:text="${student.major == null ? 'Học cơ bản' : student.major.label}"></span></div>
-<section class="hero-card"><div><span class="eyebrow">CHẶNG HỌC HIỆN TẠI</span><h2 th:text="${courseTitle}"></h2><p th:text="${courseJourney}"></p><p>Trình độ đã xác định: <b th:text="${student.level.label}"></b></p>
-<a class="button white" th:if="${nextLesson != null}" th:href="@{/lessons/{id}(id=${nextLesson.id})}">Tiếp tục học →</a><a class="button white" th:if="${nextLesson == null}" th:href="${courseNextUrl}" th:text="${courseNextLabel}"></a></div><div class="progress-orb"><strong th:text="${percent + '%'}"></strong><span>hoàn thành chặng học</span><progress max="100" th:value="${percent}"></progress></div></section>
-<section class="card" th:unless="${foundation}"><h2>6 bước học chuyên ngành</h2><p>Thuật ngữ · Tài liệu · Tình huống · Email/báo cáo · Đánh giá · Nâng cao</p><a class="button" href="/specialized">Tiếp tục học chuyên ngành →</a></section>
+<div class="page-heading"><div><h1>Chào <span data-i18n-ignore th:text="${student.name}"></span></h1></div><span class="pill" th:text="${student.major == null ? 'Học cơ bản' : student.major.label}"></span></div>
+<section class="hero-card"><div><h2 th:text="${courseTitle}"></h2><p>Trình độ đã xác định: <b th:text="${student.level.label}"></b></p>
+<a class="button white" th:if="${nextLesson != null}" th:href="@{/lessons/{id}(id=${nextLesson.id})}">Tiếp tục học →</a><a class="button white" th:if="${nextLesson == null}" th:href="${courseNextUrl}" th:text="${courseNextLabel}"></a></div><div class="progress-orb"><strong th:text="${percent + '%'}"></strong><span>Hoàn thành</span><progress max="100" th:value="${percent}"></progress></div></section>
+<section class="card" th:unless="${foundation}"><h2>6 bước học chuyên ngành</h2><a class="button" href="/specialized">Tiếp tục học chuyên ngành →</a></section>
 <section th:replace="~{fragments/motivation :: summary}"></section>
-<div class="section-heading"><h2 th:text="${courseTitle}"></h2><a href="/journey">Toàn bộ hành trình →</a></div><section th:replace="~{fragments/course :: lessons}"></section>
-<section class="card" th:if="${foundation}"><h3>Điều kiện vào chuyên ngành</h3><p>Hoàn thành cơ bản S5, kiểm tra đạt S5, tiếp tục cơ bản S4 và kiểm tra đạt S4. Khi đạt S4, bạn được chọn chuyên ngành.</p></section>
-<p class="muted">S5 tương đương nhóm N5; S4 tương đương nhóm N4. Kết quả phân luồng nội bộ không thay thế chứng chỉ JLPT.</p></main></div></body></html>
+<div class="section-heading"><h2>Bài học</h2><a href="/journey">Toàn bộ hành trình →</a></div><section th:replace="~{fragments/course :: lessons}"></section>
+<section class="card" th:if="${foundation}"><h3>Điều kiện vào chuyên ngành</h3><p>Đạt S4 để chọn chuyên ngành.</p></section>
+</main></div></body></html>

@@ -3,12 +3,12 @@
 <head th:replace="~{fragments/layout :: head('Hồ sơ năng lực')}"></head>
 <body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
 <header th:replace="~{fragments/layout :: topbar}"></header><main>
-  <span class="eyebrow">ĐIỂM SỐ · MINH CHỨNG · PHẢN HỒI</span><h1>Hồ sơ năng lực của bạn.</h1>
+  <h1>Hồ sơ năng lực</h1>
   <p class="success" th:if="${message}" th:text="${message}"></p>
-  <p th:text="${allDone ? 'Đã hoàn thành chu trình ứng dụng và cải tiến của chuyên ngành hiện tại.' : 'Tiếp tục các bước chưa đạt trong hành trình. Với bài cần sửa, đọc phản hồi và nộp lại.'}"></p>
+
   <a class="button" href="/journey">Lộ trình và bước tiếp theo →</a>
   <section class="card spaced"><h2>Năng lực kiến thức theo giai đoạn</h2>
-    <p>Trạng thái dưới đây thuộc ngành đang chọn. Lịch sử bên dưới lưu cả các ngành bạn từng học.</p>
+
     <div class="lesson-row" th:each="step : ${steps}"><b th:text="${step.stage.label}"></b><span class="row-end" th:text="${step.passed ? '✓ Đạt' : 'Cần học / đánh giá'}"></span></div>
   </section>
   <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Tiếp tục năng lực chuyên ngành</h2><a href="/specialized">6 bước và phản hồi theo học phần →</a></section><h2>Lịch sử bài kiểm tra</h2>
@@ -19,7 +19,7 @@
     </table></div>
   </section>
   <h2>Thực hành và phản hồi giảng viên</h2>
-  <section class="card" th:if="${#lists.isEmpty(submissions)}">Chưa có bài thực hành. Hoàn thành đọc hiểu và tình huống để mở bài hội thoại.</section>
+  <section class="card" th:if="${#lists.isEmpty(submissions)}">Chưa có bài thực hành.</section>
   <article class="card" th:each="s : ${submissions}">
     <span class="pill" th:text="${s.status == 'PENDING' ? 'Đang chờ chấm' : (s.status == 'PASSED' ? '✓ Đạt' : 'Cần sửa và nộp lại')}"></span>
     <h3 class="spaced" th:text="${s.kind.label + ' · ' + s.major.label}"></h3>

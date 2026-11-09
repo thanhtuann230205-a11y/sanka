@@ -1,5 +1,7 @@
 .landing-actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
 .language-control{display:flex;align-items:center;flex:none}
+.quiz-intro{grid-template-columns:minmax(0,760px);justify-content:center;min-height:360px}
+.quiz-intro .intro-copy h1{font-size:40px;letter-spacing:-1px}
 .topbar-actions{display:flex;align-items:center;gap:16px;min-width:0}
 .topbar{min-height:80px;height:auto;padding-top:14px;padding-bottom:14px;gap:16px}
 .quiz-header{min-height:82px;height:auto;gap:16px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}

@@ -6,33 +6,33 @@
 <div class="workspace">
   <header th:replace="~{fragments/layout :: topbar}"></header>
   <main>
-    <span class="eyebrow">TỪ NỀN TẢNG ĐẾN CÔNG VIỆC</span>
-    <h1>Lộ trình có minh chứng.</h1>
+
+    <h1>Lộ trình học</h1>
     <p>Ngành <b th:text="${student.major == null ? 'Chưa chọn (cần đạt S4)' : student.major.label}"></b> · Trình độ đã phân luồng:
       <b th:text="${student.placementCompleted ? student.level.label : 'Chưa kiểm tra đầu vào'}"></b></p>
-    <p class="notice">Ngân hàng câu hỏi và học liệu mẫu dùng cho phân luồng nội bộ. Đạt S5/S4 ở đây không tương đương chứng chỉ JLPT. Điểm kiến thức và rubric thực hành được theo dõi riêng với XP.</p>
-    <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Học chuyên ngành theo 6 bước</h2><p>Thuật ngữ → đọc tài liệu → tình huống → email/báo cáo → đánh giá → nâng cao.</p><a class="button" href="/specialized">Mở khu vực học chuyên ngành →</a></section>
+
+    <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Học chuyên ngành theo 6 bước</h2><a class="button" href="/specialized">Mở khu vực học chuyên ngành →</a></section>
     <section class="success" th:if="${allDone}">
       <h2>Đã hoàn thành chu trình học hiện tại</h2>
-      <p>Bạn đã hoàn thành đánh giá ứng dụng và đề xuất cải tiến được giảng viên chấm đạt. Xem lại phản hồi để tiếp tục ôn luyện.</p>
+
     </section>
     <div class="journey-grid">
       <section>
-        <h2>01 / Kiến thức và đánh giá</h2>
+        <h2>Bài kiểm tra</h2>
         <article class="card" th:each="step : ${steps}">
           <span class="pill" th:text="${step.passed ? '✓ Đã đạt' : (step.allowed ? 'Có thể bắt đầu' : '🔒 Chưa mở')}"></span>
           <h3 class="spaced" th:text="${step.stage.label}"></h3>
-          <p th:text="${step.prerequisite}"></p>
+          <p th:if="${!step.allowed and !step.passed}" th:text="${step.prerequisite}"></p>
           <a class="button" th:if="${step.allowed}" th:href="@{/exams/{stage}(stage=${step.stage})}"
              th:text="${step.passed ? 'Ôn tập / kiểm tra lại' : 'Học và kiểm tra →'}"></a>
         </article>
       </section>
       <section>
-        <h2>02 / Thực hành có phản hồi</h2>
+        <h2>Thực hành</h2>
         <article class="card" th:each="kind : ${kinds}">
           <span class="pill" th:text="${practiceDone.get(kind) ? '✓ Giảng viên chấm đạt' : (practiceAllowed.get(kind) ? 'Đã mở' : '🔒 Chưa mở')}"></span>
           <h3 class="spaced" th:text="${kind.label}"></h3>
-          <p th:switch="${kind.name()}">
+          <p th:if="${!practiceAllowed.get(kind) and !practiceDone.get(kind)}" th:switch="${kind.name()}">
             <span th:case="'SITUATION'">Mở sau bài kiểm tra tình huống. Viết hội thoại để giảng viên nhận xét.</span>
             <span th:case="'EMAIL'">Mở khi hội thoại được chấm đạt.</span>
             <span th:case="'REPORT'">Mở khi email được chấm đạt.</span>
@@ -40,14 +40,14 @@
           </p>
           <a class="button" th:if="${practiceAllowed.get(kind)}" th:href="@{/practice/{kind}(kind=${kind})}">Viết và nộp bài →</a>
         </article>
-        <article class="card">
+        <article class="card" th:if="${student.level.ordinal() < 2}">
           <h3>Tiếp tục học nền tảng</h3>
           <p>Hoàn thành cơ bản S5 rồi cơ bản S4; kiểm tra đạt S4 để chọn chuyên ngành.</p>
           <a href="/path">Mở danh sách bài học →</a>
         </article>
         <article class="card">
           <h3>Minh chứng và bước tiếp theo</h3>
-          <p>Xem điểm từng lần thi, đáp án, giải thích và phản hồi rubric của giảng viên.</p>
+
           <a href="/competency">Hồ sơ năng lực →</a>
         </article>
       </section>
