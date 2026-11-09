@@ -1,6 +1,16 @@
 .landing-actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-.language-switch{display:flex;gap:4px;padding:4px;background:#eef2ff;border-radius:12px}
-.language-switch button{border:0;border-radius:8px;background:transparent;color:var(--muted);padding:7px 9px;font-size:12px;cursor:pointer;white-space:nowrap}
-.language-switch button[aria-pressed="true"]{background:white;color:var(--blue);box-shadow:0 1px 4px #14233c12}
-.language-switch button:hover{color:var(--blue)}
-@media(max-width:600px){.landing-nav{flex-wrap:wrap;gap:18px}.landing-actions{gap:14px}.language-switch button{padding:6px 8px}}
+.flag-definitions{position:absolute;pointer-events:none}
+.language-switch{position:relative;font-size:13px}
+.language-switch summary{display:flex;align-items:center;gap:9px;min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink);cursor:pointer;list-style:none;user-select:none}
+.language-switch summary::-webkit-details-marker{display:none}
+.language-switch summary:hover{border-color:#c7d2fe}
+.language-switch summary:focus-visible,.language-switch button:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.language-flag{display:block;flex:none;width:24px;height:16px;border-radius:3px;box-shadow:0 0 0 1px #14233c16;overflow:hidden}
+.language-chevron{margin-left:5px;color:var(--muted);transition:transform .15s}
+.language-switch[open] .language-chevron{transform:rotate(180deg)}
+.language-options{position:absolute;right:0;top:calc(100% + 8px);z-index:20;min-width:164px;padding:5px;border:1px solid var(--line);border-radius:12px;background:white;box-shadow:0 8px 28px #14233c12}
+.language-switch:not([open]) .language-options{display:none}
+.language-options button{display:flex;align-items:center;gap:10px;width:100%;border:0;border-radius:7px;background:transparent;color:var(--ink);padding:10px;font-size:13px;text-align:left;cursor:pointer;white-space:nowrap}
+.language-options button[aria-pressed="true"]{background:#eef2ff;color:var(--blue)}
+.language-options button:hover{background:#f5f7ff}
+@media(max-width:600px){.landing-nav{flex-wrap:wrap;gap:18px}.landing-actions{gap:14px}.language-switch summary{padding:7px 9px}}

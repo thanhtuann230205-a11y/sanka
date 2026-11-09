@@ -21,6 +21,9 @@
     }
   };
   const buttons = document.querySelectorAll('[data-language]');
+  const picker = document.querySelector('[data-language-switch]');
+  const trigger = document.querySelector('[data-language-trigger]');
+  const languageNames = { vi: 'Tiếng Việt', en: 'English', ja: '日本語' };
   function selectLanguage(language) {
     const copy = Object.hasOwn(translations, language) ? translations[language] : translations.vi;
     if (!Object.hasOwn(translations, language)) language = 'vi';
@@ -30,11 +33,29 @@
       const key = element.dataset.i18n;
       if (Object.hasOwn(copy, key)) element.textContent = copy[key];
     });
-    document.querySelector('[data-language-switch]').setAttribute('aria-label', copy.language);
+    document.querySelector('[data-language-options]').setAttribute('aria-label', copy.language);
+    trigger.setAttribute('aria-label', copy.language + ': ' + languageNames[language]);
+    const selected = document.querySelector('[data-selected-language]');
+    selected.textContent = languageNames[language];
+    selected.lang = language;
+    document.querySelector('[data-selected-flag]').setAttribute('href', '#flag-' + language);
     buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === language)));
     try { localStorage.setItem('sanka.ui.language', language); } catch (_) { /* Storage may be unavailable. */ }
   }
-  buttons.forEach(button => button.addEventListener('click', () => selectLanguage(button.dataset.language)));
+  buttons.forEach(button => button.addEventListener('click', () => {
+    selectLanguage(button.dataset.language);
+    picker.open = false;
+    trigger.focus();
+  }));
+  document.addEventListener('click', event => {
+    if (!picker.contains(event.target)) picker.open = false;
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && picker.open) {
+      picker.open = false;
+      trigger.focus();
+    }
+  });
   let preferred = 'vi';
   try { preferred = localStorage.getItem('sanka.ui.language') || 'vi'; } catch (_) { /* Use Vietnamese. */ }
   selectLanguage(preferred);
