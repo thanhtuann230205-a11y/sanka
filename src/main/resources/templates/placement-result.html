@@ -1,12 +1,12 @@
 <!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Trình độ của bạn · Sanka</title><link rel="stylesheet" th:href="@{/css/placement-quiz.css}"><link rel="stylesheet" th:href="@{/css/placement-results.css}"><script th:src="@{/js/placement-quiz.js}" defer></script><link rel="stylesheet" th:href="@{/css/home-language.css}"><script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script></head>
-<body><header class="quiz-header"><a class="quiz-brand" href="/" aria-label="SANKA"><span class="home-brand-mark" aria-hidden="true">三</span><span class="home-brand-name">SANKA</span></a><a class="exit-link" href="/competency">Hồ sơ học tập ↗</a><div th:replace="~{fragments/language :: switcher}"></div></header>
+<body><header class="quiz-header"><a class="quiz-brand" href="/" aria-label="SANKA"><span class="home-brand-mark" aria-hidden="true">三</span><span class="home-brand-name">SANKA</span></a><a class="exit-link" href="/competency">Hồ sơ học tập </a><div th:replace="~{fragments/language :: switcher}"></div></header>
 <main class="result-page">
  <section class="result-card" aria-labelledby="result-title"><span class="result-check" aria-hidden="true">✓</span>
  <h1 id="result-title">Kết quả đầu vào</h1><strong class="assigned-level" th:text="${summary.level == null ? 'Chưa xác định' : summary.level.label}"></strong>
  <p class="result-description" th:text="${summary.nextStep}"></p>
  <div class="result-metrics"><div><strong th:text="${summary.correctCount + '/' + summary.totalQuestions}"></strong><small>Câu trả lời đúng</small></div><div><strong th:text="${attempt.score + '/100'}"></strong><small>Điểm tổng</small></div><div><strong th:text="${attempt.major == null ? 'Chọn sau khi đạt S4' : attempt.major.label}"></strong><small>Chuyên ngành của bạn</small></div></div>
- <div class="result-actions"><a class="primary-button" id="continue-learning" th:href="${nextUrl}">Học tiếp <span aria-hidden="true">→</span></a><a class="secondary-button" id="review-result" th:href="@{/results/{id}/review(id=${attempt.id})}">Xem lại kết quả</a></div>
+ <div class="result-actions"><a class="primary-button" id="continue-learning" th:href="${nextUrl}">Học tiếp <span aria-hidden="true"> </span></a><a class="secondary-button" id="review-result" th:href="@{/results/{id}/review(id=${attempt.id})}">Xem lại kết quả</a></div>
  <p class="helper">Kết quả nội bộ, không thay thế chứng chỉ JLPT.</p>
  </section>
  <p class="result-date" th:text="${'Hoàn thành lúc ' + #temporals.format(attempt.createdAt,'HH:mm · dd/MM/yyyy')}"></p>

@@ -28,7 +28,7 @@ public class LearningController {
   m.addAttribute("foundation",learning.needsFoundation(s));
   m.addAttribute("foundationCompleted",learning.foundationCompleted(s));
   m.addAttribute("courseNextUrl",learning.needsFoundation(s)?(learning.s4Foundation(s)?"/exams/N4":"/exams/N5"):"/specialized");
-  m.addAttribute("courseNextLabel",learning.needsFoundation(s)?(learning.s4Foundation(s)?"Kiểm tra đạt S4 →":"Kiểm tra đạt S5 →"):"Học phần chuyên ngành tiếp theo →");
+  m.addAttribute("courseNextLabel",learning.needsFoundation(s)?(learning.s4Foundation(s)?"Kiểm tra S4":"Kiểm tra S5"):"Học chuyên ngành");
   long count=lessons.stream().filter(l->done.contains(l.getId())).count();
   m.addAttribute("lessons",lessons);m.addAttribute("completed",done);m.addAttribute("completedCount",count);
   var motivation=gamification.overview(s.getId());m.addAttribute("motivation",motivation);

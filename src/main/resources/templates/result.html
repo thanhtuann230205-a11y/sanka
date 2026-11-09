@@ -9,7 +9,7 @@
     <h2 th:text="${attempt.score + '/100'}"></h2>
     <p th:text="${attempt.stage.name() == 'PLACEMENT' ? 'Đã xác định lộ trình đầu vào; xem chi tiết ở cuối minh chứng.' : (attempt.passed ? 'Đạt. Học phần tiếp theo được mở theo lộ trình.' : 'Chưa đạt. Ôn lại các câu sai và làm lại khi sẵn sàng.')}"></p>
     <p th:text="${(attempt.major == null ? 'Đánh giá cơ bản' : attempt.major.label) + ' · ' + #temporals.format(attempt.createdAt, 'dd/MM/yyyy HH:mm')}"></p>
-    <a class="button" th:href="${nextUrl}">Vào học phần tiếp theo →</a>
+    <a class="button" th:href="${nextUrl}">Vào học phần tiếp theo </a>
     <a class="button secondary" href="/competency">Xem lịch sử</a>
   </article>
   <details class="card" open><summary>Đáp án, lựa chọn và giải thích</summary><div data-i18n-ignore class="preline spaced" th:text="${attempt.evidence}"></div></details>

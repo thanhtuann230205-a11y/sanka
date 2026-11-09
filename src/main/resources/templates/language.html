@@ -2,14 +2,14 @@
 <head th:replace="~{fragments/layout :: head('Tiếng Nhật theo trình độ')}"></head>
 <body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace"><header th:replace="~{fragments/layout :: topbar}"></header><main>
 <span class="eyebrow">5 NHÓM TRÌNH ĐỘ · HỌC VÀ ÔN TẬP</span><h1>Tiếng Nhật, từng chặng vững vàng.</h1>
-<p>Pre-N5 → N5 → N4 → N3 → N2–N1. Từ N4, bạn có thể học chuyên ngành song song với tiếng Nhật nâng cao.</p>
-<p><a class="button secondary" href="/language/history">Lịch ôn và lịch sử đánh giá →</a></p>
-<article class="card" th:unless="${student.placementCompleted}"><h2>Xác định điểm bắt đầu</h2><p>Chọn ngành và hoàn thành kiểm tra đầu vào để mở các cấp phù hợp.</p><a class="button" href="/start">Bắt đầu →</a></article>
+<p>Pre-N5 N5 N4 N3 N2–N1. Từ N4, bạn có thể học chuyên ngành song song với tiếng Nhật nâng cao.</p>
+<p><a class="button secondary" href="/language/history">Lịch ôn và lịch sử đánh giá </a></p>
+<article class="card" th:unless="${student.placementCompleted}"><h2>Xác định điểm bắt đầu</h2><p>Chọn ngành và hoàn thành kiểm tra đầu vào để mở các cấp phù hợp.</p><a class="button" href="/start">Bắt đầu </a></article>
 <section class="grid two">
  <article class="card" th:each="c : ${courses}"><span class="pill" th:text="${c.open ? 'Có thể học' : '🔒 Chưa mở'}"></span><h2 class="spaced" th:text="${c.level.label}"></h2><p th:text="${c.theme}"></p>
  <p>Bài theo chủ đề · Từ vựng · Ngữ pháp · Nghe/đọc · Kiểm tra định kỳ · Ứng dụng kỹ thuật</p>
  <p th:if="${c.enrollment != null}" th:text="${(c.due ? 'Đến hạn ôn: ' : 'Lịch ôn tiếp: ') + #temporals.format(c.enrollment.nextReviewAt,'dd/MM/yyyy')}"></p>
- <a class="button" th:if="${c.open}" th:href="@{/language/{level}(level=${c.level})}">Mở khóa học →</a>
+ <a class="button" th:if="${c.open}" th:href="@{/language/{level}(level=${c.level})}">Mở khóa học </a>
  <small th:unless="${c.open}">Đạt cấp trước hoặc được phân luồng phù hợp để mở cấp này.</small>
  </article>
 </section>

@@ -73,7 +73,7 @@
       button.setAttribute('aria-label', `Câu ${i + 1}, ${chosen(panels[i]) ? 'đã trả lời' : 'chưa trả lời'}${flagged.has(i) ? ', cần xem lại' : ''}`);
     });
     previous.disabled = index === 0;
-    next.textContent = index === panels.length - 1 ? 'Rà soát bài làm →' : 'Câu tiếp theo →';
+    next.textContent = index === panels.length - 1 ? 'Rà soát bài làm' : 'Câu tiếp theo';
     flag.setAttribute('aria-pressed', String(flagged.has(index)));
     flag.textContent = flagged.has(index) ? '⚑ Đã đánh dấu xem lại' : '⚑ Xem lại sau';
   }
@@ -105,7 +105,7 @@
       const answer = document.createElement('small');
       answer.textContent = input ? `Đã chọn: ${input.closest('label').querySelector('.answer-copy').textContent}${flagged.has(i) ? ' · ⚑ Xem lại' : ''}` : 'Chưa trả lời';
       copy.append(title, answer);
-      const edit = document.createElement('span'); edit.className = 'review-edit'; edit.textContent = input ? 'Sửa →' : 'Trả lời →';
+      const edit = document.createElement('span'); edit.className = 'review-edit'; edit.textContent = input ? 'Sửa' : 'Trả lời';
       button.append(number, copy, edit); button.addEventListener('click', () => showQuestion(i)); list.append(button);
     });
     update(); document.getElementById('review-title').focus();
@@ -141,7 +141,7 @@
     persist(); // Keep a copy until the server confirms success on the result page.
   });
   window.addEventListener('pageshow', () => {
-    submitting = false; submit.disabled = false; submit.textContent = 'Nộp bài & xem lộ trình →';
+    submitting = false; submit.disabled = false; submit.textContent = 'Nộp bài & xem lộ trình';
   });
   if (!error.hidden) {
     started = true; index = Math.max(0, panels.findIndex(panel => !chosen(panel)));
@@ -150,6 +150,6 @@
   else { intro.hidden = false; workspace.hidden = true; update(); }
   if (answeredCount() > 0) {
     document.getElementById('resume-note').hidden = false;
-    document.getElementById('start-quiz').textContent = 'Tiếp tục bài đang làm →';
+    document.getElementById('start-quiz').textContent = 'Tiếp tục bài đang làm';
   }
 })();

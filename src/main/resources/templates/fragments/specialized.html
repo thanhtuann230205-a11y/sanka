@@ -10,6 +10,6 @@
     <span class="pill" th:text="${work.status == 'PASSED' ? 'Đạt' : 'Cần sửa'}"></span>
     <p data-i18n-ignore class="preline spaced" th:text="${work.feedback}"></p><details><summary>Xem bài làm</summary><div data-i18n-ignore class="preline" th:text="${work.response}"></div></details>
   </article>
-  <article class="card"><h3>Kết quả kiểm tra kiến thức</h3><div class="lesson-row" th:each="attempt : ${attempts}"><span th:text="${attempt.stage.label}"></span><a class="row-end" th:href="@{/results/{id}(id=${attempt.id})}" th:text="${attempt.score + '/100 · Xem minh chứng'}"></a></div><a href="/competency">Xem toàn bộ lịch sử →</a></article>
+  <article class="card"><h3>Kết quả kiểm tra kiến thức</h3><div class="lesson-row" th:each="attempt : ${attempts}"><span th:text="${attempt.stage.label}"></span><a class="row-end" th:href="@{/results/{id}(id=${attempt.id})}" th:text="${attempt.score + '/100 · Xem minh chứng'}"></a></div><a href="/competency">Xem toàn bộ lịch sử </a></article>
 </section>
 </body></html>

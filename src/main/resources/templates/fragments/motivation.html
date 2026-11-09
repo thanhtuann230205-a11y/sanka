@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><body>
 <section class="grid three stats" th:fragment="summary">
- <article class="card"><span>CHUỖI NGÀY HỌC</span><strong th:text="${motivation.currentStreak + ' ngày'}"></strong><small th:text="${'Dài nhất: ' + motivation.bestStreak + ' ngày'}"></small></article>
- <article class="card"><span>TỔNG ĐIỂM KINH NGHIỆM</span><strong th:text="${motivation.totalXp + ' XP'}"></strong><small th:text="${motivation.activeDays + ' ngày có hoạt động'}"></small></article>
- <article class="card"><span>MỤC TIÊU HÔM NAY</span><strong th:text="${motivation.todayXp + '/' + motivation.targetXp + ' XP'}"></strong><progress max="100" th:value="${motivation.goalPercent}"></progress><small th:text="${motivation.goalReached ? '✓ Đã đạt mục tiêu' : 'Tiếp tục học theo nhịp của bạn'}"></small></article>
+ <article class="card"><span>Chuỗi ngày học</span><strong th:text="${motivation.currentStreak + ' ngày'}"></strong></article>
+ <article class="card"><span>XP</span><strong th:text="${motivation.totalXp}"></strong></article>
+ <article class="card"><span>Mục tiêu ngày</span><strong th:text="${motivation.todayXp + '/' + motivation.targetXp + ' XP'}"></strong><progress max="100" th:value="${motivation.goalPercent}"></progress></article>
 </section>
 </body></html>

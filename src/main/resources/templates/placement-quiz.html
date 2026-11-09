@@ -10,14 +10,14 @@
   <header class="quiz-header">
     <a class="quiz-brand" href="/" aria-label="SANKA"><span class="home-brand-mark" aria-hidden="true">三</span><span class="home-brand-name">SANKA</span></a>
 
-    <a class="exit-link" href="/journey">Thoát &amp; quay lại <span aria-hidden="true">↗</span></a>
+    <a class="exit-link" href="/journey">Thoát &amp; quay lại <span aria-hidden="true"> </span></a>
   <div th:replace="~{fragments/language :: switcher}"></div></header>
   <main id="placement-root" th:attr="data-storage-key=${'sanka.placement.v2.' + student.id + '.' + student.major}">
     <section class="quiz-intro" id="quiz-intro" hidden aria-labelledby="intro-title">
       <div class="intro-copy">
         <h1 id="intro-title">Kiểm tra đầu vào</h1>
         <div class="intro-facts"><span><b th:text="${#lists.size(questions)}">20</b> câu hỏi</span><span><b>5</b> kỹ năng</span><span>Không giới hạn thời gian</span></div>
-        <button class="primary-button start-button" type="button" id="start-quiz">Bắt đầu <span aria-hidden="true">→</span></button>
+        <button class="primary-button start-button" type="button" id="start-quiz">Bắt đầu <span aria-hidden="true"> </span></button>
         <p id="resume-note" class="helper" hidden>Bài đang làm trong tab này đã được lưu. Bạn có thể tiếp tục.</p>
       </div>
     </section>
@@ -53,12 +53,12 @@
             <p id="review-summary"></p><div id="review-list" class="review-list"></div>
           </section>
           <div class="quiz-controls" id="quiz-controls" hidden>
-            <button type="button" class="secondary-button" id="previous-question">← Câu trước</button>
+            <button type="button" class="secondary-button" id="previous-question"> Câu trước</button>
             <button type="button" class="text-button" id="flag-question" aria-pressed="false">⚑ Xem lại sau</button>
-            <button type="button" class="primary-button" id="next-question">Câu tiếp theo →</button>
+            <button type="button" class="primary-button" id="next-question">Câu tiếp theo </button>
           </div>
-          <div class="review-controls" id="review-controls" hidden><button type="button" class="secondary-button" id="return-questions">← Quay lại làm bài</button></div>
-          <button type="submit" class="primary-button submit-button" id="submit-quiz">Nộp bài &amp; xem lộ trình →</button>
+          <div class="review-controls" id="review-controls" hidden><button type="button" class="secondary-button" id="return-questions"> Quay lại làm bài</button></div>
+          <button type="submit" class="primary-button submit-button" id="submit-quiz">Nộp bài &amp; xem lộ trình </button>
           <p id="quiz-announcement" class="helper" role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -68,7 +68,7 @@
         <div class="rail-progress"><strong id="rail-answered">0</strong><span th:text="${'/ ' + #lists.size(questions) + ' câu đã trả lời'}"></span></div>
         <nav class="question-map" id="question-map" aria-label="Đi đến câu hỏi"></nav>
         <div class="map-legend"><span><i class="legend-filled"></i>Đã trả lời</span><span><i class="legend-flag"></i>Cần xem lại</span></div>
-        <button class="secondary-button rail-review" type="button" id="open-review">Rà soát bài làm →</button>
+        <button class="secondary-button rail-review" type="button" id="open-review">Rà soát bài làm </button>
         <p class="helper" id="draft-note">Tự lưu trong tab này.</p>
         <details class="quiz-rules"><summary>Bài kiểm tra này giúp gì?</summary><p>20 câu thuộc 5 kỹ năng. Mỗi nhóm S5, S4, S3 và S2–S1 có 5 câu; đạt ít nhất 4/5 ở các nhóm liên tiếp để xác định điểm bắt đầu.</p><p>Đạt S4 trở lên được chọn chuyên ngành. S5 hoặc thấp hơn học cơ bản S5 rồi S4. Đề mẫu dùng cho phân luồng nội bộ, không thay thế JLPT.</p></details>
       </aside>

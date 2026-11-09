@@ -4,10 +4,10 @@
 <body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
 <header th:replace="~{fragments/layout :: topbar}"></header>
 <main>
-  <a href="/journey">← Hành trình học tập</a>
+  <a href="/journey"> Hành trình học tập</a>
   <h1 class="spaced" th:text="${stage.label}"></h1>
   <article class="card"><div data-i18n-ignore class="preline" th:text="${material}"></div></article>
-  <p>Trả lời tất cả câu hỏi. Ngưỡng đạt 80%; đầu vào xét từng nhóm N5 → N4 → N3 → N2–N1 liên tiếp. Kết quả, lựa chọn và giải thích được lưu sau khi nộp.</p>
+  <p>Trả lời tất cả câu hỏi. Ngưỡng đạt 80%; đầu vào xét từng nhóm N5 N4 N3 N2–N1 liên tiếp. Kết quả, lựa chọn và giải thích được lưu sau khi nộp.</p>
   <form th:action="@{/exams/{stage}(stage=${stage})}" method="post">
     <fieldset class="card question" th:each="q, stat : ${questions}">
       <legend data-i18n-ignore th:text="${stat.count + '. ' + q.prompt}"></legend>
@@ -18,6 +18,6 @@
         <span data-i18n-ignore th:text="${option}"></span>
       </label>
     </fieldset>
-    <button class="button">Nộp bài và xem kết quả →</button>
+    <button class="button">Nộp bài và xem kết quả </button>
   </form>
 </main></div></body></html>

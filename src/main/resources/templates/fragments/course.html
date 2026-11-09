@@ -4,11 +4,11 @@
     <a class="lesson-row" th:each="l : ${lessons}" th:href="@{/lessons/{id}(id=${l.id})}">
       <span class="lesson-icon" th:text="${completed.contains(l.id) ? '✓' : '文'}"></span>
       <div><b data-i18n-ignore th:text="${l.title}"></b><small th:text="${l.level.label + ' · ' + l.minutes + ' phút'}"></small></div>
-      <span class="row-end" th:text="${completed.contains(l.id) ? 'Hoàn thành' : 'Bắt đầu →'}"></span>
+      <span class="row-end" th:text="${completed.contains(l.id) ? 'Hoàn thành' : 'Bắt đầu'}"></span>
     </a>
   </div>
   <div class="spaced" th:if="${nextLesson == null}">
-    <p>Đã hoàn thành bài học trong chặng này. Tiếp tục kiểm tra hoặc học phần kế tiếp.</p>
+    <p>Đã hoàn thành các bài học.</p>
     <a class="button" th:href="${courseNextUrl}" th:text="${courseNextLabel}"></a>
   </div>
 </section>

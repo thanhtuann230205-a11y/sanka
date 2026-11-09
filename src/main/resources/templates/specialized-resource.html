@@ -2,13 +2,13 @@
 <head th:replace="~{fragments/layout :: head('Học phần chuyên ngành')}"></head>
 <body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
 <header th:replace="~{fragments/layout :: topbar}"></header><main>
-  <a href="/specialized">← 6 bước học chuyên ngành</a><span class="eyebrow spaced" th:text="${student.major.label}"></span>
+  <a href="/specialized"> 6 bước học chuyên ngành</a><span class="eyebrow spaced" th:text="${student.major.label}"></span>
   <h1 th:text="${phase.label}"></h1>
   <div th:switch="${phase.name()}">
     <section th:case="'TERMS'">
       <p>Đọc Kanji và cách đọc, tự nhớ nghĩa rồi mở thẻ để kiểm tra. Lưu những từ cần luyện thêm.</p>
       <article class="card"><h2>Bài mở đầu chuyên ngành</h2>
-        <a class="lesson-row" th:each="lesson : ${introductions}" th:href="@{/lessons/{id}(id=${lesson.id})}"><b data-i18n-ignore th:text="${lesson.title}"></b><span class="row-end" th:text="${completed.contains(lesson.id) ? '✓ Đã hoàn thành' : 'Đọc và hoàn thành →'}"></span></a>
+        <a class="lesson-row" th:each="lesson : ${introductions}" th:href="@{/lessons/{id}(id=${lesson.id})}"><b data-i18n-ignore th:text="${lesson.title}"></b><span class="row-end" th:text="${completed.contains(lesson.id) ? '✓ Đã hoàn thành' : 'Đọc và hoàn thành '}"></span></a>
       </article>
       <div class="section-heading"><h2>Thẻ thuật ngữ</h2><a th:href="${savedOnly ? '/specialized/TERMS' : '/specialized/TERMS?savedOnly=true'}" th:text="${savedOnly ? 'Xem tất cả từ' : 'Chỉ xem từ đã lưu'}"></a></div>
       <div class="grid two">
@@ -24,7 +24,7 @@
           </form>
         </article>
       </div>
-      <section class="card" th:if="${#lists.isEmpty(terms)}">Bạn chưa lưu từ nào trong ngành này. <a href="/specialized/TERMS">Xem tất cả từ →</a></section>
+      <section class="card" th:if="${#lists.isEmpty(terms)}">Bạn chưa lưu từ nào trong ngành này. <a href="/specialized/TERMS">Xem tất cả từ </a></section>
     </section>
     <section th:case="'READING'">
       <p>Đọc văn bản trước, xác định thông tin chính rồi đối chiếu phần giải nghĩa.</p>
@@ -46,12 +46,12 @@
     </section>
     <section th:case="'WRITING'">
       <section class="grid two">
-        <article class="card"><span class="eyebrow">01 / EMAIL</span><h2>Thông tin ngắn, yêu cầu rõ.</h2><p>Tiêu đề → người nhận → sự việc → dữ kiện → yêu cầu xác nhận → lời kết.</p><div class="preline" lang="ja">件名：【報告】…について
+        <article class="card"><span class="eyebrow">01 / EMAIL</span><h2>Thông tin ngắn, yêu cầu rõ.</h2><p>Tiêu đề người nhận sự việc dữ kiện yêu cầu xác nhận lời kết.</p><div class="preline" lang="ja">件名：【報告】…について
 お疲れ様です。…です。
 確認していただけますか。
 確認でき次第、ご連絡いたします。
 よろしくお願いいたします。</div></article>
-        <article class="card"><span class="eyebrow">02 / BÁO CÁO</span><h2>Có dữ kiện và bước tiếp theo.</h2><p>Ngày giờ → đối tượng → hiện tượng → bằng chứng → ảnh hưởng → xử lý → kiến nghị.</p><div class="preline" lang="ja">確認した事実：…
+        <article class="card"><span class="eyebrow">02 / BÁO CÁO</span><h2>Có dữ kiện và bước tiếp theo.</h2><p>Ngày giờ đối tượng hiện tượng bằng chứng ảnh hưởng xử lý kiến nghị.</p><div class="preline" lang="ja">確認した事実：…
 実施した対応：…
 未確認事項：…
 次の行動・担当・期限：…</div></article>
@@ -74,20 +74,20 @@
     <span class="pill" th:text="${examPassed ? '✓ Đã đạt bài kiểm tra' : 'KIỂM TRA KIẾN THỨC'}"></span>
     <h2 class="spaced" th:text="${phase.exam.label}"></h2>
     <p>Ngưỡng đạt 80%. Mỗi lần làm được lưu cùng đáp án và giải thích.</p>
-    <a class="button" th:if="${examAllowed}" th:href="@{/exams/{stage}(stage=${phase.exam})}" th:text="${examPassed ? 'Ôn tập / kiểm tra lại →' : 'Bắt đầu kiểm tra →'}"></a>
+    <a class="button" th:if="${examAllowed}" th:href="@{/exams/{stage}(stage=${phase.exam})}" th:text="${examPassed ? 'Ôn tập / kiểm tra lại ' : 'Bắt đầu kiểm tra '}"></a>
     <p th:unless="${examAllowed}">Hoàn thành bài mở đầu chuyên ngành phía trên để mở bài kiểm tra thuật ngữ.</p>
-    <p class="spaced" th:if="${phase.name() == 'TERMS' and examPassed}"><a href="/specialized/READING">Tiếp tục đọc hiểu tài liệu →</a></p>
-    <p class="spaced" th:if="${phase.name() == 'READING' and examPassed}"><a href="/specialized/SITUATION">Tiếp tục tình huống thực tế →</a></p>
-    <p class="spaced" th:if="${phase.name() == 'APPLICATION' and examPassed}"><a href="/specialized/ADVANCED">Tiếp tục nâng cao năng lực →</a></p>
+    <p class="spaced" th:if="${phase.name() == 'TERMS' and examPassed}"><a href="/specialized/READING">Tiếp tục đọc hiểu tài liệu </a></p>
+    <p class="spaced" th:if="${phase.name() == 'READING' and examPassed}"><a href="/specialized/SITUATION">Tiếp tục tình huống thực tế </a></p>
+    <p class="spaced" th:if="${phase.name() == 'APPLICATION' and examPassed}"><a href="/specialized/ADVANCED">Tiếp tục nâng cao năng lực </a></p>
   </article>
   <section th:if="${!#lists.isEmpty(tasks)}"><h2>Thực hành và nhận phản hồi</h2>
     <article class="card" th:each="task : ${tasks}">
       <span class="pill" th:text="${task.passed ? '✓ Đã đạt' : (task.status == 'PENDING' ? 'Đang chờ giảng viên chấm' : (task.status == 'REVISION' ? 'Cần sửa bài' : (task.available ? 'Có thể bắt đầu' : '🔒 Chưa mở')))}"></span>
       <h3 class="spaced" th:text="${task.kind.label}"></h3><p data-i18n-ignore class="preline" th:if="${task.feedback}" th:text="${task.feedback}"></p>
-      <a class="button" th:if="${task.available and task.status != 'PENDING'}" th:href="@{/practice/{kind}(kind=${task.kind})}" th:text="${task.status == 'REVISION' ? 'Sửa và nộp lại →' : 'Mở bài viết →'}"></a>
-      <a th:if="${task.status == 'PENDING' or task.passed}" href="/competency">Xem bài đã nộp và điểm rubric →</a>
+      <a class="button" th:if="${task.available and task.status != 'PENDING'}" th:href="@{/practice/{kind}(kind=${task.kind})}" th:text="${task.status == 'REVISION' ? 'Sửa và nộp lại ' : 'Mở bài viết '}"></a>
+      <a th:if="${task.status == 'PENDING' or task.passed}" href="/competency">Xem bài đã nộp và điểm rubric </a>
       <small th:unless="${task.available}">Hoàn thành kiểm tra và bài thực hành trước đó để mở.</small>
     </article>
   </section>
-  <a href="/specialized">Trở về lộ trình chuyên ngành →</a>
+  <a href="/specialized">Trở về lộ trình chuyên ngành </a>
 </main></div></body></html>

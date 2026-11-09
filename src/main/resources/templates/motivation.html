@@ -8,11 +8,11 @@
 <section class="grid two">
  <article class="card"><h2>Mục tiêu hôm nay</h2><p><b th:text="${motivation.todayXp + '/' + motivation.targetXp + ' XP'}"></b> <span th:text="${motivation.goalReached ? '✓ Đã đạt mục tiêu' : 'Cùng hoàn thành từng bước nhỏ'}"></span></p><progress max="100" th:value="${motivation.goalPercent}"></progress>
  <form class="spaced" th:action="@{/motivation/goal}" method="post"><label>Mục tiêu XP mỗi ngày<input name="targetXp" type="number" min="20" max="200" th:value="${motivation.targetXp}" required></label><button class="button">Lưu mục tiêu</button></form><small>20–200 XP/ngày.</small></article>
- <article class="card"><a class="button secondary" href="/start">Tiếp tục học →</a> <a href="/leaderboard">Bảng xếp hạng tự nguyện →</a></article>
+ <article class="card"><a class="button secondary" href="/start">Tiếp tục học </a> <a href="/leaderboard">Bảng xếp hạng tự nguyện </a></article>
 </section>
 <div class="section-heading"><h2>Lịch hoạt động</h2><span>Giờ Việt Nam · ngày học và XP</span></div>
 <section class="card">
- <div class="section-heading"><a th:if="${previousMonth != null}" th:href="@{/motivation(month=${previousMonth})} + '#calendar'">← Tháng trước</a><h3 th:text="${month}"></h3><a th:if="${nextMonth != null}" th:href="@{/motivation(month=${nextMonth})} + '#calendar'">Tháng sau →</a></div>
+ <div class="section-heading"><a th:if="${previousMonth != null}" th:href="@{/motivation(month=${previousMonth})} + '#calendar'"> Tháng trước</a><h3 th:text="${month}"></h3><a th:if="${nextMonth != null}" th:href="@{/motivation(month=${nextMonth})} + '#calendar'">Tháng sau </a></div>
  <div class="learning-calendar" id="calendar"><b th:each="label : ${ {'T2','T3','T4','T5','T6','T7','CN'} }" th:text="${label}"></b>
   <a th:each="cell : ${calendar}" class="calendar-cell" th:classappend="${'heat-' + cell.intensity + (cell.inMonth ? '' : ' outside-month') + (cell.today ? ' today' : '') + (cell.date.equals(selectedDay) ? ' selected-day' : '')}"
      th:href="@{/motivation(month=${month},day=${cell.date})} + '#day-events'"

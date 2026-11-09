@@ -33,14 +33,14 @@ public class LearningService {
  }
  public String courseTitle(Student s){
   return switch(s.getLevel()){
-   case ZERO,N5 -> s4Foundation(s)?"Tiếng Nhật cơ bản S4 · tương đương N4":"Tiếng Nhật cơ bản S5 · tương đương N5";
+   case ZERO,N5 -> s4Foundation(s)?"Tiếng Nhật cơ bản S4":"Tiếng Nhật cơ bản S5";
    default -> s.getMajor()==null?"Chọn chuyên ngành":"Tiếng Nhật chuyên ngành · " + s.getMajor().getLabel();
   };
  }
  public String courseJourney(Student s){
   return switch(s.getLevel()){
-   case ZERO,N5 -> s4Foundation(s)?"Cơ bản S4 → Kiểm tra đạt S4 → Chọn chuyên ngành":"Cơ bản S5 → Cơ bản S4 → Đạt S4 → Chọn chuyên ngành";
-   default -> "Chuyên ngành → Thực hành → Đánh giá ứng dụng";
+   case ZERO,N5 -> s4Foundation(s)?"Hoàn thành S4 để chọn chuyên ngành.":"Hoàn thành S5 rồi S4 để chọn chuyên ngành.";
+   default -> "Học và thực hành theo chuyên ngành.";
   };
  }
  public Lesson lesson(Student s,Long id){return available(s).stream().filter(l -> l.getId().equals(id)).findFirst().orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));}

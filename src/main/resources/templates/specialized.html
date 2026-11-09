@@ -6,21 +6,21 @@
   <p>Chuyên ngành <b th:text="${student.major.label}"></b></p>
   <section class="card" th:unless="${entered}">
     <h2>Chặng này mở khi đạt S4</h2><p>Đạt S4 trở lên và chọn chuyên ngành để bắt đầu.</p>
-    <a class="button" href="/start">Tiếp tục lộ trình của tôi →</a>
+    <a class="button" href="/start">Tiếp tục lộ trình của tôi </a>
   </section>
   <section class="hero-card" th:if="${entered}"><div>
 
     <h2 th:text="${nextStep != null ? nextStep.phase.label : 'Đã hoàn thành chu trình chuyên ngành'}"></h2>
 
-    <a class="button white" th:if="${nextStep != null and nextStep.status == 'OPEN'}" th:href="${nextStep.url}">Tiếp tục học →</a>
-    <a class="button white" th:if="${nextStep == null}" href="/competency">Xem năng lực và minh chứng →</a>
+    <a class="button white" th:if="${nextStep != null and nextStep.status == 'OPEN'}" th:href="${nextStep.url}">Tiếp tục học </a>
+    <a class="button white" th:if="${nextStep == null}" href="/competency">Xem năng lực và minh chứng </a>
   </div><div class="progress-orb"><strong th:text="${completedCount + '/6'}"></strong><span>bước đã hoàn thành</span><progress max="100" th:value="${percent}"></progress></div></section>
   <div class="specialized-timeline">
     <article class="card phase-card" th:each="step, index : ${steps}" th:classappend="${step.status == 'LOCKED' ? 'phase-locked' : ''}">
       <span class="phase-number" th:text="${index.count}"></span><div class="grow">
         <span class="pill" th:text="${step.status == 'COMPLETED' ? '✓ Hoàn thành' : (step.status == 'OPEN' ? 'Đã mở' : '🔒 Chưa mở')}"></span>
         <h2 class="spaced" th:text="${step.phase.label}"></h2>
-        <a th:unless="${step.status == 'LOCKED'}" th:href="${step.url}" th:text="${step.status == 'COMPLETED' ? 'Ôn tập và xem kết quả →' : 'Mở học phần →'}"></a>
+        <a th:unless="${step.status == 'LOCKED'}" th:href="${step.url}" th:text="${step.status == 'COMPLETED' ? 'Ôn tập và xem kết quả ' : 'Mở học phần '}"></a>
         <small th:if="${step.status == 'LOCKED'}">Hoàn thành bước trước để mở học phần này.</small>
       </div>
     </article>

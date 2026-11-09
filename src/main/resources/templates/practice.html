@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/layout :: head('Thực hành công việc')}"></head>
 <body><aside th:replace="~{fragments/layout :: sidebar}"></aside><div class="workspace">
 <header th:replace="~{fragments/layout :: topbar}"></header><main>
-  <a href="/specialized">← Học chuyên ngành</a>
+  <a href="/specialized"> Học chuyên ngành</a>
   <h1 class="spaced" th:text="${kind.label}"></h1>
   <article data-i18n-ignore class="card preline" th:text="${prompt}"></article>
   <p class="success" th:if="${message}" th:text="${message}"></p>
@@ -14,7 +14,7 @@
   <details class="card" open th:replace="~{fragments/rubric :: rubric}"></details>
   <article class="card" th:if="${lastSubmission != null and lastSubmission.status == 'PENDING'}">
     <h2>Bài đang chờ giảng viên chấm</h2>
-    <details><summary>Xem bài đã nộp</summary><div data-i18n-ignore class="preline" th:text="${lastSubmission.response}"></div></details><a href="/competency">Xem trạng thái và minh chứng →</a>
+    <details><summary>Xem bài đã nộp</summary><div data-i18n-ignore class="preline" th:text="${lastSubmission.response}"></div></details><a href="/competency">Xem trạng thái và minh chứng </a>
   </article>
   <form class="card" th:unless="${lastSubmission != null and lastSubmission.status == 'PENDING'}" th:action="@{/practice/{kind}(kind=${kind})}" method="post">
     <p class="muted" th:if="${draft != null}" th:text="${'Bản nháp lưu lúc ' + #temporals.format(draft.updatedAt,'dd/MM/yyyy HH:mm')}"></p>
@@ -25,6 +25,6 @@
     <output id="character-count" for="response"></output>
 
     <button class="button secondary" th:formaction="@{/practice/{kind}/draft(kind=${kind})}" formnovalidate>Lưu bản nháp</button>
-    <button class="button">Nộp cho giảng viên →</button>
+    <button class="button">Nộp cho giảng viên </button>
   </form>
 </main></div><script th:src="@{/js/writing.js}" defer></script></body></html>

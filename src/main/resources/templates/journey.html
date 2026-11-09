@@ -11,7 +11,7 @@
     <p>Ngành <b th:text="${student.major == null ? 'Chưa chọn (cần đạt S4)' : student.major.label}"></b> · Trình độ đã phân luồng:
       <b th:text="${student.placementCompleted ? student.level.label : 'Chưa kiểm tra đầu vào'}"></b></p>
 
-    <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Học chuyên ngành theo 6 bước</h2><a class="button" href="/specialized">Mở khu vực học chuyên ngành →</a></section>
+    <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Học chuyên ngành theo 6 bước</h2><a class="button" href="/specialized">Mở khu vực học chuyên ngành </a></section>
     <section class="success" th:if="${allDone}">
       <h2>Đã hoàn thành chu trình học hiện tại</h2>
 
@@ -24,7 +24,7 @@
           <h3 class="spaced" th:text="${step.stage.label}"></h3>
           <p th:if="${!step.allowed and !step.passed}" th:text="${step.prerequisite}"></p>
           <a class="button" th:if="${step.allowed}" th:href="@{/exams/{stage}(stage=${step.stage})}"
-             th:text="${step.passed ? 'Ôn tập / kiểm tra lại' : 'Học và kiểm tra →'}"></a>
+             th:text="${step.passed ? 'Ôn tập / kiểm tra lại' : 'Học và kiểm tra '}"></a>
         </article>
       </section>
       <section>
@@ -38,17 +38,17 @@
             <span th:case="'REPORT'">Mở khi email được chấm đạt.</span>
             <span th:case="'ADVANCED'">Mở sau bài kiểm tra nâng cao. Đề xuất cải tiến theo chuyên ngành.</span>
           </p>
-          <a class="button" th:if="${practiceAllowed.get(kind)}" th:href="@{/practice/{kind}(kind=${kind})}">Viết và nộp bài →</a>
+          <a class="button" th:if="${practiceAllowed.get(kind)}" th:href="@{/practice/{kind}(kind=${kind})}">Viết và nộp bài </a>
         </article>
         <article class="card" th:if="${student.level.ordinal() < 2}">
           <h3>Tiếp tục học nền tảng</h3>
           <p>Hoàn thành cơ bản S5 rồi cơ bản S4; kiểm tra đạt S4 để chọn chuyên ngành.</p>
-          <a href="/path">Mở danh sách bài học →</a>
+          <a href="/path">Mở danh sách bài học </a>
         </article>
         <article class="card">
           <h3>Minh chứng và bước tiếp theo</h3>
 
-          <a href="/competency">Hồ sơ năng lực →</a>
+          <a href="/competency">Hồ sơ năng lực </a>
         </article>
       </section>
     </div>

@@ -38,8 +38,8 @@ public class ExamResultService {
             if(match.find())level=Level.valueOf(match.group(1));
         }
         String nextStep=level==null?"Tiếp tục theo lộ trình học của bạn.":switch(level){
-            case ZERO,N5 -> "Học cơ bản S5 (tương đương N5), qua kiểm tra S5 rồi học cơ bản S4. Đạt S4 mới được chọn chuyên ngành.";
-            case N4,N3,N2 -> "Bạn đạt S4 trở lên. Chọn chuyên ngành để bắt đầu học tiếng Nhật chuyên ngành phù hợp với bạn.";
+            case ZERO,N5 -> "Học cơ bản S5 rồi S4 để chọn chuyên ngành.";
+            case N4,N3,N2 -> "Chọn chuyên ngành để bắt đầu.";
         };
         return new Summary(level,nextStep,(int)questions.stream().filter(Question::correct).count(),questions.size(),List.copyOf(questions),stored.isEmpty());
     }

@@ -6,12 +6,12 @@
   <h1>Hồ sơ năng lực</h1>
   <p class="success" th:if="${message}" th:text="${message}"></p>
 
-  <a class="button" href="/journey">Lộ trình và bước tiếp theo →</a>
+  <a class="button" href="/journey">Lộ trình và bước tiếp theo </a>
   <section class="card spaced"><h2>Năng lực kiến thức theo giai đoạn</h2>
 
     <div class="lesson-row" th:each="step : ${steps}"><b th:text="${step.stage.label}"></b><span class="row-end" th:text="${step.passed ? '✓ Đạt' : 'Cần học / đánh giá'}"></span></div>
   </section>
-  <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Tiếp tục năng lực chuyên ngành</h2><a href="/specialized">6 bước và phản hồi theo học phần →</a></section><h2>Lịch sử bài kiểm tra</h2>
+  <section class="card" th:if="${student.placementCompleted and student.level.ordinal() >= 2}"><h2>Tiếp tục năng lực chuyên ngành</h2><a href="/specialized">6 bước và phản hồi theo học phần </a></section><h2>Lịch sử bài kiểm tra</h2>
   <section class="card"><p th:if="${#lists.isEmpty(attempts)}">Chưa có bài kiểm tra. Bắt đầu bằng Placement Test.</p>
     <div class="table-scroll"><table th:unless="${#lists.isEmpty(attempts)}">
       <thead><tr><th>Thời gian</th><th>Bài kiểm tra</th><th>Ngành</th><th>Điểm</th><th>Minh chứng</th></tr></thead>
@@ -29,7 +29,7 @@
       <p class="spaced" th:text="${'Ngôn ngữ: ' + s.languageScore + '/5 · Kỹ thuật: ' + s.technicalScore + '/5 · Giao tiếp: ' + s.communicationScore + '/5 · Nhiệm vụ: ' + s.taskScore + '/5'}"></p>
       <h4>Nhận xét và khuyến nghị</h4><div data-i18n-ignore class="preline" th:text="${s.feedback}"></div>
       <small th:text="${'Chấm ngày ' + #temporals.format(s.reviewedAt,'dd/MM/yyyy HH:mm')}"></small>
-      <a th:if="${s.status == 'REVISION' and s.major == student.major}" th:href="@{/practice/{kind}(kind=${s.kind})}">Sửa và nộp lại →</a>
+      <a th:if="${s.status == 'REVISION' and s.major == student.major}" th:href="@{/practice/{kind}(kind=${s.kind})}">Sửa và nộp lại </a>
     </section>
   </article>
   <details th:replace="~{fragments/rubric :: rubric}"></details>
