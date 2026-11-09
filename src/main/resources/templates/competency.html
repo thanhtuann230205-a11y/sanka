@@ -15,7 +15,7 @@
   <section class="card"><p th:if="${#lists.isEmpty(attempts)}">Chưa có bài kiểm tra. Bắt đầu bằng Placement Test.</p>
     <div class="table-scroll"><table th:unless="${#lists.isEmpty(attempts)}">
       <thead><tr><th>Thời gian</th><th>Bài kiểm tra</th><th>Ngành</th><th>Điểm</th><th>Minh chứng</th></tr></thead>
-      <tbody><tr th:each="a : ${attempts}"><td th:text="${#temporals.format(a.createdAt,'dd/MM/yyyy HH:mm')}"></td><td th:text="${a.stage.label}"></td><td th:text="${a.major == null ? 'Đánh giá chung' : a.major.label}"></td><td th:text="${a.score + '/100'}"></td><td><a th:href="@{/results/{id}(id=${a.id})}" th:text="${a.stage.name() == 'PLACEMENT' ? 'Phân luồng' : (a.passed ? 'Đạt · xem chi tiết' : 'Chưa đạt · ôn lại')}"></a></td></tr></tbody>
+      <tbody><tr th:each="a : ${attempts}"><td th:text="${#temporals.format(a.createdAt,'dd/MM/yyyy HH:mm')}"></td><td th:text="${a.stage.label}"></td><td th:text="${a.major == null ? 'Đánh giá chung' : a.major.label}"></td><td th:text="${a.score + '/100'}"></td><td><a th:href="@{/results/{id}(id=${a.id})}" th:text="${a.stage.name() == 'PLACEMENT' ? 'Bấm vào để xem kết quả' : (a.passed ? 'Đạt · xem chi tiết' : 'Chưa đạt · ôn lại')}"></a></td></tr></tbody>
     </table></div>
   </section>
   <h2>Thực hành và phản hồi giảng viên</h2>
