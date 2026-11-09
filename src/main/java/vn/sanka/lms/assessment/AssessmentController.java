@@ -36,14 +36,14 @@ public class AssessmentController {
     @GetMapping("/exams/{stage}") String exam(Principal p,@PathVariable Stage stage,Model m) {
         var s=learning.student(p.getName());
         m.addAttribute("questions",workflow.questions(s,stage));m.addAttribute("stage",stage);
-        m.addAttribute("material",catalog.lesson(stage,s.getMajor()));return (stage==Stage.PLACEMENT || stage==Stage.N5)?"placement-quiz":"exam";
+        m.addAttribute("material",catalog.lesson(stage,s.getMajor()));return (stage==Stage.PLACEMENT || stage==Stage.N5 || stage==Stage.N4)?"placement-quiz":"exam";
     }
     @PostMapping("/exams/{stage}") String exam(Principal p,@PathVariable Stage stage,@RequestParam Map<String,String> answers,
                                              Model model,jakarta.servlet.http.HttpServletResponse http) {
         try {
             var result=workflow.submitExam(p.getName(),stage,answers);return "redirect:/results/"+result.getId();
         } catch(org.springframework.web.server.ResponseStatusException error) {
-            if((stage!=Stage.PLACEMENT && stage!=Stage.N5) || error.getStatusCode().value()!=400)throw error;
+            if((stage!=Stage.PLACEMENT && stage!=Stage.N5 && stage!=Stage.N4) || error.getStatusCode().value()!=400)throw error;
             exam(p,stage,model);model.addAttribute("submittedAnswers",answers);model.addAttribute("quizError",error.getReason());
             http.setStatus(400);return "placement-quiz";
         }
@@ -61,7 +61,11 @@ public class AssessmentController {
             case ADVANCED -> "/specialized/ADVANCED";
         });
         if(attempt.getStage()==Stage.PLACEMENT){m.addAttribute("summary",results.summary(attempt));return "placement-result";}
-        if(attempt.getStage()==Stage.N5){m.addAttribute("summary",results.summary(attempt));return "foundation-result";}
+        if(attempt.getStage()==Stage.N5 || attempt.getStage()==Stage.N4){
+            m.addAttribute("summary",results.summary(attempt));
+            m.addAttribute("foundationLevel",attempt.getStage()==Stage.N5?"S5":"S4");
+            return "foundation-result";
+        }
         return "result";
     }
     @GetMapping("/results/{id}/review") String reviewResult(Principal p,@PathVariable Long id,Model m){

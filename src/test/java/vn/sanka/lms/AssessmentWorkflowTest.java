@@ -142,7 +142,22 @@ class AssessmentWorkflowTest {
         pass(s.getEmail(),Stage.N5);
         s=learning.student(s.getEmail());assertThat(s.getLevel()).isEqualTo(Level.N5);
         for(var l:learning.available(s))learning.complete(s.getEmail(),l.getId());
-        pass(s.getEmail(),Stage.N4);
+        mvc.perform(get("/exams/N4").with(user(s.getEmail())))
+            .andExpect(status().isOk()).andExpect(view().name("placement-quiz"))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("action=\"/exams/N4\"")));
+        mvc.perform(post("/exams/N4").with(user(s.getEmail())).with(csrf()).param("answer_missing","0"))
+            .andExpect(status().isBadRequest()).andExpect(view().name("placement-quiz"))
+            .andExpect(model().attributeExists("submittedAnswers","quizError"));
+        var failedS4=workflow.submitExam(s.getEmail(),Stage.N4,answers(Stage.N4,Major.IT,false));
+        mvc.perform(get("/results/"+failedS4.getId()).with(user(s.getEmail())))
+            .andExpect(status().isOk()).andExpect(view().name("foundation-result"))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("Chưa đạt S4")));
+        var passedS4=workflow.submitExam(s.getEmail(),Stage.N4,answers(Stage.N4,Major.IT,true));
+        mvc.perform(get("/results/"+passedS4.getId()).with(user(s.getEmail())))
+            .andExpect(status().isOk()).andExpect(view().name("foundation-result"))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("Đạt S4")));
+        mvc.perform(get("/results/"+passedS4.getId()+"/review").with(user(s.getEmail())))
+            .andExpect(status().isOk()).andExpect(view().name("placement-review"));
         assertThat(learning.student(s.getEmail()).getLevel()).isEqualTo(Level.N4);
         var other=student("isolation_route",Major.IT);
         mvc.perform(get("/results/"+first.getId()).with(user(other.getEmail()))).andExpect(status().isNotFound());
