@@ -28,7 +28,7 @@ public class MotivationController {
         m.addAttribute("previousMonth",selected.equals(YearMonth.of(1900,1))?null:selected.minusMonths(1));
         m.addAttribute("nextMonth",selected.equals(YearMonth.of(2200,12))?null:selected.plusMonths(1));
         m.addAttribute("selectedDay",date);m.addAttribute("dailyEvents",gamification.history(s.getId()).stream().filter(e->e.getActivityDate().equals(date)).toList());
-        m.addAttribute("profile",gamification.profile(s.getId()));return "motivation";
+        m.addAttribute("profile",gamification.profile(s.getId()));m.addAttribute("editDailyGoal",true);return "motivation";
     }
     @PostMapping("/motivation/goal") String goal(Principal p,@RequestParam int targetXp,RedirectAttributes flash){
         gamification.setGoal(gamification.student(p.getName()).getId(),targetXp);

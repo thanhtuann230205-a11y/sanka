@@ -18,3 +18,4 @@
 .journey-aligned .card .button,.journey-aligned .card>a{margin-top:auto}
 .journey-aligned .card p{margin-bottom:16px}
 @media(max-width:850px){.journey-aligned{display:block}.journey-aligned>section{display:block}.journey-aligned>section>h2{margin:24px 0 16px}.journey-aligned .card{min-height:190px;height:auto;margin-bottom:20px}}
+.daily-goal-editor{margin-top:18px}.daily-goal-editor label{margin-bottom:8px}.daily-goal-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.daily-goal-controls input{flex:1;min-width:80px;width:0;margin:0}.daily-goal-controls .button{white-space:nowrap}.daily-goal-editor small{display:block;margin-top:6px}
