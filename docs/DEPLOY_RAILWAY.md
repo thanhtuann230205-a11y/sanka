@@ -64,7 +64,7 @@ Database mới chỉ có học liệu mẫu và dữ liệu tạo sau deploy. T�
 | `Access denied` hoặc `Communications link failure` | Hai service cùng project/environment, MySQL đang chạy, 3 biến DB dùng reference đúng tên service. |
 | `No suitable driver` hoặc URL sai | `DB_URL` bắt đầu bằng `jdbc:mysql://`. |
 | Container chạy nhưng domain lỗi 502 | Domain trỏ đúng cổng app đang nghe; app dùng `PORT` Railway cung cấp; xem startup logs và trạng thái database. |
-| Không giữ được đăng nhập | Dùng domain HTTPS và profile `prod`. Bản hiện tại dùng session trong bộ nhớ: redeploy/restart có thể yêu cầu đăng nhập lại; chạy một replica. |
+| Không giữ được đăng nhập | Dùng một domain HTTPS và profile `prod`. Chạy migration V10 trước khi deploy; tất cả replica phải dùng cùng database Spring Session JDBC. Xem [phiên dùng chung](SHARED_SESSIONS.md). |
 | Flyway báo checksum/schema conflict | Kiểm tra lịch sử nhập database/migration; giữ nguyên các migration đã chạy, không xóa bảng hay history để bỏ qua lỗi. |
 
 Docker build chưa được kiểm tra bằng Docker trên máy hiện tại nếu Docker chưa được cài. Maven build/test có thể chạy bằng `./mvnw.cmd package`.

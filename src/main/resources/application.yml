@@ -3,6 +3,11 @@ spring:
     import: optional:file:./application-local.yml
   application:
     name: sanka-lms
+  session:
+    timeout: ${SESSION_TIMEOUT:8h}
+    jdbc:
+      initialize-schema: never
+      table-name: SANKA_SESSION
   datasource:
     url: ${DB_URL:jdbc:mysql://localhost:3306/sanka_lms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Ho_Chi_Minh}
     username: ${DB_USERNAME:sanka}
@@ -18,6 +23,7 @@ server:
   servlet:
     session:
       cookie:
+        name: SANKA_SESSION
         http-only: true
         same-site: lax
   error:

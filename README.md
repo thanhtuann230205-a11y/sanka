@@ -30,6 +30,7 @@ $env:DB_URL = 'jdbc:mysql://localhost:3306/sanka_lms?serverTimezone=Asia/Ho_Chi_
 ## Phạm vi hiện có
 
 - Đăng ký, đăng nhập, BCrypt, CSRF, kiểm tra dữ liệu phía server.
+- Phiên đăng nhập dùng chung qua Spring Session JDBC (V10), không phụ thuộc RAM của từng container. Xem [cách cập nhật database và deploy](docs/SHARED_SESSIONS.md).
 - Kiểm tra đầu vào trước khi chọn ngành; kết quả hiển thị S5, S4, S3, S2–S1 (tương đương các nhóm N). Đạt S4 trở lên mới chọn một trong 5 ngành.
 - Dashboard, lộ trình, bài học mẫu, lưu hoàn thành xuyên phiên, 20 XP/bài và tránh cộng lặp.
 - Zero/S5 → cơ bản S5 → kiểm tra S5 → cơ bản S4 → kiểm tra S4 → chọn chuyên ngành. Đầu vào đạt S4 trở lên chọn chuyên ngành ngay.
