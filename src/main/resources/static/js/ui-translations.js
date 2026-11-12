@@ -1,5 +1,13 @@
 // UI copy only. Learning material and user-authored content remain unchanged.
 window.SankaUiTranslations = [
+ ['Trợ lý AI','AI assistant','AIアシスタント'],['Trợ lý Sanka','Sanka assistant','Sankaアシスタント'],
+ ['Hỗ trợ học tiếng Nhật','Japanese learning support','日本語学習サポート'],
+ ['Mở trợ lý Sanka','Open Sanka assistant','Sankaアシスタントを開く'],['Đóng trò chuyện','Close chat','チャットを閉じる'],
+ ['Câu hỏi của bạn','Your question','質問'],['Hỏi về tiếng Nhật…','Ask about Japanese…','日本語について質問…'],
+ ['Gửi tin nhắn','Send message','送信'],['Đăng nhập để trò chuyện','Log in to chat','ログインしてチャット'],
+ ['Đang kết nối…','Connecting…','接続中…'],['Đang trả lời…','Thinking…','回答中…'],
+ ['AI có thể trả lời sai. Hãy kiểm tra thông tin quan trọng.','AI can make mistakes. Check important information.','AIの回答には誤りが含まれる場合があります。重要な情報は確認してください。'],
+
  ['Cách đọc','Reading','読み方'],['Nghĩa tiếng Việt','Vietnamese meaning','ベトナム語の意味'],['Ví dụ','Example','例文'],['Vị trí thẻ đang xem','Current card position','現在のカード位置'],
  ['Thẻ trước','Previous card','前のカード'],['Thẻ tiếp','Next card','次のカード'],
  ['Xem nghĩa','Show meaning','意味を見る'],['Ôn lại','Review','復習する'],

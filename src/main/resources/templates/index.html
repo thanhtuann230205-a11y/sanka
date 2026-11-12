@@ -6,11 +6,11 @@
   <link rel="stylesheet" th:href="@{/css/app.css}">
   <link rel="stylesheet" th:href="@{/css/home-language.css}">
   <link rel="stylesheet" th:href="@{/css/home.css}">
-  <script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script>
+  <script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script><script th:src="@{/js/chatbot.js}" defer></script>
 </head>
 <body class="home-page">
 <div class="japan-background" aria-hidden="true">
-  <img th:src="@{/images/japan-hero-v2.jpg}" alt="" width="1536" height="1024" fetchpriority="high" decoding="async">
+  <img th:src="@{/images/japan-adventure-v1.jpg}" alt="" width="1536" height="1024" fetchpriority="high" decoding="async">
 </div>
 <main class="public-main">
 
@@ -26,10 +26,14 @@
     <a class="button" href="/register" data-i18n="start">Bắt đầu học</a>
     <a class="button secondary" href="#journey" data-i18n="journey">Lộ trình</a>
   </section>
-  <section class="grid three" id="journey">
-    <article class="card"><div class="home-card-top"><span class="eyebrow">01</span><span class="home-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m8 14 3 3 5-6"/></svg></span></div><h2 data-i18n="placement">Kiểm tra đầu vào</h2><p data-i18n="placementDescription">Xác định trình độ của bạn.</p></article>
-    <article class="card"><div class="home-card-top"><span class="eyebrow">02</span><span class="home-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m2 9 10-5 10 5-10 5-10-5Z"/><path d="M6 11v6c4 3 8 3 12 0v-6M22 9v7"/></svg></span></div><h2 data-i18n="major">Chọn chuyên ngành</h2><p data-i18n="majorDescription">Mở khi đạt S4 trở lên.</p></article>
-    <article class="card"><div class="home-card-top"><span class="eyebrow">03</span><span class="home-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11a8 8 0 0 1-8 8H8l-5 3 1-6a8 8 0 1 1 17-5Z"/><path d="M8 9h8M8 13h5"/></svg></span></div><h2 data-i18n="practice">Thực hành</h2><p data-i18n="practiceDescription">Tiếng Nhật trong công việc.</p></article>
+  <section class="adventure-frame" id="journey" aria-label="Bản đồ học tập">
+   <div class="adventure-scroll" tabindex="0" aria-label="Bản đồ học tập, cuộn ngang để khám phá">
+    <nav class="adventure-world" aria-label="Chọn điểm đến">
+     <a class="adventure-stop adventure-placement" href="/exams/PLACEMENT"><span class="adventure-marker" aria-hidden="true">1</span><span class="adventure-label" data-i18n="placement">Kiểm tra đầu vào</span></a>
+     <a class="adventure-stop adventure-major" href="/onboarding"><span class="adventure-marker" aria-hidden="true">2</span><span class="adventure-label" data-i18n="major">Chọn chuyên ngành</span></a>
+     <a class="adventure-stop adventure-practice" href="/journey"><span class="adventure-marker" aria-hidden="true">3</span><span class="adventure-label" data-i18n="practice">Thực hành</span></a>
+    </nav>
+   </div>
   </section>
   <footer>SANKA</footer>
 </main></body></html>
