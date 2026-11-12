@@ -37,4 +37,17 @@ class GeminiChatServiceTest {
   assertThatThrownBy(()->service.answer(new GeminiChatService.Question("Xin chào",null,"vi")))
    .isInstanceOfSatisfying(ResponseStatusException.class,e->{assertThat(e.getStatusCode()).isEqualTo(HttpStatus.TOO_MANY_REQUESTS);assertThat(e.getReason()).doesNotContain("private-provider-details","test-secret");});server.verify();
  }
+
+ @org.junit.jupiter.params.ParameterizedTest
+ @org.junit.jupiter.params.provider.ValueSource(ints={400,401,403,404,500})
+ void reportsProviderStatusWithoutLeakingSecrets(int status){
+  var builder=RestClient.builder().baseUrl("https://example.test");var server=MockRestServiceServer.bindTo(builder).build();
+  server.expect(requestTo("https://example.test/models/test-model:generateContent"))
+   .andExpect(header("x-goog-api-key","test-secret"))
+   .andRespond(withStatus(HttpStatus.valueOf(status)).body("private-provider-details test-secret"));
+  var service=new GeminiChatService(builder.build(),"  test-secret  "," test-model ");
+  assertThatThrownBy(()->service.answer(new GeminiChatService.Question("Xin chào",null,"vi")))
+   .isInstanceOfSatisfying(ResponseStatusException.class,e->{assertThat(e.getReason()).contains(String.valueOf(status)).doesNotContain("private-provider-details","test-secret");});
+  server.verify();
+ }
 }

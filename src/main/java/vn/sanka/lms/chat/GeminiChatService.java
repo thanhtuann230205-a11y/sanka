@@ -14,6 +14,7 @@ import java.util.*;
 
 @Service
 public class GeminiChatService {
+ private static final org.slf4j.Logger log=org.slf4j.LoggerFactory.getLogger(GeminiChatService.class);
  public record Message(@NotNull @Pattern(regexp="user|model") String role,@NotBlank @Size(max=2000) String text){}
  public record Question(@NotBlank @Size(max=1500) String message,
                         @Size(max=12) List<@NotNull @Valid Message> history,
@@ -24,7 +25,7 @@ public class GeminiChatService {
  public GeminiChatService(@Value("${sanka.chat.api-key:}") String key,@Value("${sanka.chat.model:gemini-2.5-flash-lite}") String model){
   this(createClient(),key,model);
  }
- GeminiChatService(RestClient client,String key,String model){this.client=client;this.key=key;this.model=model;}
+ GeminiChatService(RestClient client,String key,String model){this.client=client;this.key=key==null?"":key.strip();this.model=model==null?"":model.strip();}
  private static RestClient createClient(){
   var factory=new SimpleClientHttpRequestFactory();factory.setConnectTimeout(10000);factory.setReadTimeout(30000);
   return RestClient.builder().baseUrl("https://generativelanguage.googleapis.com/v1beta")
@@ -60,8 +61,17 @@ public class GeminiChatService {
    if(text.isBlank())throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,"AI chưa trả lời được câu này. Hãy diễn đạt lại câu hỏi.");
    return text.substring(0,Math.min(text.length(),6000));
   }catch(RestClientResponseException error){
-   if(error.getStatusCode().value()==429)throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS,"AI đang hết hạn mức hoặc quá tải. Vui lòng thử lại sau.");
-   throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,"Chưa kết nối được AI. Vui lòng thử lại sau hoặc kiểm tra cấu hình máy chủ.");
+   int status=error.getStatusCode().value();
+   // Never log provider bodies or exception messages: they may contain credentials or prompts.
+   log.warn("Gemini request failed: HTTP {}, model={}",status,model);
+   if(status==429)throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS,"AI đang hết hạn mức hoặc quá tải. Vui lòng thử lại sau.");
+   String message=switch(status){
+    case 400 -> "Gemini từ chối yêu cầu (400). Hãy kiểm tra API key và điều kiện sử dụng của dự án Google AI Studio.";
+    case 401,403 -> "API key không hợp lệ hoặc không có quyền gọi Gemini ("+status+"). Hãy cập nhật GEMINI_API_KEY trên Render.";
+    case 404 -> "Không tìm thấy model Gemini (404). Hãy kiểm tra GEMINI_MODEL trên Render và chọn model có trong Google AI Studio.";
+    default -> "Gemini đang gặp lỗi ("+status+"). Vui lòng thử lại sau.";
+   };
+   throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,message);
   }catch(RestClientException error){throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,"Kết nối AI mất quá nhiều thời gian. Vui lòng thử lại.");}
  }
  private Map<String,Object> turn(String role,String text){return Map.of("role",role,"parts",List.of(Map.of("text",text)));}
