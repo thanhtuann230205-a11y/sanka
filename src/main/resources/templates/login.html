@@ -21,6 +21,9 @@
     <h1>Đăng nhập</h1>
     <p class="alert" th:if="${param.error}">Email hoặc mật khẩu không đúng.</p>
     <p class="success" th:if="${param.registered}">Đăng ký thành công. Hãy đăng nhập.</p>
+    <div th:replace="~{fragments/google-auth :: button}"></div>
+    <p class="alert" th:if="${param.googleUnavailable}">Đăng nhập Google chưa được cấu hình. Bạn có thể đăng nhập bằng email.</p>
+    <p class="alert" th:if="${param.googleError}">Không thể đăng nhập Google. Hãy thử lại hoặc đăng nhập bằng email.</p>
     <form th:action="@{/login}" method="post">
       <label>Email<input name="username" type="email" autocomplete="username" required></label>
       <label>Mật khẩu<input name="password" type="password" autocomplete="current-password" required></label>

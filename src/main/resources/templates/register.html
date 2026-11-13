@@ -19,6 +19,7 @@
   </header>
   <section class="auth card">
     <h1>Đăng ký</h1>
+    <div th:replace="~{fragments/google-auth :: button}"></div>
     <form th:action="@{/register}" th:object="${registration}" method="post">
       <div class="alert" th:if="${#fields.hasAnyErrors()}"><p th:each="e : ${#fields.allErrors()}" th:text="${e}"></p></div>
       <label>Họ và tên<input th:field="*{name}" autocomplete="name" maxlength="80" required></label>

@@ -1,4 +1,4 @@
 package vn.sanka.lms.auth;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-public interface StudentRepository extends JpaRepository<Student,Long>{ Optional<Student> findByEmail(String email); }
+public interface StudentRepository extends JpaRepository<Student,Long>{ Optional<Student> findByEmail(String email); Optional<Student> findByGoogleSubject(String subject); }

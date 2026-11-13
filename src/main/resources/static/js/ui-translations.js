@@ -1,5 +1,9 @@
 // UI copy only. Learning material and user-authored content remain unchanged.
 window.SankaUiTranslations = [
+ ['Tiếp tục với Google','Continue with Google','Googleで続ける'],['hoặc','or','または'],
+ ['Đăng nhập Google chưa được cấu hình. Bạn có thể đăng nhập bằng email.','Google sign-in is not configured yet. You can sign in with email.','Googleログインはまだ設定されていません。メールでログインできます。'],
+ ['Không thể đăng nhập Google. Hãy thử lại hoặc đăng nhập bằng email.','Could not sign in with Google. Try again or sign in with email.','Googleでログインできませんでした。再試行するかメールでログインしてください。'],
+
  ['Gửi mã xác nhận','Send verification code','確認コードを送信'],['Xác nhận email','Verify email','メールアドレスの確認'],
  ['Mã xác nhận 6 số','6-digit verification code','6桁の確認コード'],['Xác nhận và tạo tài khoản','Verify and create account','確認してアカウントを作成'],
  ['Gửi lại mã','Resend code','コードを再送信'],['Đổi email hoặc đăng ký lại','Change email or register again','メールを変更・再登録'],

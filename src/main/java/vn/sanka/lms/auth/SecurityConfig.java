@@ -16,10 +16,13 @@ public class SecurityConfig {
   entry.setDefaultEntryPoint(new org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint("/login"));
   return entry;
  }
- @Bean SecurityFilterChain security(HttpSecurity http) throws Exception {
-  return http.authorizeHttpRequests(a -> a.requestMatchers("/","/login","/register","/register/**","/css/**","/js/**","/images/**","/fonts/**","/error").permitAll().requestMatchers("/instructor/**").hasRole("INSTRUCTOR").anyRequest().authenticated())
+ @Bean SecurityFilterChain security(HttpSecurity http,org.springframework.beans.factory.ObjectProvider<org.springframework.security.oauth2.client.registration.ClientRegistrationRepository> clients,org.springframework.beans.factory.ObjectProvider<GoogleOidcUserService> googleUsers) throws Exception {
+  http.authorizeHttpRequests(a -> a.requestMatchers("/","/login","/register","/register/**","/auth/google","/oauth2/**","/login/oauth2/**","/css/**","/js/**","/images/**","/fonts/**","/error").permitAll().requestMatchers("/instructor/**").hasRole("INSTRUCTOR").anyRequest().authenticated())
    .exceptionHandling(e->e.authenticationEntryPoint(chatEntryPoint()))
    .formLogin(f -> f.loginPage("/login").defaultSuccessUrl("/start",true).permitAll())
-   .logout(l -> l.logoutSuccessUrl("/?logout")).build();
+   .logout(l -> l.logoutSuccessUrl("/?logout"));
+  if(clients.getIfAvailable()!=null)http.oauth2Login(o->o.loginPage("/login").clientRegistrationRepository(clients.getObject())
+   .userInfoEndpoint(u->u.oidcUserService(googleUsers.getObject())).defaultSuccessUrl("/start",true).failureUrl("/login?googleError"));
+  return http.build();
  }
 }
