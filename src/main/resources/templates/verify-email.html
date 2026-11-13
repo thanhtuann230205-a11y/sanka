@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Xác nhận email · Sanka</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+  <link rel="stylesheet" th:href="@{/css/home-language.css}">
+  <link rel="stylesheet" th:href="@{/css/home.css}">
+  <script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script><script th:src="@{/js/chatbot.js}" defer></script>
+</head>
+<body class="home-page auth-page">
+<div class="japan-background" aria-hidden="true">
+  <img th:src="@{/images/japan-adventure-v1.jpg}" alt="" width="1536" height="1024" fetchpriority="high" decoding="async">
+</div>
+<main class="public-main">
+  <header class="landing-nav">
+    <a class="brand" href="/" aria-label="SANKA"><span class="home-brand-mark" aria-hidden="true">三</span><span class="home-brand-name">SANKA</span></a>
+    <div th:replace="~{fragments/language :: switcher}"></div>
+  </header>
+  <section class="auth card">
+    <h1>Xác nhận email</h1><p>Mã xác nhận đã được gửi đến <b data-i18n-ignore th:text="${email}"></b>.</p>
+    <p class="alert" role="alert" th:if="${error}" th:text="${error}"></p>
+    <p class="success" role="status" th:if="${message}" th:text="${message}"></p>
+    <form th:action="@{/register/verify}" method="post">
+     <label for="email-code">Mã xác nhận 6 số<input id="email-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" placeholder="000000" required autofocus></label>
+     <button class="button" type="submit">Xác nhận và tạo tài khoản</button>
+    </form>
+    <form class="spaced" th:action="@{/register/resend}" method="post"><button class="button secondary" type="submit">Gửi lại mã</button></form>
+    <p>Mã có hiệu lực 10 phút. Kiểm tra cả thư rác. Mỗi lần gửi cách nhau ít nhất 60 giây.</p>
+    <a href="/register">Đổi email hoặc đăng ký lại</a>
+  </section>
+</main></body></html>

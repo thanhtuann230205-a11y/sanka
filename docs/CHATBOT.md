@@ -1,4 +1,4 @@
-﻿# Chatbot Sanka (Gemini)
+# Chatbot Sanka (Gemini)
 
 Trợ lý nằm ở góc dưới các trang. Người học cần đăng nhập để gửi câu hỏi.
 
@@ -6,7 +6,7 @@ Trợ lý nằm ở góc dưới các trang. Người học cần đăng nhập 
 
 1. Vào service Sanka → Environment → Add Environment Variable.
 2. Thêm `GEMINI_API_KEY` bằng API key lấy từ Google AI Studio.
-3. Có thể thêm `GEMINI_MODEL` để chọn model hỗ trợ generateContent trong tài khoản của bạn. Mặc định: `gemini-2.5-flash-lite`.
+3. Có thể thêm `GEMINI_MODEL` để chọn model hỗ trợ generateContent trong tài khoản của bạn. Mặc định: `gemini-3.1-flash-lite`.
 4. Save, rebuild and deploy sau khi đẩy code chatbot lên GitHub.
 
 Không đặt key trong HTML/JavaScript, không commit key. Không có key thì ứng dụng vẫn khởi động, chatbot hiển thị chưa sẵn sàng.

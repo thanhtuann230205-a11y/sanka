@@ -1,5 +1,10 @@
 // UI copy only. Learning material and user-authored content remain unchanged.
 window.SankaUiTranslations = [
+ ['Gửi mã xác nhận','Send verification code','確認コードを送信'],['Xác nhận email','Verify email','メールアドレスの確認'],
+ ['Mã xác nhận 6 số','6-digit verification code','6桁の確認コード'],['Xác nhận và tạo tài khoản','Verify and create account','確認してアカウントを作成'],
+ ['Gửi lại mã','Resend code','コードを再送信'],['Đổi email hoặc đăng ký lại','Change email or register again','メールを変更・再登録'],
+ ['Mã có hiệu lực 10 phút. Kiểm tra cả thư rác. Mỗi lần gửi cách nhau ít nhất 60 giây.','The code expires in 10 minutes. Check your spam folder. Wait 60 seconds before resending.','コードの有効期限は10分です。迷惑メールも確認してください。再送信には60秒お待ちください。'],
+
  ['Trợ lý AI','AI assistant','AIアシスタント'],['Trợ lý Sanka','Sanka assistant','Sankaアシスタント'],
  ['Hỗ trợ học tiếng Nhật','Japanese learning support','日本語学習サポート'],
  ['Mở trợ lý Sanka','Open Sanka assistant','Sankaアシスタントを開く'],['Đóng trò chuyện','Close chat','チャットを閉じる'],

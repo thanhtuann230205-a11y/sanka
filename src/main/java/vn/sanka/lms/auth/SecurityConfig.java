@@ -17,7 +17,7 @@ public class SecurityConfig {
   return entry;
  }
  @Bean SecurityFilterChain security(HttpSecurity http) throws Exception {
-  return http.authorizeHttpRequests(a -> a.requestMatchers("/","/login","/register","/css/**","/js/**","/images/**","/fonts/**","/error").permitAll().requestMatchers("/instructor/**").hasRole("INSTRUCTOR").anyRequest().authenticated())
+  return http.authorizeHttpRequests(a -> a.requestMatchers("/","/login","/register","/register/**","/css/**","/js/**","/images/**","/fonts/**","/error").permitAll().requestMatchers("/instructor/**").hasRole("INSTRUCTOR").anyRequest().authenticated())
    .exceptionHandling(e->e.authenticationEntryPoint(chatEntryPoint()))
    .formLogin(f -> f.loginPage("/login").defaultSuccessUrl("/start",true).permitAll())
    .logout(l -> l.logoutSuccessUrl("/?logout")).build();

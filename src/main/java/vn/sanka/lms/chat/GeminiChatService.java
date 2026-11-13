@@ -22,7 +22,7 @@ public class GeminiChatService {
  private final RestClient client;
  private final String key,model;
  @Autowired
- public GeminiChatService(@Value("${sanka.chat.api-key:}") String key,@Value("${sanka.chat.model:gemini-2.5-flash-lite}") String model){
+ public GeminiChatService(@Value("${sanka.chat.api-key:}") String key,@Value("${sanka.chat.model:gemini-3.1-flash-lite}") String model){
   this(createClient(),key,model);
  }
  GeminiChatService(RestClient client,String key,String model){this.client=client;this.key=key==null?"":key.strip();this.model=model==null?"":model.strip();}

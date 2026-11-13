@@ -14,6 +14,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.assertj.core.api.Assertions.*;
 @SpringBootTest @AutoConfigureMockMvc @ActiveProfiles("test")
 class LearningFlowTest {
+ @Autowired org.springframework.security.crypto.password.PasswordEncoder encoder;
  @Autowired MockMvc mvc; @Autowired StudentRepository students; @Autowired LearningService learning;
  @Autowired WorkflowService workflow; @Autowired LearningCatalog catalog;
  @Test void publicPagesAndSecurity() throws Exception {
@@ -23,7 +24,7 @@ class LearningFlowTest {
   mvc.perform(post("/register")).andExpect(status().isForbidden());
  }
  @Test void registrationLearningAndIsolation() throws Exception {
-  mvc.perform(post("/register").with(csrf()).param("name","An").param("email","an@example.com").param("password","password123")).andExpect(redirectedUrl("/login?registered"));
+  students.saveAndFlush(new Student("An","an@example.com",encoder.encode("password123")));
   var student=students.findByEmail("an@example.com").orElseThrow();assertThat(student.getPassword()).startsWith("$2a$");
   mvc.perform(post("/login").with(csrf()).param("username","an@example.com").param("password","password123")).andExpect(redirectedUrl("/start"));
   mvc.perform(post("/register").with(csrf()).param("name","An").param("email","an@example.com").param("password","password123")).andExpect(status().isOk()).andExpect(model().attributeHasFieldErrors("registration","email"));
@@ -56,7 +57,7 @@ class LearningFlowTest {
    .andExpect(status().isOk()).andExpect(jsonPath("$.complete").value(true));
   for(int i=0;i<2;i++)mvc.perform(post("/lessons/9/complete").cookie(sessionCookies).with(user(student.getEmail())).with(csrf())).andExpect(redirectedUrl("/dashboard"));
   assertThat(learning.completed(student)).containsExactly(9L);
-  mvc.perform(post("/register").with(csrf()).param("name","Binh").param("email","binh@example.com").param("password","password123")).andExpect(status().is3xxRedirection());
+  students.saveAndFlush(new Student("Binh","binh@example.com",encoder.encode("password123")));
   var other=students.findByEmail("binh@example.com").orElseThrow(); assertThat(learning.completed(other)).isEmpty();
   
   mvc.perform(get("/lessons/9").with(user(other.getEmail()))).andExpect(redirectedUrl("/exams/PLACEMENT"));
