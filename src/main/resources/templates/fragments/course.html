@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><body>
 <section class="card" th:fragment="lessons">
   <div class="lesson-list">
-    <a class="lesson-row" th:each="l : ${lessons}" th:href="@{/lessons/{id}(id=${l.id})}">
+    <a class="lesson-row" th:classappend="${completed.contains(l.id) ? 'lesson-completed' : (nextLesson != null and nextLesson.id == l.id ? 'lesson-current' : '')}" th:each="l : ${lessons}" th:href="@{/lessons/{id}(id=${l.id})}">
       <span class="lesson-icon" th:text="${completed.contains(l.id) ? '✓' : '文'}"></span>
-      <div><b data-i18n-ignore th:text="${#strings.replace(#strings.replace(l.title, 'S5 · ', ''), 'S4 · ', '')}"></b></div>
-      <span class="row-end" th:text="${completed.contains(l.id) ? 'Hoàn thành' : 'Bắt đầu'}"></span>
+      <div><b th:text="${#strings.replace(#strings.replace(l.title, 'S5 · ', ''), 'S4 · ', '')}"></b></div>
+      <span class="row-end" th:text="${completed.contains(l.id) ? 'Hoàn thành' : (nextLesson != null and nextLesson.id == l.id ? 'Đang học' : 'Bắt đầu')}"></span>
     </a>
   </div>
   <div class="spaced" th:if="${nextLesson == null}">

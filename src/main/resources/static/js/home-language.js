@@ -1,7 +1,6 @@
 (() => {
   'use strict';
   const pickers = [...document.querySelectorAll('[data-language-switch]')];
-  if (!pickers.length) return;
   const languages = {vi:'Tiếng Việt',en:'English',ja:'日本語'};
   const normalize = text => text.replace(/\s+/gu,' ').trim();
   const dictionary = new Map((window.SankaUiTranslations || []).map(row => [normalize(row[0]),row]));
@@ -9,6 +8,7 @@
   const attributeRecords = new WeakMap();
   const originalTitle = document.title;
   const skip = 'script,style,textarea,pre,code,svg,[data-i18n-ignore],[translate="no"],.language-control,.lesson-content,.preline,.answer-copy,.question-title,.review-question-title';
+  const attributeSkip = 'script,style,svg,[data-i18n-ignore],[translate="no"],.language-control';
   let language = 'vi';
   let scheduled = false;
   let observer;
@@ -25,6 +25,32 @@
       const entry = dictionary.get(normalize(decorated[2]));
       if (entry) return decorated[1] + entry[index] + (decorated[3] || '');
     }
+    let dynamic = text.match(/^Thẻ (\d+)\s*\/\s*(\d+)$/u);
+    if(dynamic)return language==='en'?`Card ${dynamic[1]} / ${dynamic[2]}`:`カード ${dynamic[1]} / ${dynamic[2]}`;
+    dynamic=text.match(/^(\d+) ngày$/u);
+    if(dynamic)return language==='en'?`${dynamic[1]} ${dynamic[1]==='1'?'day':'days'}`:`${dynamic[1]}日`;
+    dynamic=text.match(/^Bài làm cần từ (\d+) đến 10\.000 ký tự$/u);
+    if(dynamic)return language==='en'?`Your response must contain ${dynamic[1]}–10,000 characters`:`回答は${dynamic[1]}～10,000文字で入力してください`;
+    dynamic=text.match(/^(\d+)\/10\.000 ký tự$/u);
+    if(dynamic)return language==='en'?`${dynamic[1]}/10,000 characters`:`${dynamic[1]}/10,000文字`;
+    dynamic=text.match(/^Từ (\d{1,2}\/\d{1,2}) đến (\d{1,2}\/\d{1,2})$/u);
+    if(dynamic)return language==='en'?`From ${dynamic[1]} to ${dynamic[2]}`:`${dynamic[1]}～${dynamic[2]}`;
+    dynamic=text.match(/^Bạn đã trả lời đủ (\d+) câu\. Nhấn vào câu bất kỳ để kiểm tra lại, hoặc nộp bài khi sẵn sàng\.$/u);
+    if(dynamic)return language==='en'?`All ${dynamic[1]} questions answered. Select a question to review, or submit when ready.`:`全${dynamic[1]}問に回答しました。問題を選んで確認するか、準備ができたら提出してください。`;
+    dynamic=text.match(/^Bạn đã trả lời (\d+)\/(\d+) câu\. Hãy hoàn thành (\d+) câu còn thiếu trước khi nộp\.$/u);
+    if(dynamic)return language==='en'?`${dynamic[1]}/${dynamic[2]} answered. Complete the remaining ${dynamic[3]} questions before submitting.`:`${dynamic[2]}問中${dynamic[1]}問に回答済みです。残り${dynamic[3]}問に回答してから提出してください。`;
+    dynamic=text.match(/^Đã chọn: ([\s\S]+?)( · ⚑ Xem lại)?$/u);
+    if(dynamic)return (language==='en'?'Selected: ':'選択：')+dynamic[1]+(dynamic[2]?(language==='en'?' · ⚑ Review':' · ⚑ 要確認'):'');
+    dynamic=text.match(/^(\d{4}-\d{2}-\d{2}): (\d+) XP, (\d+) mốc hoạt động(, đạt mục tiêu)?$/u);
+    if(dynamic)return language==='en'?`${dynamic[1]}: ${dynamic[2]} XP, ${dynamic[3]} activities${dynamic[4]?', goal reached':''}`:`${dynamic[1]}：${dynamic[2]} XP、${dynamic[3]}件の活動${dynamic[4]?'、目標達成':''}`;
+    dynamic=text.match(/^(Chưa đạt|Đạt) (S\d(?:–S\d)?)$/u);
+    if(dynamic)return language==='en'?`${dynamic[1]==='Đạt'?'Passed':'Not yet at'} ${dynamic[2]}`:`${dynamic[2]}${dynamic[1]==='Đạt'?'達成':'未達成'}`;
+    dynamic=text.match(/^(Tiếng Nhật cơ bản|Kiểm tra cơ bản|Kết quả|Kết quả ôn|Ôn tập định kỳ|Kiểm tra nhóm) (.+)$/u);
+    if(dynamic)return translate(dynamic[1])+' '+translate(dynamic[2]);
+    dynamic=text.match(/^API key không hợp lệ hoặc không có quyền gọi Gemini \((\d+)\)\. Hãy cập nhật GEMINI_API_KEY trên Render\.$/u);
+    if(dynamic)return language==='en'?`Invalid API key or Gemini access denied (${dynamic[1]}). Update GEMINI_API_KEY on Render.`:`APIキーが無効、またはGeminiのアクセス権限がありません（${dynamic[1]}）。RenderのGEMINI_API_KEYを更新してください。`;
+    dynamic=text.match(/^Gemini đang gặp lỗi \((\d+)\)\. Vui lòng thử lại sau\.$/u);
+    if(dynamic)return language==='en'?`Gemini error (${dynamic[1]}). Please try again later.`:`Geminiでエラーが発生しました（${dynamic[1]}）。後でもう一度お試しください。`;
     let match = text.match(/^Câu (\d+)\s*\/\s*(\d+)$/u);
     if (match) return language === 'en' ? `Question ${match[1]} / ${match[2]}` : `問題 ${match[1]} / ${match[2]}`;
     match = text.match(/^(\d+) câu đã trả lời$/u);
@@ -73,7 +99,7 @@
       const walker = document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
       while (walker.nextNode()) renderText(walker.currentNode);
       document.querySelectorAll('[placeholder],[title],[aria-label]').forEach(element=>{
-        if (element.closest(skip)) return;
+        if (element.closest(attributeSkip)) return;
         let records = attributeRecords.get(element);
         if (!records) {records={};attributeRecords.set(element,records);}
         for (const name of ['placeholder','title','aria-label']) {

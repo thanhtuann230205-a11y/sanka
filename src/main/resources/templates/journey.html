@@ -19,7 +19,7 @@
     <div class="journey-grid journey-aligned" th:style="${'--journey-rows: ' + #lists.size(steps)}">
       <section>
         <h2>Bài kiểm tra</h2>
-        <article class="card" th:each="step : ${steps}">
+        <article class="card" th:each="step : ${steps}" th:classappend="${step.passed ? 'journey-completed' : (step.allowed ? 'journey-open' : 'journey-locked')}">
           <span class="pill" th:text="${step.passed ? '✓ Đã đạt' : (step.allowed ? 'Có thể bắt đầu' : '🔒 Chưa mở')}"></span>
           <h3 class="spaced" th:text="${step.stage.label}"></h3>
           <p th:if="${!step.allowed and !step.passed}" th:text="${#strings.replace(step.prerequisite, ';', ',')}"></p>
@@ -29,7 +29,7 @@
       </section>
       <section>
         <h2>Thực hành</h2>
-        <article class="card" th:each="kind : ${kinds}">
+        <article class="card" th:each="kind : ${kinds}" th:classappend="${practiceDone.get(kind) ? 'journey-completed' : (practiceAllowed.get(kind) ? 'journey-open' : 'journey-locked')}">
           <span class="pill" th:text="${practiceDone.get(kind) ? '✓ Giảng viên chấm đạt' : (practiceAllowed.get(kind) ? 'Đã mở' : '🔒 Chưa mở')}"></span>
           <h3 class="spaced" th:text="${kind.label}"></h3>
           <p th:if="${!practiceAllowed.get(kind) and !practiceDone.get(kind)}" th:switch="${kind.name()}">

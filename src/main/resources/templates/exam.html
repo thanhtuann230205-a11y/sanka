@@ -11,7 +11,7 @@
   <form th:action="@{/exams/{stage}(stage=${stage})}" method="post">
     <fieldset class="card question" th:each="q, stat : ${questions}">
       <legend data-i18n-ignore th:text="${stat.count + '. ' + q.prompt}"></legend>
-      <span data-i18n-ignore class="pill" th:text="${q.skill}"></span>
+      <span class="pill" th:text="${q.skill}"></span>
       <audio class="spaced" th:if="${q.audioId != null}" controls preload="none" th:src="@{/audio/{id}.wav(id=${q.audioId})}">Trình duyệt không hỗ trợ âm thanh.</audio>
       <label class="choice" th:each="option, index : ${q.options}">
         <input type="radio" th:name="${'answer_' + q.id}" th:value="${index.index}" required>

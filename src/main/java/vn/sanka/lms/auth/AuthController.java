@@ -12,7 +12,7 @@ public class AuthController {
  private static final org.slf4j.Logger log=org.slf4j.LoggerFactory.getLogger(AuthController.class);
  private final StudentRepository students; private final PasswordEncoder encoder; private final EmailRegistrationService verification;
  public AuthController(StudentRepository students,PasswordEncoder encoder,EmailRegistrationService verification){this.students=students;this.encoder=encoder;this.verification=verification;}
- public record Registration(@NotBlank @Size(max=80) String name,@NotBlank @Email @Size(max=190) String email,@NotBlank @Size(min=8,max=72) String password){}
+ public record Registration(@NotBlank(message="Họ tên không được để trống") @Size(max=80,message="Họ tên tối đa 80 ký tự") String name,@NotBlank(message="Email không được để trống") @Email(message="Email không hợp lệ") @Size(max=190,message="Email tối đa 190 ký tự") String email,@NotBlank(message="Mật khẩu không được để trống") @Size(min=8,max=72,message="Mật khẩu cần từ 8–72 ký tự") String password){}
  @GetMapping("/") String home(){return "index";}
  @GetMapping("/login") String login(){return "login";}
  @GetMapping("/register") String register(Model model){model.addAttribute("registration",new Registration("","",""));return "register";}

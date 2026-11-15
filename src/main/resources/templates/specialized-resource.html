@@ -8,7 +8,7 @@
     <section th:case="'TERMS'">
       <p>Đọc Kanji và cách đọc, tự nhớ nghĩa rồi mở thẻ để kiểm tra. Lưu những từ cần luyện thêm.</p>
       <article class="card"><h2>Bài mở đầu chuyên ngành</h2>
-        <a class="lesson-row" th:each="lesson : ${introductions}" th:href="@{/lessons/{id}(id=${lesson.id})}"><b data-i18n-ignore th:text="${lesson.title}"></b><span class="row-end" th:text="${completed.contains(lesson.id) ? '✓ Đã hoàn thành' : 'Đọc và hoàn thành '}"></span></a>
+        <a class="lesson-row" th:each="lesson : ${introductions}" th:href="@{/lessons/{id}(id=${lesson.id})}"><b th:text="${lesson.title}"></b><span class="row-end" th:text="${completed.contains(lesson.id) ? '✓ Đã hoàn thành' : 'Đọc và hoàn thành '}"></span></a>
       </article>
       <div class="section-heading"><h2>Thẻ thuật ngữ</h2><a th:href="${savedOnly ? '/specialized/TERMS' : '/specialized/TERMS?savedOnly=true'}" th:text="${savedOnly ? 'Xem tất cả từ' : 'Chỉ xem từ đã lưu'}"></a></div>
       <div class="grid two">

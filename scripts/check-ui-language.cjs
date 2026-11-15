@@ -1,0 +1,34 @@
+const {chromium}=require('playwright'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+fs.mkdirSync('.tools',{recursive:true});
+const read=f=>fs.readFileSync('src/main/resources/'+f,'utf8');
+const picker=read('templates/fragments/language.html').split('<body>')[1].split('</body>')[0];
+const files=[];function walk(dir){for(const item of fs.readdirSync(dir,{withFileTypes:true})){const f=path.join(dir,item.name);if(item.isDirectory())walk(f);else if(f.endsWith('.html'))files.push(f)}}walk('src/main/resources/templates');
+(async()=>{const b=await chromium.launch({channel:'chrome',headless:true});try{const page=await b.newPage({viewport:{width:390,height:844}});let requests=[];const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.route('https://sanka.test/**',route=>{const p=new URL(route.request().url()).pathname;if(p.startsWith('/js/'))return route.fulfill({path:'src/main/resources/static'+p});if(p==='/api/chat/status')return route.fulfill({contentType:'application/json',body:JSON.stringify({enabled:true,csrfHeader:'X-CSRF-TOKEN',csrfToken:'fake'})});if(p==='/api/chat'){requests.push(route.request().postDataJSON());return route.fulfill({contentType:'application/json',body:JSON.stringify({reply:'学校: trường học'})})}return route.fulfill({contentType:'text/html',body:`<!doctype html><html lang="vi"><head><meta charset="UTF-8"><title>Kết quả đầu vào · Sanka</title><script src="/js/ui-translations.js" defer></script><script src="/js/home-language.js" defer></script><script src="/js/chatbot.js" defer></script></head><body>${picker}<main id="ui"><h1>Đang học</h1><label>Câu hỏi của bạn<textarea placeholder="Hỏi về tiếng Nhật…"></textarea></label><input id="name" data-i18n-ignore value="Nguyễn Nhật"><p id="dynamic">Thẻ 2 / 4</p><p data-i18n-ignore id="learning">学校: trường học</p><p id="label">Bạn chọn · Đúng</p><button id="actions" title="Nghe phát âm" aria-label="Đi đến câu hỏi">Thay đổi mục tiêu</button></main></body></html>`});});
+await page.goto('https://sanka.test/');
+async function choose(lang){await page.locator('[data-language-trigger]').click();await page.locator('[data-language="'+lang+'"]').click();await page.waitForFunction(l=>document.documentElement.lang===l,lang);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));}
+await page.locator('#name').fill('名前 Nguyễn');await page.locator('#ui textarea').fill('に và で');
+await choose('en');assert.equal(await page.locator('h1').innerText(),'In progress');assert.equal(await page.locator('#dynamic').innerText(),'Card 2 / 4');assert.equal(await page.locator('#ui textarea').getAttribute('placeholder'),'Ask about Japanese…');assert.equal(await page.locator('.chat-form textarea').getAttribute('placeholder'),'Ask about Japanese…');assert.match(await page.locator('.chat-model').innerText(),/^Hello!/);assert.equal(await page.title(),'Placement results · Sanka');
+await page.locator('#dynamic').evaluate(e=>e.textContent='Thẻ 3 / 4');await page.waitForFunction(()=>document.getElementById('dynamic').textContent==='Card 3 / 4');
+await choose('ja');assert.equal(await page.locator('#dynamic').innerText(),'カード 3 / 4');assert.equal(await page.locator('#ui textarea').getAttribute('placeholder'),'日本語について質問…');assert.equal(await page.locator('#actions').getAttribute('aria-label'),'問題に移動');assert.equal(await page.locator('#actions').getAttribute('title'),'発音を聞く');
+await page.locator('.chat-launcher').click();await page.waitForFunction(()=>!document.getElementById('chat-input').disabled);await page.locator('#chat-input').fill('学校');await page.locator('.chat-send').click();await page.waitForFunction(()=>document.querySelectorAll('.chat-model').length===2);assert.equal(requests[0].language,'ja');
+await choose('vi');assert.equal(await page.locator('#dynamic').innerText(),'Thẻ 3 / 4');assert.equal(await page.locator('#name').inputValue(),'名前 Nguyễn');assert.equal(await page.locator('#ui textarea').inputValue(),'に và で');assert.equal(await page.locator('#learning').innerText(),'学校: trường học');assert.equal(await page.locator('.chat-model').last().innerText(),'学校: trường học');
+// Verify every dictionary row switches both ways without source loss.
+for(const lang of ['en','ja']){await choose(lang);const wrong=await page.evaluate(l=>window.SankaUiTranslations.filter(row=>window.SankaI18n.translate(row[0])!==row[l==='en'?1:2]).map(r=>r[0]),lang);assert.deepEqual(wrong,[],'dictionary '+lang);}
+const formats=[
+ ['Từ 9/11 đến 15/11','From 9/11 to 15/11','9/11～15/11'],
+ ['Thẻ 4 / 4','Card 4 / 4','カード 4 / 4'],
+ ['1 ngày','1 day','1日'],
+ ['80/10.000 ký tự','80/10,000 characters','80/10,000文字'],
+ ['Đạt S4','Passed S4','S4達成'],
+ ['Bài làm cần từ 80 đến 10.000 ký tự','Your response must contain 80–10,000 characters','回答は80～10,000文字で入力してください'],
+ ['Bạn đã trả lời 1/5 câu. Hãy hoàn thành 4 câu còn thiếu trước khi nộp.','1/5 answered. Complete the remaining 4 questions before submitting.','5問中1問に回答済みです。残り4問に回答してから提出してください。'],
+ ['Đã chọn: 学校 · ⚑ Xem lại','Selected: 学校 · ⚑ Review','選択：学校 · ⚑ 要確認'],
+ ['2026-11-15: 40 XP, 2 mốc hoạt động, đạt mục tiêu','2026-11-15: 40 XP, 2 activities, goal reached','2026-11-15：40 XP、2件の活動、目標達成'],
+ ['API key không hợp lệ hoặc không có quyền gọi Gemini (403). Hãy cập nhật GEMINI_API_KEY trên Render.','Invalid API key or Gemini access denied (403). Update GEMINI_API_KEY on Render.','APIキーが無効、またはGeminiのアクセス権限がありません（403）。RenderのGEMINI_API_KEYを更新してください。']
+];
+for(const lang of ['en','ja']){await choose(lang);for(const row of formats)assert.equal(await page.evaluate(s=>SankaI18n.translate(s),row[0]),row[lang==='en'?1:2]);}
+// Scan actual template copy, including labels nested in tables and hidden panels.
+const uncovered=[];await choose('en');for(const file of files){if(file.endsWith('fragments\\language.html')||file.endsWith('fragments/language.html'))continue;const missing=await page.evaluate(html=>{const d=new DOMParser().parseFromString(html,'text/html'),w=d.createTreeWalker(d.body,NodeFilter.SHOW_TEXT),out=[];while(w.nextNode()){const n=w.currentNode,s=n.data.replace(/\s+/g,' ').trim();if(!s||!/[À-ỹ]/u.test(s)||/[${}]/.test(s)||n.parentElement.closest('script,style,textarea,pre,code,svg,[data-i18n-ignore],[lang=ja],.preline,.answer-copy,.question-title'))continue;if(window.SankaI18n.translate(s)===s)out.push(s);}return out},fs.readFileSync(file,'utf8'));uncovered.push(...missing.map(text=>({file,text})));}
+fs.writeFileSync('.tools/i18n-template-uncovered.json',JSON.stringify(uncovered,null,2));assert.deepEqual(uncovered,[],'untranslated static template UI');assert.deepEqual(errors,[]);console.log('PASS: full dictionary EN/JA; all template UI; dynamic cards; textarea placeholders; ARIA/title; VI round-trip; preserved names/answers; chatbot language and history.');
+}finally{await b.close()}})().catch(e=>{console.error(e);process.exit(1)});

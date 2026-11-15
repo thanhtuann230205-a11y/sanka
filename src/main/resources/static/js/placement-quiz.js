@@ -101,7 +101,7 @@
       button.className = `review-row${input ? '' : ' is-missing'}`;
       const number = document.createElement('span'); number.className = 'review-number'; number.textContent = String(i + 1).padStart(2, '0');
       const copy = document.createElement('span'); copy.className = 'review-copy';
-      const title = document.createElement('b'); title.textContent = panel.querySelector('.question-title').textContent;
+      const title = document.createElement('b'); title.setAttribute('data-i18n-ignore',''); title.textContent = panel.querySelector('.question-title').textContent;
       const answer = document.createElement('small');
       answer.textContent = input ? `Đã chọn: ${input.closest('label').querySelector('.answer-copy').textContent}${flagged.has(i) ? ' · ⚑ Xem lại' : ''}` : 'Chưa trả lời';
       copy.append(title, answer);

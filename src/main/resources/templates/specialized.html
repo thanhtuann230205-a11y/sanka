@@ -16,7 +16,7 @@
     <a class="button white" th:if="${nextStep == null}" href="/competency">Xem năng lực và minh chứng </a>
   </div><div class="progress-orb"><strong th:text="${completedCount + '/6'}"></strong><span>bước đã hoàn thành</span><progress max="100" th:value="${percent}"></progress></div></section>
   <div class="specialized-timeline">
-    <article class="card phase-card" th:each="step, index : ${steps}" th:classappend="${step.status == 'LOCKED' ? 'phase-locked' : ''}">
+    <article class="card phase-card" th:each="step, index : ${steps}" th:classappend="${step.status == 'LOCKED' ? 'phase-locked' : (step.status == 'COMPLETED' ? 'phase-completed' : 'phase-open')}">
       <span class="phase-number" th:text="${index.count}"></span><div class="grow">
         <span class="pill" th:text="${step.status == 'COMPLETED' ? '✓ Hoàn thành' : (step.status == 'OPEN' ? 'Đã mở' : '🔒 Chưa mở')}"></span>
         <h2 class="spaced" th:text="${step.phase.label}"></h2>

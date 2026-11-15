@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head><meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tiếng Nhật kỹ thuật · Sanka</title>
   <link rel="stylesheet" th:href="@{/css/app.css}">
   <link rel="stylesheet" th:href="@{/css/home-language.css}">
   <link rel="stylesheet" th:href="@{/css/home.css}">
   <script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script><script th:src="@{/js/chatbot.js}" defer></script>
-</head>
+<link rel="stylesheet" th:href="@{/css/design-system.css}"><script th:src="@{/js/interface.js}" defer></script></head>
 <body class="home-page">
 <div class="japan-background" aria-hidden="true">
   <img th:src="@{/images/japan-adventure-v1.jpg}" alt="" width="1536" height="1024" fetchpriority="high" decoding="async">
@@ -15,7 +15,7 @@
 <main class="public-main">
 
   <header class="landing-nav">
-    <a class="brand" href="/" aria-label="SANKA"><span class="home-brand-mark" aria-hidden="true">三</span><span class="home-brand-name">SANKA</span></a>
+    <a class="brand" href="/" aria-label="SANKA"><span class="brand-mascot" aria-hidden="true"><img th:src="@{/images/sanka-mascot-face-v2.png}" width="48" height="48" alt="" decoding="async"></span><span class="home-brand-name">SANKA</span></a>
     <div class="landing-actions">
 <div th:replace="~{fragments/language :: switcher}"></div>
       <a href="/login" data-i18n="login">Đăng nhập</a>

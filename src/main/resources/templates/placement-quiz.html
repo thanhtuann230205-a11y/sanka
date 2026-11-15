@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head><meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Khám phá trình độ của bạn · Sanka</title>
   <link rel="stylesheet" th:href="@{/css/placement-quiz.css}">
   <script th:src="@{/js/placement-quiz.js}" defer></script>
-<link rel="stylesheet" th:href="@{/css/home-language.css}"><script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script><script th:src="@{/js/chatbot.js}" defer></script></head>
+<link rel="stylesheet" th:href="@{/css/home-language.css}"><script th:src="@{/js/ui-translations.js}" defer></script><script th:src="@{/js/home-language.js}" defer></script><script th:src="@{/js/chatbot.js}" defer></script><link rel="stylesheet" th:href="@{/css/design-system.css}"><script th:src="@{/js/interface.js}" defer></script></head>
 <body>
   <header class="quiz-header">
-    <a class="quiz-brand" href="/" aria-label="SANKA"><span class="home-brand-mark" aria-hidden="true">三</span><span class="home-brand-name">SANKA</span></a>
+    <a class="quiz-brand" href="/" aria-label="SANKA"><span class="brand-mascot" aria-hidden="true"><img th:src="@{/images/sanka-mascot-face-v2.png}" width="48" height="48" alt="" decoding="async"></span><span class="home-brand-name">SANKA</span></a>
 
     <a class="exit-link" href="/journey">Thoát &amp; quay lại <span aria-hidden="true"> </span></a>
   <div th:replace="~{fragments/language :: switcher}"></div></header>
@@ -34,7 +34,7 @@
           <div id="question-panels">
             <fieldset class="quiz-question" th:each="q, stat : ${questions}" th:attr="data-question-id=${q.id}">
               <legend data-i18n-ignore class="sr-only" th:text="${'Câu ' + stat.count + ': ' + q.prompt}"></legend>
-              <div class="question-meta"><span data-i18n-ignore class="skill-tag" th:text="${q.skill}"></span><span class="question-number" th:text="${'CÂU ' + stat.count}"></span></div>
+              <div class="question-meta"><span class="skill-tag" th:text="${q.skill}"></span><span class="question-number" th:text="${'CÂU ' + stat.count}"></span></div>
               <h2 data-i18n-ignore tabindex="-1" class="question-title" th:text="${q.prompt}"></h2>
               <div class="listening-box" th:if="${q.audioId != null}"><span class="listen-icon" aria-hidden="true">♫</span><div><b>Lắng nghe trước khi lựa chọn</b><small>Bạn có thể nghe lại nếu cần.</small><audio controls preload="none" th:src="@{/audio/{id}.wav(id=${q.audioId})}">Trình duyệt không hỗ trợ âm thanh.</audio></div></div>
               <div class="answer-options">
