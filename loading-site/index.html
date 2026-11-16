@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#faf7f2">
+  <title>Loading Sanka…</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:24px;background:#faf7f2;color:#292b30;font-family:system-ui,sans-serif;text-align:center}
+    main{width:min(100%,440px)}.brand{font-size:15px;font-weight:800;letter-spacing:.28em;color:#a53c48;margin-bottom:48px}
+    .spinner{width:48px;height:48px;margin:0 auto 28px;border:3px solid #e9dfd7;border-top-color:#a53c48;border-radius:50%;animation:spin 1s linear infinite}
+    h1{font-size:clamp(28px,6vw,36px);margin:0 0 16px;letter-spacing:-.04em}p{font-size:15px;line-height:1.7;color:#66646a;margin:0 0 24px}
+    button,a{font:inherit}button{border:0;border-radius:12px;background:#a53c48;color:white;padding:12px 24px;cursor:pointer}button:disabled{opacity:.55;cursor:wait}a{display:inline-block;color:#75414a;margin:20px 0;text-underline-offset:4px}button:focus-visible,a:focus-visible{outline:3px solid #b98552;outline-offset:4px}[hidden]{display:none!important}
+    @keyframes spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.spinner{animation:none}}
+  </style>
+  <script src="config.js" defer></script>
+  <script src="loading.js" defer></script>
+</head>
+<body>
+  <main>
+    <div class="brand">SANKA</div>
+    <div class="spinner" id="spinner" aria-hidden="true"></div>
+    <h1 id="title">Loading Sanka…</h1>
+    <p id="status" role="status" aria-live="polite">Đang chuẩn bị không gian học tập. Vui lòng chờ một chút.</p>
+    <button id="retry" type="button" hidden>Thử lại</button>
+    <div><a id="direct" hidden>Vào Sanka trực tiếp</a></div>
+    <noscript><p>Bạn cần bật JavaScript để tự động chuyển vào Sanka.</p></noscript>
+  </main>
+</body>
+</html>
