@@ -5,26 +5,34 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#faf7f2">
   <title>Loading Sanka…</title>
-  <style>
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:24px;background:#faf7f2;color:#292b30;font-family:system-ui,sans-serif;text-align:center}
-    main{width:min(100%,440px)}.brand{font-size:15px;font-weight:800;letter-spacing:.28em;color:#a53c48;margin-bottom:48px}
-    .spinner{width:48px;height:48px;margin:0 auto 28px;border:3px solid #e9dfd7;border-top-color:#a53c48;border-radius:50%;animation:spin 1s linear infinite}
-    h1{font-size:clamp(28px,6vw,36px);margin:0 0 16px;letter-spacing:-.04em}p{font-size:15px;line-height:1.7;color:#66646a;margin:0 0 24px}
-    button,a{font:inherit}button{border:0;border-radius:12px;background:#a53c48;color:white;padding:12px 24px;cursor:pointer}button:disabled{opacity:.55;cursor:wait}a{display:inline-block;color:#75414a;margin:20px 0;text-underline-offset:4px}button:focus-visible,a:focus-visible{outline:3px solid #b98552;outline-offset:4px}[hidden]{display:none!important}
-    @keyframes spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.spinner{animation:none}}
-  </style>
+  <link rel="icon" href="assets/mascot.png">
+  <link rel="stylesheet" href="style.css">
   <script src="config.js" defer></script>
   <script src="loading.js" defer></script>
 </head>
 <body>
-  <main>
-    <div class="brand">SANKA</div>
-    <div class="spinner" id="spinner" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="brand"><img src="assets/mascot.png" width="42" height="42" alt=""><span>SANKA<span class="brand-caption">HỌC TIẾNG NHẬT · MỞ TƯƠNG LAI</span></span></div>
+    <span class="header-note">Một chút mỗi ngày, một bước tiến xa.</span>
+  </header>
+  <main class="welcome">
+    <section class="content" aria-labelledby="title">
+    <span class="eyebrow"><span></span> HÀNH TRÌNH CỦA BẠN SẮP BẮT ĐẦU</span>
+    <div class="mascot-wrap"><span class="halo"></span><img class="mascot" src="assets/mascot.png" width="136" height="136" alt="Linh vật Sanka chào bạn"><span class="sparkle one" aria-hidden="true">✦</span><span class="sparkle two" aria-hidden="true">✧</span></div>
     <h1 id="title">Loading Sanka…</h1>
     <p id="status" role="status" aria-live="polite">Đang chuẩn bị không gian học tập. Vui lòng chờ một chút.</p>
+    <div class="loading-indicator" id="spinner" aria-hidden="true"><div class="track"><span></span></div><div class="loading-label">ĐANG KẾT NỐI<span class="dots"><i></i><i></i><i></i></span></div></div>
     <button id="retry" type="button" hidden>Thử lại</button>
-    <div><a id="direct" hidden>Vào Sanka trực tiếp</a></div>
+    <div class="direct-wrap"><a id="direct" hidden>Vào Sanka trực tiếp <span aria-hidden="true">↗</span></a></div>
     <noscript><p>Bạn cần bật JavaScript để tự động chuyển vào Sanka.</p></noscript>
+    </section>
+    <aside class="landscape" aria-label="Khu vườn Nhật Bản với hoa anh đào">
+      <img class="scene" src="assets/japan.jpg" width="1536" height="1024" alt="" fetchpriority="high">
+      <div class="scene-shade"></div>
+      <div class="scene-top"><span class="scene-tag">YOUR NEXT CHAPTER</span><span class="japanese" lang="ja">ようこそ</span></div>
+      <div class="scene-caption"><span class="caption-kicker">CHÀO MỪNG BẠN ĐẾN VỚI SANKA</span><h2>Mỗi bước nhỏ.<br>Một thế giới mới.</h2><p>Cùng Sanka khám phá tiếng Nhật<br>và những cơ hội đang chờ phía trước.</p></div>
+    </aside>
   </main>
+  <footer><span lang="ja">一歩ずつ</span><span>Từng bước một, cùng Sanka.</span><span class="footer-flower" aria-hidden="true">✿</span></footer>
 </body>
 </html>
