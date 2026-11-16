@@ -1,4 +1,4 @@
-﻿# Đăng nhập / đăng ký với Google
+# Đăng nhập / đăng ký với Google
 
 Hai trang `/login` và `/register` có nút **Tiếp tục với Google**. Người dùng chọn tài khoản Google rồi được đưa về `/start` để tiếp tục lộ trình Sanka.
 
@@ -33,7 +33,7 @@ Sau khi đổi domain phải thêm redirect URI mới trong Google Cloud. Cấu 
 - Google subject được lưu để nhận diện tài khoản ổn định. Subject khác không được ghi đè liên kết cũ.
 - Email trùng tài khoản Sanka: liên kết sau khi Google xác thực quyền sở hữu, giữ mật khẩu, ngành, trình độ và quyền hiện có. Tài khoản mới có quyền STUDENT.
 - Email chưa có tài khoản: tạo tài khoản mới, không đặt mật khẩu dễ đoán. Người dùng tiếp tục dùng Google để đăng nhập.
-- Tài khoản Google đã xác minh không cần gửi OTP Mailjet khi đăng ký qua Google.
+- Tài khoản Google đã xác minh không cần gửi OTP Gmail khi đăng ký qua Google.
 - Principal đăng nhập trả về email Sanka để tương thích các controller hiện có. Phiên đăng nhập tiếp tục lưu qua Spring Session JDBC.
 
 ## Kiểm tra
