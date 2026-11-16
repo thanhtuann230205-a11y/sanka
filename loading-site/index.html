@@ -1,38 +1,19 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#faf7f2">
-  <title>Loading Sanka…</title>
-  <link rel="icon" href="assets/mascot.png">
-  <link rel="stylesheet" href="style.css">
-  <script src="config.js" defer></script>
-  <script src="loading.js" defer></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#faf8f2"><title>Loading…</title>
+<link rel="icon" href="assets/mascot.png"><link rel="stylesheet" href="style.css">
+<script src="config.js" defer></script><script src="loading.js" defer></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><img src="assets/mascot.png" width="42" height="42" alt=""><span>SANKA<span class="brand-caption">HỌC TIẾNG NHẬT · MỞ TƯƠNG LAI</span></span></div>
-    <span class="header-note">Một chút mỗi ngày, một bước tiến xa.</span>
-  </header>
-  <main class="welcome">
-    <section class="content" aria-labelledby="title">
-    <span class="eyebrow"><span></span> HÀNH TRÌNH CỦA BẠN SẮP BẮT ĐẦU</span>
-    <div class="mascot-wrap"><span class="halo"></span><img class="mascot" src="assets/mascot.png" width="136" height="136" alt="Linh vật Sanka chào bạn"><span class="sparkle one" aria-hidden="true">✦</span><span class="sparkle two" aria-hidden="true">✧</span></div>
-    <h1 id="title">Loading Sanka…</h1>
-    <p id="status" role="status" aria-live="polite">Đang chuẩn bị không gian học tập. Vui lòng chờ một chút.</p>
-    <div class="loading-indicator" id="spinner" aria-hidden="true"><div class="track"><span></span></div><div class="loading-label">ĐANG KẾT NỐI<span class="dots"><i></i><i></i><i></i></span></div></div>
-    <button id="retry" type="button" hidden>Thử lại</button>
-    <div class="direct-wrap"><a id="direct" hidden>Vào Sanka trực tiếp <span aria-hidden="true">↗</span></a></div>
-    <noscript><p>Bạn cần bật JavaScript để tự động chuyển vào Sanka.</p></noscript>
-    </section>
-    <aside class="landscape" aria-label="Khu vườn Nhật Bản với hoa anh đào">
-      <img class="scene" src="assets/japan.jpg" width="1536" height="1024" alt="" fetchpriority="high">
-      <div class="scene-shade"></div>
-      <div class="scene-top"><span class="scene-tag">YOUR NEXT CHAPTER</span><span class="japanese" lang="ja">ようこそ</span></div>
-      <div class="scene-caption"><span class="caption-kicker">CHÀO MỪNG BẠN ĐẾN VỚI SANKA</span><h2>Mỗi bước nhỏ.<br>Một thế giới mới.</h2><p>Cùng Sanka khám phá tiếng Nhật<br>và những cơ hội đang chờ phía trước.</p></div>
-    </aside>
-  </main>
-  <footer><span lang="ja">一歩ずつ</span><span>Từng bước một, cùng Sanka.</span><span class="footer-flower" aria-hidden="true">✿</span></footer>
+<main aria-labelledby="title">
+<h1 id="title">Loading…</h1>
+<div id="spinner" class="loading" aria-hidden="true"><span></span></div>
+<p id="status" role="status" aria-live="polite" hidden></p>
+<button id="retry" type="button" hidden>Thử lại</button>
+<a id="direct" hidden>Vào Sanka trực tiếp ↗</a>
+<noscript><p>Bật JavaScript để tự động chuyển vào Sanka.</p></noscript>
+</main>
 </body>
 </html>

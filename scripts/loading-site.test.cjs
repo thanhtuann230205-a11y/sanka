@@ -36,6 +36,7 @@ test('ignores Render HTML and unrelated JSON before redirecting on Sanka readine
   ]);
   assert.equal(result.calls, 3);
   assert.equal(result.redirected, 'https://sanka-k9cm.onrender.com/');
+  assert.equal(result.elements.spinner.className, 'loading ready');
 });
 
 test('connection failures stop with a retry button instead of redirecting', async () => {

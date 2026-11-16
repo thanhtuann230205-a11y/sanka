@@ -13,11 +13,11 @@
   } catch {
     title.textContent = 'Chưa thể kết nối';
     status.textContent = 'Địa chỉ Sanka chưa được cấu hình đúng. Vui lòng liên hệ quản trị viên.';
+    status.hidden = false;
     spinner.hidden = true;
     return;
   }
   direct.href = backend.href;
-  direct.hidden = false;
   let running = false;
   const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
   async function start() {
@@ -25,7 +25,10 @@
     running = true;
     retry.hidden = true;
     spinner.hidden = false;
-    title.textContent = 'Loading Sanka…';
+    spinner.className = 'loading';
+    status.hidden = true;
+    direct.hidden = true;
+    title.textContent = 'Loading…';
     status.textContent = 'Đang chuẩn bị không gian học tập. Vui lòng chờ một chút.';
     const started = Date.now();
     const deadline = started + 180000;
@@ -41,6 +44,8 @@
           const body = await response.json();
           if (body.application === 'sanka' && body.status === 'ready') {
             status.textContent = 'Sẵn sàng! Đang chuyển vào Sanka…';
+            spinner.className = 'loading ready';
+            await delay(450);
             location.replace(backend.href);
             return;
           }
@@ -58,6 +63,8 @@
     title.textContent = 'Kết nối đang mất nhiều thời gian';
     status.textContent = 'Chưa kết nối được với Sanka. Bạn có thể thử lại hoặc mở Sanka trực tiếp.';
     retry.hidden = false;
+    status.hidden = false;
+    direct.hidden = false;
   }
   retry.addEventListener('click', start);
   start();
